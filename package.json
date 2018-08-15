@@ -1,0 +1,32 @@
+{
+  "name": "heidelpayJS",
+  "version": "1.0.0",
+  "main": "dist/heidelpay.js",
+  "module": "dist/heidelpay.esm.js",
+  "browser": "dist/heidelpay.umd.js",
+  "dependencies": {
+    "fetch-everywhere": "^1.0.5",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.3.0",
+    "mocha": "^5.2.0",
+    "rollup": "^0.46.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "node test/test.js",
+    "pretest": "npm run build"
+  },
+  "files": [
+    "dist"
+  ]
+}

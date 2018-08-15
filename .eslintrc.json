@@ -1,0 +1,36 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "globals": {
+    "document": false,
+    "escape": false,
+    "navigator": false,
+    "unescape": false,
+    "window": false,
+    "describe": true,
+    "before": true,
+    "after": true,
+    "it": true,
+    "expect": true,
+    "sinon": true,
+    "fetchMock": true,
+    "__trs": true,
+    "API_VERSION": true,
+    "PAYMENT_HOST": true,
+    "API_HOST": true,
+    "LANGCODE": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": 0,
+    "quotes": ["error", "single"]
+  }
+}

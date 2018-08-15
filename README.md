@@ -1,0 +1,5 @@
+# heidelpayJS
+
+## License
+
+[MIT](LICENSE).
