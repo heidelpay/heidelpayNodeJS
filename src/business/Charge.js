@@ -4,10 +4,10 @@
  **/
 export default class Charge {
   constructor() {
-    
+
   }
 
-  cancel(amount = null) {
+  cancel() {
 
   }
 

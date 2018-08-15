@@ -1,5 +1,5 @@
-import PaymentType from "./PaymentType";
-import Exception from "../Exception";
+import PaymentType from './PaymentType';
+import Exception from '../Exception';
 
 export default class Card extends PaymentType {
   constructor(number = '', expiryDate = '', cvc = '') {
@@ -18,5 +18,5 @@ export default class Card extends PaymentType {
     this.number =  number
   }
 
-  
+
 }

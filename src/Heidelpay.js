@@ -38,7 +38,7 @@ export default class Heidelpay {
 	createPayment = (amount, currency, returnUrl, type, customer) => {
 		return new Payment(amount, currency, returnUrl, type, customer)
 	}
-	fetchPayment = (id) => {}
+	fetchPayment = () => {}
 
 	createCustomer = (customer) => {
 		return new Customer(customer)
@@ -47,11 +47,11 @@ export default class Heidelpay {
     const customer = this.request.get(`/customer/${id}`)
 		return new Customer(customer)
 	}
-	updateCustomer = (id) => {}
-	deleteCustomer = (id) => {}
+	updateCustomer = () => {}
+	deleteCustomer = () => {}
 
-	createType = (type) => {}
-	fetchType = (id) => {}
+	createType = () => {}
+	fetchType = () => {}
 
 	authorize = () => {}
 	charge = () => {}

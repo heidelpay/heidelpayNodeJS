@@ -1,7 +1,8 @@
-import { Authorize } from "../main";
+import Authorize from './Authorize';
+import Charge from './Charge';
 
 class Payment {
-	constructor(type, customer) {
+	constructor() {
   }
 
   authorize = () => {

@@ -22,17 +22,17 @@ class Exception {
 
     if(message && message instanceof Error) {
       const err = message
-      this.message = err.message || "Unknown error"
+      this.message = err.message || 'Unknown error'
     } else if(typeof(message) === 'string') {
       this.message = message
     } else if(message instanceof Exception) {
       return message
     } else {
-      this.message = "Unknown error"
+      this.message = 'Unknown error'
     }
 
     this.innerException = innerException || null
-    this.type = type || "Generic exception"
+    this.type = type || 'Generic exception'
     this.isFinal = isFinal
   }
 }
