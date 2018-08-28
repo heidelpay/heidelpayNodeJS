@@ -5,6 +5,7 @@
  * @Last Modified time: 2018-08-23 16:34:00
  */
 import { Customer } from './entities/Customer'
+import { IRequestAdapter } from './adapters/IRequestAdapter'
 
 /**
  * @export
@@ -19,6 +20,15 @@ export default class Heidelpay {
    * @type {Heidelpay}
    */
   private static instance: Heidelpay
+
+  /**
+   * A instance of request adapter
+   *
+   * @private
+   * @static
+   * @type {IRequestAdapter}
+   */
+  private static requestAdapter: IRequestAdapter
 
   /**
    * Should private constructor
@@ -37,6 +47,13 @@ export default class Heidelpay {
     }
 
     return Heidelpay.instance
+  }
+
+  /**
+   * @param  {IRequestAdapter} adapter
+   */
+  public static setRequestAdapter(adapter: IRequestAdapter): void {
+    this.requestAdapter = adapter
   }
 
   /**
