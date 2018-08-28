@@ -1,9 +1,3 @@
-/*
- * @Author: Minh Tri Nguyen 
- * @Date: 2018-08-23 14:27:16 
- * @Last Modified by: Minh Tri Nguyen
- * @Last Modified time: 2018-08-23 16:34:00
- */
 import { Customer } from './entities/Customer'
 import { IRequestAdapter } from './adapters/IRequestAdapter'
 
