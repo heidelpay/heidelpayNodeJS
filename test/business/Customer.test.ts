@@ -1,7 +1,12 @@
-import { CustomerBuilder, Customer, Salutation, Address } from '../../src/entities/Customer'
+import { CustomerBuilder, Customer, Salutation, Address } from '../../src/business/Customer'
 import Heidelpay from '../../src/Heidelpay'
 
 describe('Customer test', () => {
+  let heidelpay
+  beforeEach(() => {
+    heidelpay = new Heidelpay('private-key')
+  })
+
   it('Test create Customer Builder', () => {
     const customer: Customer = new CustomerBuilder().create()
 
@@ -42,8 +47,6 @@ describe('Customer test', () => {
   })
 
   it('Test Heidelpay class create Customer', () => {
-    const heidelpay = Heidelpay.getInstance()
-
     const customer: Customer = new CustomerBuilder()
       .setFirstName('John')
       .setLastName('Doe')

@@ -1,8 +1,8 @@
 export interface IConfig {
   privateKey: string
-  apiProtocol: string
-  apiHost: string
-  apiVersion: string
+  apiProtocol?: string
+  apiHost?: string
+  apiVersion?: string
 }
 
 export class Config {
