@@ -1,12 +1,16 @@
 import Heidelpay from '../src'
 
 describe('Initial test', () => {
-  it('Heidelpay is instantiable', () => {
-    expect(Heidelpay.getInstance()).toBeInstanceOf(Heidelpay)
+  let heidelpay
+  beforeEach(() => {
+    heidelpay = new Heidelpay('private-key')
   })
 
-  it('Heidelpay get new instance in twice', () => {
-    expect(Heidelpay.getInstance()).toBeInstanceOf(Heidelpay)
-    expect(Heidelpay.getInstance()).toBeInstanceOf(Heidelpay)
+  it('Heidelpay is instantiable', () => {
+    expect(heidelpay).toBeInstanceOf(Heidelpay)
+  })
+
+  it('Heidelpay test authorize', () => {
+    const authorize = heidelpay.authorize()
   })
 })

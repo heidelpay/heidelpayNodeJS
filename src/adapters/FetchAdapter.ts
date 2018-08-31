@@ -1,10 +1,17 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
-import { IRequestAdapter } from './IRequestAdapter'
+import { RequestAdapter } from './RequestAdapter'
 import { Config } from '../Config'
 
-export class FetchAdapter implements IRequestAdapter {
+/**
+ * Fetch Adapter
+ *
+ * @export
+ * @class FetchAdapter
+ * @implements {RequestAdapter}
+ */
+export class FetchAdapter implements RequestAdapter {
   private config: Config
   private apiUrl: string
 
@@ -21,6 +28,7 @@ export class FetchAdapter implements IRequestAdapter {
       method: 'GET'
     })
   }
+
   /**
    * @param  {string} payload
    * @param  {object} body
@@ -51,10 +59,10 @@ export class FetchAdapter implements IRequestAdapter {
       },
       ...options
     })
-      .then(function(response) {
+      .then(response => {
         return response.json()
       })
-      .catch(function(error) {
+      .catch(error => {
         return error
       })
   }

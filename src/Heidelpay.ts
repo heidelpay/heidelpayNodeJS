@@ -1,5 +1,9 @@
-import { Customer } from './entities/Customer'
-import { IRequestAdapter } from './adapters/IRequestAdapter'
+import { Customer } from './business/Customer'
+import { RequestAdapter } from './adapters/RequestAdapter'
+import PaymentType from './payments/PaymentType'
+import { Config } from './Config'
+import { FetchAdapter } from './adapters/FetchAdapter'
+import { Authorization } from './payments'
 
 /**
  * @export
@@ -7,47 +11,21 @@ import { IRequestAdapter } from './adapters/IRequestAdapter'
  */
 export default class Heidelpay {
   /**
-   * A instance heideplay
-   *
-   * @private
-   * @static
-   * @type {Heidelpay}
-   */
-  private static instance: Heidelpay
-
-  /**
    * A instance of request adapter
    *
    * @private
    * @static
-   * @type {IRequestAdapter}
+   * @type {RequestAdapter}
    */
-  private static requestAdapter: IRequestAdapter
+  private requestAdapter: RequestAdapter
 
   /**
-   * Should private constructor
+   * Creates an instance of Heidelpay.
+   * @param {string} privateKey
    */
-  private constructor() {}
-
-  /**
-   * Get a instance of Heidelpay class
-   *
-   * @static
-   * @returns {Heidelpay}
-   */
-  public static getInstance(): Heidelpay {
-    if (!Heidelpay.instance) {
-      Heidelpay.instance = new Heidelpay()
-    }
-
-    return Heidelpay.instance
-  }
-
-  /**
-   * @param  {IRequestAdapter} adapter
-   */
-  public static setRequestAdapter(adapter: IRequestAdapter): void {
-    this.requestAdapter = adapter
+  constructor(privateKey: string) {
+    const config = new Config({ privateKey })
+    this.requestAdapter = new FetchAdapter(config)
   }
 
   /**
@@ -58,5 +36,27 @@ export default class Heidelpay {
    */
   public createCustomer(customer: Customer): Customer {
     return customer
+  }
+
+  /**
+   * Create a payment
+   *
+   * @param {PaymentType} paymentType
+   * @returns {PaymentType}
+   */
+  public createPayment(paymentType: PaymentType): PaymentType {
+    return paymentType
+  }
+
+  /**
+   * Heidelpay Authorize
+   *
+   * @param {number} amount
+   * @param {string} currency
+   * @param {string} typeId
+   * @returns {Authorization}
+   */
+  public authorize(amount: number, currency: string): Authorization {
+    return new Authorization(this)
   }
 }
