@@ -29,16 +29,6 @@ export default class Heidelpay {
   }
 
   /**
-   * Create a customer
-   *
-   * @param {Customer} customer
-   * @returns {Customer}
-   */
-  public createCustomer(customer: Customer): Customer {
-    return customer
-  }
-
-  /**
    * Create a payment
    *
    * @param {PaymentType} paymentType
@@ -58,5 +48,32 @@ export default class Heidelpay {
    */
   public authorize(amount: number, currency: string): Authorization {
     return new Authorization(this)
+  }
+
+  /* @param {Customer} customer
+   * @returns {Promise}
+   */
+  public createCustomer(customer: Customer): Promise<Response> {
+    return this.requestAdapter.post('/customers', customer)
+  }
+
+  /**
+   * Fetch a customer
+   *
+   * @param {string} customerId
+   * @returns {Promise}
+   */
+  public fetchCustomer(customerId: string): Promise<Response> {
+    return this.requestAdapter.get(`/customers/${customerId}`)
+  }
+
+  /**
+   * Fetch a payment
+   *
+   * @param {string} orderId
+   * @returns {Promise}
+   */
+  public fetchPayment(orderId: string): Promise<Response> {
+    return this.requestAdapter.get(`/payments/${orderId}`)
   }
 }
