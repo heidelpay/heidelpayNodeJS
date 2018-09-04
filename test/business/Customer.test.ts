@@ -4,14 +4,8 @@ import Heidelpay from '../../src/Heidelpay'
 let heidelpay
 
 describe('Customer test', () => {
-<<<<<<< HEAD:test/business/Customer.test.ts
-  let heidelpay
-  beforeEach(() => {
-    heidelpay = new Heidelpay('private-key')
-=======
   beforeEach(() => {
     heidelpay = new Heidelpay('s-pri-xxx')
->>>>>>> fix type request adapter:test/entities/Customer.test.ts
   })
 
   it('Test create Customer Builder', () => {
