@@ -4,6 +4,10 @@ import PaymentType from './payments/PaymentType'
 import { Config } from './Config'
 import { FetchAdapter } from './adapters/FetchAdapter'
 import { Authorization } from './payments'
+import Charge from './business/Charge'
+import { Card, PaymentCard } from './payments/card'
+import PaymentAPI from './api/PaymentAPI'
+import Payment from './payments/Payment'
 
 /**
  * @export
@@ -11,21 +15,37 @@ import { Authorization } from './payments'
  */
 export default class Heidelpay {
   /**
-   * A instance of request adapter
+   * Payment API
    *
    * @private
-   * @static
-   * @type {RequestAdapter}
+   * @type {PaymentAPI}
    */
-  private requestAdapter: RequestAdapter
+  private paymentAPI: PaymentAPI
+
+  /**
+   * Private key
+   *
+   * @private
+   * @type {string}
+   */
+  private privateKey: string
 
   /**
    * Creates an instance of Heidelpay.
    * @param {string} privateKey
    */
   constructor(privateKey: string) {
-    const config = new Config({ privateKey })
-    this.requestAdapter = new FetchAdapter(config)
+    this.privateKey = privateKey
+    this.paymentAPI = new PaymentAPI(this)
+  }
+
+  /**
+   * Get private key
+   *
+   * @returns {string}
+   */
+  public getPrivateKey(): string {
+    return this.privateKey
   }
 
   /**
@@ -34,8 +54,8 @@ export default class Heidelpay {
    * @param {PaymentType} paymentType
    * @returns {PaymentType}
    */
-  public createPayment(paymentType: PaymentType): PaymentType {
-    return paymentType
+  public createPaymentType(paymentType: PaymentType): Promise<PaymentType> {
+    return this.paymentAPI.createPaymentType(paymentType)
   }
 
   /**
@@ -46,34 +66,45 @@ export default class Heidelpay {
    * @param {string} typeId
    * @returns {Authorization}
    */
-  public authorize(amount: number, currency: string): Authorization {
+  public authorize(amount: number, currency: string, typeId: string): Authorization {
     return new Authorization(this)
   }
 
-  /* @param {Customer} customer
-   * @returns {Promise}
-   */
-  public createCustomer(customer: Customer): Promise<Response> {
-    return this.requestAdapter.post('/customers', customer)
+  public charge(amount: number, currency: string, typeId: string) {
+    return new Charge(this)
+  }
+
+  public chargeAuthorization(paymentId: string, amount: number): Charge {
+    return new Charge(this)
   }
 
   /**
-   * Fetch a customer
+   * Create new customer
    *
-   * @param {string} customerId
-   * @returns {Promise}
+   * @param {Customer} customer
+   * @returns {Customer}
    */
-  public fetchCustomer(customerId: string): Promise<Response> {
-    return this.requestAdapter.get(`/customers/${customerId}`)
+  public createCustomer(customer: Customer): Promise<Customer> {
+    return this.paymentAPI.createCustomer(customer)
   }
 
-  /**
-   * Fetch a payment
-   *
-   * @param {string} orderId
-   * @returns {Promise}
-   */
-  public fetchPayment(orderId: string): Promise<Response> {
-    return this.requestAdapter.get(`/payments/${orderId}`)
-  }
+  // /**
+  //  * Fetch a customer
+  //  *
+  //  * @param {string} customerId
+  //  * @returns {Promise}
+  //  */
+  // public fetchCustomer(customerId: string): Promise<Response> {
+  //   return this.requestAdapter.get(`/customers/${customerId}`)
+  // }
+
+  // /**
+  //  * Fetch a payment
+  //  *
+  //  * @param {string} orderId
+  //  * @returns {Promise}
+  //  */
+  // public fetchPayment(orderId: string): Promise<Response> {
+  //   return this.requestAdapter.get(`/payments/${orderId}`)
+  // }
 }

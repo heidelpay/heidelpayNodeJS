@@ -1,12 +1,10 @@
 export interface IConfig {
-  privateKey: string
   apiProtocol?: string
   apiHost?: string
   apiVersion?: string
 }
 
 export class Config {
-  private privateKey: string
   private apiProtocol: string
   private apiHost: string
   private apiVersion: string
@@ -14,8 +12,7 @@ export class Config {
   /**
    * @param  {IConfig} config
    */
-  constructor(config: IConfig) {
-    this.privateKey = config.privateKey
+  constructor(config: IConfig = {}) {
     this.apiProtocol = config.apiProtocol || 'https'
     this.apiHost = config.apiHost || 'dev-api.heidelpay.com'
     this.apiVersion = config.apiVersion || 'v1'
@@ -64,20 +61,5 @@ export class Config {
    */
   public setApiVersion(apiVersion: string): void {
     this.apiVersion = apiVersion
-  }
-
-  /**
-   * @returns string
-   */
-  public getPrivateKey(): string {
-    return this.privateKey
-  }
-
-  /**
-   * @param  {string} privateKey
-   * @returns void
-   */
-  public setPrivateKey(privateKey: string): void {
-    this.privateKey = privateKey
   }
 }

@@ -1,4 +1,4 @@
-import AbstractPayment from './AbstractPayment'
+import AbstractPayment from '../payments/AbstractPayment'
 import Heidelpay from '../Heidelpay'
 
 export default class Authorization extends AbstractPayment {
@@ -6,8 +6,8 @@ export default class Authorization extends AbstractPayment {
     super(heidelpay)
   }
 
-  public charge(): void {
-    console.log('Authorization.charge')
+  public charge(paymentId: string, amount: number): void {
+    this.getHeidelpay().chargeAuthorization(paymentId, amount)
   }
 
   public cancel(): void {
