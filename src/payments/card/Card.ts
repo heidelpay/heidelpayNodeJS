@@ -1,83 +1,12 @@
+import CardBuilder from './CardBuilder'
+
 /**
- * @class CardBuilder
+ * Class Card
+ *
+ * @export
+ * @class Card
  */
-class CardBuilder {
-  /**
-   * Pan number property
-   *
-   * @private
-   * @type {string}
-   */
-  private _panNumber: string
-
-  /**
-   * CVC number property
-   *
-   * @private
-   * @type {string}
-   */
-  private _cvc: string
-
-  /**
-   * Expiry date property
-   *
-   * @private
-   * @type {string}
-   */
-  private _expiryDate: string
-
-  /**
-   * Creates an instance of CardBuilder.
-   */
-  constructor() {
-    this._panNumber = ''
-    this._cvc = ''
-    this._expiryDate = ''
-  }
-
-  /**
-   * Get pan number
-   *
-   * @returns {string}
-   */
-  public getPanNumber(): string {
-    return this._panNumber
-  }
-
-  public setPanNumber(panNumber: string): CardBuilder {
-    this._panNumber = panNumber
-    return this
-  }
-
-  public getCVC(): string {
-    return this._cvc
-  }
-
-  public setCVC(cvc: string): CardBuilder {
-    this._cvc = cvc
-    return this
-  }
-
-  public getExpiryDate(): string {
-    return this._expiryDate
-  }
-
-  public setExpiryDate(expiryDate: string): CardBuilder {
-    this._expiryDate = expiryDate
-    return this
-  }
-
-  /**
-   * Create a card
-   *
-   * @returns {Card}
-   */
-  create(): Card {
-    return new Card(this)
-  }
-}
-
-class Card {
+export default class Card {
   private _panNumber: string
   private _cvc: string
   private _expiryDate: string
@@ -115,5 +44,3 @@ class Card {
     return this._expiryDate
   }
 }
-
-export { CardBuilder, Card }

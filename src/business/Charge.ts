@@ -1,4 +1,4 @@
-import AbstractPayment from './AbstractPayment'
+import AbstractPayment from '../payments/AbstractPayment'
 import Heidelpay from '../Heidelpay'
 
 export default class Charge extends AbstractPayment {

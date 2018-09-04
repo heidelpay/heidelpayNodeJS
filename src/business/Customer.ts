@@ -5,9 +5,9 @@
  * @enum {number}
  */
 export enum Salutation {
-  mr,
-  ms,
-  unknown
+  mr = 'mr',
+  ms = 'ms',
+  unknown = 'unknow'
 }
 
 export type Address = {
@@ -322,13 +322,14 @@ class Customer {
   private _phone: string
   private _mobile: string
   private _address: Address
+  private _id: string
 
   /**
    * Creates an instance of Customer.
    * @param {CustomerBuilder} builder
    */
   constructor(builder: CustomerBuilder) {
-    this._firstName = builder.getFirstName()
+    this._firstName = builder.getFirstName() || ''
     this._lastName = builder.getLastName()
     this._salutation = builder.getSalutation()
     this._customerId = builder.getCustomerId()
@@ -337,6 +338,7 @@ class Customer {
     this._phone = builder.getPhone()
     this._mobile = builder.getMobile()
     this._address = builder.getAddress()
+    this._id = ''
   }
 
   /**
@@ -418,6 +420,24 @@ class Customer {
    */
   public getAddress(): Address {
     return this._address
+  }
+
+  /**
+   * Set Id
+   *
+   * @param {string} id
+   */
+  public setId(id: string): void {
+    this._id = id
+  }
+
+  /**
+   * Get Id
+   *
+   * @returns {string}
+   */
+  public getId(): string {
+    return this._id
   }
 }
 

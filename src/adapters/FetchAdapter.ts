@@ -12,49 +12,60 @@ import { Config } from '../Config'
  * @implements {RequestAdapter}
  */
 export class FetchAdapter implements RequestAdapter {
-  private config: Config
-  private apiUrl: string
+  private api: string
 
-  constructor(config: Config) {
-    this.config = config
-    this.apiUrl = `${config.getApiProtocol()}://${config.getApiHost()}/${config.getApiVersion()}`
+  constructor() {
+    const config = new Config()
+    this.api = `${config.getApiProtocol()}://${config.getApiHost()}/${config.getApiVersion()}`
   }
 
   /**
-   * @param  {string} payload
+   * @param  {string} url
    */
-  public get(payload: string): Promise<Response> {
-    return this._fetch(payload, {
-      method: 'GET'
-    })
+  public get(url: string, privateKey: string): Promise<Response> {
+    return this._fetch(
+      url,
+      {
+        method: 'GET'
+      },
+      privateKey
+    )
   }
 
   /**
-   * @param  {string} payload
+   * @param  {string} url
    * @param  {object} body
    */
-  public post(payload: string, body: object): Promise<Response> {
-    return this._fetch(payload, {
-      method: 'POST',
-      body: JSON.stringify(body)
-    })
+  public post(url: string, body: object, privateKey: string): Promise<Response> {
+    return this._fetch(
+      url,
+      {
+        method: 'POST',
+        body: JSON.stringify(body)
+      },
+      privateKey
+    )
   }
 
   /**
-   * @param  {string} payload
+   * @param  {string} url
    * @param  {object} body
    */
-  public put(payload: string, body: object) {
-    return this._fetch(payload, {
-      method: 'PUT',
-      body: JSON.stringify(body)
-    })
+  public put(url: string, body: object, privateKey: string) {
+    return this._fetch(
+      url,
+      {
+        method: 'PUT',
+        body: JSON.stringify(body)
+      },
+      privateKey
+    )
   }
 
-  private _fetch(payload: string, options = {}): Promise<Response> {
-    return fetch(`${this.apiUrl}${payload}`, {
+  private _fetch(url: string, options = {}, privateKey: string): Promise<Response> {
+    return fetch(`${this.api}${url}`, {
       headers: {
-        Authorization: this.config.getPrivateKey(),
+        Authorization: privateKey,
         'Content-Type': 'application/json'
       },
       ...options
