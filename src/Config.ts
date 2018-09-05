@@ -13,9 +13,9 @@ export class Config {
    * @param  {IConfig} config
    */
   constructor(config: IConfig = {}) {
-    this.apiProtocol = config.apiProtocol || 'https'
-    this.apiHost = config.apiHost || 'dev-api.heidelpay.com'
-    this.apiVersion = config.apiVersion || 'v1'
+    this.apiProtocol = process.env.API_PROTOCOL || 'https'
+    this.apiHost = process.env.API_HOST || 'dev-api.heidelpay.com'
+    this.apiVersion = process.env.API_VERSION || 'v1'
   }
 
   /**
