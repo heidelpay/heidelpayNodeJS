@@ -1,13 +1,14 @@
 import { FetchAdapter } from '../adapters/FetchAdapter'
-import { RequestAdapter } from '../adapters/RequestAdapter'
 import Heidelpay from '../Heidelpay'
-import * as ApiURL from '../configs/ApiUrls'
+import * as apiURL from '../configs/apiURLs'
 import PaymentType from '../payments/PaymentType'
 import { Card, PaymentCard } from '../payments/card'
-import { Customer } from '../business/Customer'
+import { Customer, CustomerBuilder, Salutation } from '../business/Customer'
+import { Authorization } from '../payments'
+import PaymentEntity from '../payments/AbstractPaymentEntity'
 
 export default class PaymentService {
-  private requestAdapter: RequestAdapter
+  private requestAdapter: FetchAdapter
   /**
    * Heidelpay object
    *
@@ -21,18 +22,54 @@ export default class PaymentService {
     this.requestAdapter = new FetchAdapter()
   }
 
-  public createPaymentType(paymentType: PaymentType): Promise<PaymentType> {
+  public authorize(
+    amount: number,
+    currency: string,
+    typeId: string | PaymentEntity,
+    customerId?: string
+  ): Promise<Authorization> {
+    return new Promise(async resolve => {
+      const payload = {
+        amount: amount,
+        currency: currency,
+        returnUrl: 'http://vnexpress.vn',
+        resources: {
+          customerId: customerId,
+          typeId: typeId
+        }
+      }
+
+      const response: any = await this.requestAdapter.post(
+        apiURL.URL_PAYMENT_AUTHORIZE,
+        payload,
+        this.heidelpay.getPrivateKey()
+      )
+
+      const authorize = new Authorization(this.heidelpay)
+
+      authorize.setId(response.id)
+      resolve(authorize)
+    })
+  }
+
+  /**
+   * Call API to create payment type
+   *
+   * @param {PaymentType} paymentType
+   * @returns {Promise<PaymentType>}
+   */
+  public createPaymentType(paymentEntity: PaymentEntity): Promise<PaymentType> {
     return new Promise(async (resolve, reject) => {
-      if (paymentType instanceof Card) {
-        const cardPayload = {
-          pan: paymentType.getPanNumber(),
-          cvc: paymentType.getCVC(),
-          expiryDate: paymentType.getExpiryDate()
+      if (paymentEntity instanceof Card) {
+        const payload = {
+          pan: paymentEntity.getPanNumber(),
+          cvc: paymentEntity.getCVC(),
+          expiryDate: paymentEntity.getExpiryDate()
         }
 
         const response: any = await this.requestAdapter.post(
-          ApiURL.API_TYPE_CARD,
-          cardPayload,
+          apiURL.URL_TYPE_CARD,
+          payload,
           this.heidelpay.getPrivateKey()
         )
         const paymentCard = new PaymentCard(this.heidelpay)
@@ -45,9 +82,15 @@ export default class PaymentService {
     })
   }
 
+  /**
+   * Call API to create customer
+   *
+   * @param {Customer} customer
+   * @returns {Promise<Customer>}
+   */
   public createCustomer(customer: Customer): Promise<Customer> {
     return new Promise(async resolve => {
-      const customerPayload = {
+      const payload = {
         lastname: customer.getLastName(),
         firstname: customer.getFirstName(),
         salutation: customer.getSalutation(),
@@ -59,13 +102,23 @@ export default class PaymentService {
       }
 
       const response: any = await this.requestAdapter.post(
-        ApiURL.API_CUSTOMER,
-        customerPayload,
+        apiURL.URL_CUSTOMER,
+        payload,
         this.heidelpay.getPrivateKey()
       )
-      customer.setId(response.id)
 
-      resolve(customer)
+      const newCustomer = new CustomerBuilder()
+        .setFirstName(customer.getFirstName())
+        .setLastName(customer.getLastName())
+        .setSalutation(customer.getSalutation())
+        .setCustomerId(response.id)
+        .setBirthDate(customer.getBirthDate())
+        .setEmail(customer.getEmail())
+        .setPhone(customer.getPhone())
+        .setMobile(customer.getMobile())
+        .create()
+
+      resolve(newCustomer)
     })
   }
 }

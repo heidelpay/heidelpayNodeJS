@@ -1,13 +1,10 @@
 import { Customer } from './business/Customer'
-import { RequestAdapter } from './adapters/RequestAdapter'
 import PaymentType from './payments/PaymentType'
-import { Config } from './Config'
-import { FetchAdapter } from './adapters/FetchAdapter'
 import { Authorization } from './payments'
 import Charge from './business/Charge'
-import { Card, PaymentCard } from './payments/card'
 import PaymentAPI from './api/PaymentAPI'
-import Payment from './payments/Payment'
+import PaymentEntity from './payments/PaymentEntity'
+import AbstractPaymentEntity from './payments/AbstractPaymentEntity'
 
 /**
  * @export
@@ -54,8 +51,8 @@ export default class Heidelpay {
    * @param {PaymentType} paymentType
    * @returns {PaymentType}
    */
-  public createPaymentType(paymentType: PaymentType): Promise<PaymentType> {
-    return this.paymentAPI.createPaymentType(paymentType)
+  public createPaymentType(paymentEntity: PaymentEntity): Promise<PaymentType> {
+    return this.paymentAPI.createPaymentType(paymentEntity)
   }
 
   /**
@@ -66,8 +63,30 @@ export default class Heidelpay {
    * @param {string} typeId
    * @returns {Authorization}
    */
-  public authorize(amount: number, currency: string, typeId: string): Authorization {
-    return new Authorization(this)
+  public async authorize(amount: number, currency: string, typeId: string): Promise<Authorization>
+  public async authorize(
+    amount: number,
+    currency: string,
+    typeId: string | PaymentEntity,
+    customerId?: string | Customer
+  ): Promise<Authorization>
+  public async authorize(
+    amount: number,
+    currency: string,
+    typeId: any,
+    customerId?: any
+  ): Promise<Authorization> {
+    if (typeId instanceof AbstractPaymentEntity) {
+      const paymentType: PaymentType = await this.createPaymentType(typeId)
+      return this.paymentAPI.authorize(amount, currency, paymentType.getId())
+    }
+
+    if (customerId instanceof Customer) {
+      const customer: Customer = await this.createCustomer(customerId)
+      return this.paymentAPI.authorize(amount, currency, typeId, customer.getCustomerId())
+    }
+
+    return this.paymentAPI.authorize(amount, currency, typeId, customerId)
   }
 
   public charge(amount: number, currency: string, typeId: string) {
