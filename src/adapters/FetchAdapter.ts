@@ -5,7 +5,6 @@ require('isomorphic-fetch')
  *
  * @export
  * @class FetchAdapter
- * @implements {RequestAdapter}
  */
 export class FetchAdapter {
   private api: string
@@ -57,6 +56,21 @@ export class FetchAdapter {
       url,
       {
         method: 'PUT',
+        body: JSON.stringify(body)
+      },
+      privateKey
+    )
+  }
+
+  /**
+   * @param  {string} url
+   * @param  {object} body
+   */
+  public delete(url: string, body: object, privateKey: string) {
+    return this._fetch(
+      url,
+      {
+        method: 'DELETE',
         body: JSON.stringify(body)
       },
       privateKey
