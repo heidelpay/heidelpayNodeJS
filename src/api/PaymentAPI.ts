@@ -7,6 +7,7 @@ import { Customer, CustomerBuilder, Salutation } from '../business/Customer'
 import { Authorization } from '../payments'
 import PaymentEntity from '../payments/AbstractPaymentEntity'
 import { authorizeObject } from '../business/Authorization'
+import Charge, { chargeObject } from '../business/Charge'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -21,38 +22,6 @@ export default class PaymentService {
   constructor(heidelpay: Heidelpay) {
     this.heidelpay = heidelpay
     this.requestAdapter = new FetchAdapter()
-  }
-
-  public authorize(args: authorizeObject): Promise<Authorization> {
-    return new Promise(async resolve => {
-      const { amount, currency, typeId, customerId, returnURL } = args
-      let payload: any = {
-        amount: amount,
-        currency: currency,
-        resources: {
-          typeId: typeId
-        }
-      }
-
-      if (customerId) {
-        payload.resources.customerId = customerId
-      }
-
-      if (returnURL) {
-        payload.returnUrl = returnURL
-      }
-
-      const response: any = await this.requestAdapter.post(
-        apiURL.URL_PAYMENT_AUTHORIZE,
-        payload,
-        this.heidelpay.getPrivateKey()
-      )
-
-      const authorize = new Authorization(this.heidelpay)
-
-      authorize.setId(response.id)
-      resolve(authorize)
-    })
   }
 
   /**
@@ -122,6 +91,70 @@ export default class PaymentService {
         .create()
 
       resolve(newCustomer)
+    })
+  }
+
+  /**
+   * Authorize a payment
+   *
+   * @param {authorizeObject} args
+   * @returns {Promise<Authorization>}
+   */
+  public authorize(args: authorizeObject): Promise<Authorization> {
+    return new Promise(async resolve => {
+      const { amount, currency, typeId, customerId, returnUrl } = args
+      let payload: any = {
+        amount: amount,
+        currency: currency,
+        resources: {
+          typeId: typeId
+        }
+      }
+
+      if (customerId) {
+        payload.resources.customerId = customerId
+      }
+
+      if (returnUrl) {
+        payload.returnUrl = returnUrl
+      }
+
+      const response: any = await this.requestAdapter.post(
+        apiURL.URL_PAYMENT_AUTHORIZE,
+        payload,
+        this.heidelpay.getPrivateKey()
+      )
+
+      const authorize = new Authorization(this.heidelpay)
+
+      authorize.setId(response.id)
+      resolve(authorize)
+    })
+  }
+
+  public charge(args: chargeObject): Promise<Charge> {
+    return new Promise(async resolve => {
+      const { amount, currency, returnUrl, customerId, typeId } = args
+      let payload: any = {
+        amount: amount,
+        currency: currency,
+        returnUrl: returnUrl,
+        resources: {
+          customerId: customerId,
+          typeId: typeId
+        }
+      }
+
+      const response: any = await this.requestAdapter.post(
+        apiURL.URL_PAYMENT_CHARGE,
+        payload,
+        this.heidelpay.getPrivateKey()
+      )
+
+      const charge = new Charge(this.heidelpay)
+
+      charge.setId(response.id)
+      resolve(charge)
     })
   }
 }

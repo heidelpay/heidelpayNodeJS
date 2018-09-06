@@ -107,7 +107,7 @@ describe('Customer test', () => {
       amount: 5,
       currency: 'EUR',
       typeId: 's-crd-rcgriiqelkum',
-      returnURL: 'https://www.google.at'
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
@@ -119,7 +119,7 @@ describe('Customer test', () => {
       amount: 5,
       currency: 'EUR',
       typeId: 's-crd-rcgriiqelkum',
-      returnURL: 'https://www.google.at'
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
@@ -132,7 +132,7 @@ describe('Customer test', () => {
       currency: 'EUR',
       customerId: 's-cst-27001cb455ba',
       typeId: 's-crd-rcgriiqelkum',
-      returnURL: 'https://www.google.at'
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
