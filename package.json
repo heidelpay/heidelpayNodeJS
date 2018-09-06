@@ -47,6 +47,10 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "automock": false,
+    "setupFiles": [
+      "./jest.setup.ts"
+    ],
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
@@ -80,6 +84,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
+    "@types/fetch-mock": "^6.0.3",
     "@types/jest": "^22.0.0",
     "@types/node": "^10.0.3",
     "colors": "^1.1.2",
@@ -87,6 +92,7 @@
     "coveralls": "^3.0.0",
     "cross-env": "^5.0.1",
     "cz-conventional-changelog": "^2.0.0",
+    "fetch-mock": "^7.0.0-alpha.6",
     "husky": "^0.14.0",
     "jest": "^22.0.2",
     "lint-staged": "^7.1.3",
