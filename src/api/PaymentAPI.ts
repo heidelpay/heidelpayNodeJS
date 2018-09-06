@@ -6,6 +6,7 @@ import { Card, PaymentCard } from '../payments/card'
 import { Customer, CustomerBuilder, Salutation } from '../business/Customer'
 import { Authorization } from '../payments'
 import PaymentEntity from '../payments/AbstractPaymentEntity'
+import { authorizeObject } from '../business/Authorization'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -22,21 +23,23 @@ export default class PaymentService {
     this.requestAdapter = new FetchAdapter()
   }
 
-  public authorize(
-    amount: number,
-    currency: string,
-    typeId: string | PaymentEntity,
-    customerId?: string
-  ): Promise<Authorization> {
+  public authorize(args: authorizeObject): Promise<Authorization> {
     return new Promise(async resolve => {
-      const payload = {
+      const { amount, currency, typeId, customerId, returnURL } = args
+      let payload: any = {
         amount: amount,
         currency: currency,
-        returnUrl: 'http://vnexpress.vn',
         resources: {
-          customerId: customerId,
           typeId: typeId
         }
+      }
+
+      if (customerId) {
+        payload.resources.customerId = customerId
+      }
+
+      if (returnURL) {
+        payload.returnUrl = returnURL
       }
 
       const response: any = await this.requestAdapter.post(

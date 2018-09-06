@@ -6,7 +6,7 @@ import Charge from '../../src/business/Charge'
 describe('Payment Test', () => {
   let heidelpay
   let payment
-  beforeEach(() => {
+  beforeAll(() => {
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
     payment = new Payment(heidelpay)
   })

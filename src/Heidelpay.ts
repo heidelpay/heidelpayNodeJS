@@ -5,6 +5,7 @@ import Charge from './business/Charge'
 import PaymentAPI from './api/PaymentAPI'
 import PaymentEntity from './payments/PaymentEntity'
 import AbstractPaymentEntity from './payments/AbstractPaymentEntity'
+import { authorizeObject } from './business/Authorization'
 
 /**
  * @export
@@ -63,30 +64,20 @@ export default class Heidelpay {
    * @param {string} typeId
    * @returns {Authorization}
    */
-  public async authorize(amount: number, currency: string, typeId: string): Promise<Authorization>
-  public async authorize(
-    amount: number,
-    currency: string,
-    typeId: string | PaymentEntity,
-    customerId?: string | Customer
-  ): Promise<Authorization>
-  public async authorize(
-    amount: number,
-    currency: string,
-    typeId: any,
-    customerId?: any
-  ): Promise<Authorization> {
+  public async authorize(args: authorizeObject): Promise<Authorization> {
+    const { typeId, customerId } = args
+
     if (typeId instanceof AbstractPaymentEntity) {
       const paymentType: PaymentType = await this.createPaymentType(typeId)
-      return this.paymentAPI.authorize(amount, currency, paymentType.getId())
+      return this.paymentAPI.authorize({ ...args, typeId: paymentType.getId() })
     }
 
     if (customerId instanceof Customer) {
       const customer: Customer = await this.createCustomer(customerId)
-      return this.paymentAPI.authorize(amount, currency, typeId, customer.getCustomerId())
+      return this.paymentAPI.authorize({ ...args, customerId: customer.getCustomerId() })
     }
 
-    return this.paymentAPI.authorize(amount, currency, typeId, customerId)
+    return this.paymentAPI.authorize(args)
   }
 
   public charge(amount: number, currency: string, typeId: string) {
