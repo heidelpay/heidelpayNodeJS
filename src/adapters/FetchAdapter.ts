@@ -1,3 +1,4 @@
+const Base64 = require('js-base64').Base64
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 /**
@@ -78,9 +79,12 @@ export class FetchAdapter {
   }
 
   private _fetch(url: string, options = {}, privateKey: string): Promise<Response> {
+    const password = ''
+    const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
+
     return fetch(`${this.api}${url}`, {
       headers: {
-        Authorization: privateKey,
+        Authorization: `Basic ${basicAuthValue}`,
         'Content-Type': 'application/json'
       },
       ...options
