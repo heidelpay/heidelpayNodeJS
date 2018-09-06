@@ -1,9 +1,9 @@
 import { CustomerBuilder, Customer, Salutation, Address } from '../../src/business/Customer'
 import Heidelpay from '../../src/Heidelpay'
 
-let heidelpay
-
 describe('Customer test', () => {
+  let heidelpay
+
   beforeEach(() => {
     heidelpay = new Heidelpay('s-pri-xxx')
   })
@@ -45,5 +45,21 @@ describe('Customer test', () => {
     expect(customer.getPhone()).toEqual('+49 6221 64 71 100')
     expect(customer.getMobile()).toEqual('+49 172 123 456')
     expect(customer.getAddress()).toEqual(address)
+  })
+
+  it('Test Heidelpay class create Customer', () => {
+    const customer: Customer = new CustomerBuilder()
+      .setFirstName('John')
+      .setLastName('Doe')
+      .setSalutation(Salutation.mr)
+      .setCustomerId('45678')
+      .setBirthDate('1972-12-24')
+      .setEmail('John.Doe@heidelpay.com')
+      .setPhone('+49 6221 64 71 100')
+      .setMobile('+49 172 123 456')
+      .create()
+
+    const newCustomer = heidelpay.createCustomer(customer)
+    expect(newCustomer).toBeInstanceOf(Promise)
   })
 })

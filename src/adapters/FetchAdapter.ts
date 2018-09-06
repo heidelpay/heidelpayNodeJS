@@ -1,9 +1,5 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
-
-import { RequestAdapter } from './RequestAdapter'
-import { Config } from '../Config'
-
 /**
  * Fetch Adapter
  *
@@ -11,12 +7,17 @@ import { Config } from '../Config'
  * @class FetchAdapter
  * @implements {RequestAdapter}
  */
-export class FetchAdapter implements RequestAdapter {
+export class FetchAdapter {
   private api: string
 
   constructor() {
-    const config = new Config()
-    this.api = `${config.getApiProtocol()}://${config.getApiHost()}/${config.getApiVersion()}`
+    const config = {
+      apiProtocol: process.env.API_PROTOCOL || 'https',
+      apiHost: process.env.API_HOST || 'dev-api.heidelpay.com',
+      apiVersion: process.env.API_VERSION || 'v1'
+    }
+
+    this.api = `${config.apiProtocol}://${config.apiHost}/${config.apiVersion}`
   }
 
   /**

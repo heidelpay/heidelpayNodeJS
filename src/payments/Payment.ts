@@ -15,7 +15,7 @@ export default class Payment extends AbstractPayment {
    * @param {string} currency
    * @returns {Authorization}
    */
-  public authorize(amount: number, currency: string, typeId: string): Authorization {
+  public authorize(amount: number, currency: string, typeId: string): Promise<Authorization> {
     return this.getHeidelpay().authorize(amount, currency, typeId)
   }
 

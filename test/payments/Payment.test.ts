@@ -18,14 +18,4 @@ describe('Payment Test', () => {
   it('Payment is instantiable', () => {
     expect(payment).toBeInstanceOf(Payment)
   })
-
-  it('Authorize with payment', () => {
-    const authorize: Authorization = payment.authorize(100, 'EUR', 's-crd-tiz1m1gif29w')
-    expect(authorize).toBeInstanceOf(Authorization)
-  })
-
-  it('Charge without authorize', () => {
-    const charge: Charge = payment.charge(100, 'EUR', 's-crd-tiz1m1gif29w')
-    expect(charge).toBeInstanceOf(Charge)
-  })
 })

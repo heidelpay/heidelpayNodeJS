@@ -1,1 +1,3 @@
-export default interface PaymentType {}
+export default interface PaymentType {
+  getId(): string
+}

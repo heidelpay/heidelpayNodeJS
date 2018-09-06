@@ -2,8 +2,6 @@ import Heidelpay from '../src'
 import { Card, CardBuilder, PaymentCard } from '../src/payments/card'
 import { CustomerBuilder, Customer, Salutation, Address } from '../src/business/Customer'
 
-const heidelpay = new Heidelpay('s-pri-xxx')
-
 describe('Initial test', () => {
   let heidelpay
   beforeEach(() => {
@@ -41,6 +39,6 @@ describe('Initial test', () => {
 
     const newCustomer: Customer = await heidelpay.createCustomer(customer)
     expect(newCustomer).toBeInstanceOf(Customer)
-    expect(newCustomer.getId()).not.toBeUndefined()
+    expect(newCustomer.getCustomerId()).not.toBeUndefined()
   })
 })
