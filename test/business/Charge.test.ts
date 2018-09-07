@@ -4,7 +4,7 @@ import Charge, { chargeObject } from '../../src/business/Charge'
 import { CardBuilder, Card } from '../../src/payments/card'
 import { Address, Customer, CustomerBuilder, Salutation } from '../../src/business/Customer'
 
-describe('Customer test', () => {
+describe('Charge test', () => {
   let heidelpay
 
   beforeAll(() => {
@@ -18,7 +18,15 @@ describe('Customer test', () => {
     })
 
     fetchMock.post('end:/payments/charges', {
-      id: 's-chg-1'
+      id: 's-chg-1',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3195',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-egvhe5zs1imk'
+      }
     })
   })
 

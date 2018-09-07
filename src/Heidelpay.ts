@@ -5,7 +5,8 @@ import Charge, { chargeObject } from './business/Charge'
 import PaymentAPI from './api/PaymentAPI'
 import PaymentEntity from './payments/PaymentEntity'
 import AbstractPaymentEntity from './payments/AbstractPaymentEntity'
-import { authorizeObject } from './business/Authorization'
+import { authorizeObject, chargeAuthorizeObject } from './business/Authorization'
+import { Cancel, cancelAuthorizeObject } from './business/Cancel'
 
 /**
  * @export
@@ -80,6 +81,12 @@ export default class Heidelpay {
     return this.paymentAPI.authorize(args)
   }
 
+  /**
+   * Heidelpay Charge
+   *
+   * @param {chargeObject} args
+   * @returns {Promise<Charge>}
+   */
   public async charge(args: chargeObject): Promise<Charge> {
     const { typeId, customerId } = args
 
@@ -96,8 +103,24 @@ export default class Heidelpay {
     return this.paymentAPI.charge(args)
   }
 
-  public chargeAuthorization(paymentId: string, amount: number): Charge {
-    return new Charge(this)
+  /**
+   * Heidelpay Charge after authorization
+   *
+   * @param {chargeAuthorizeObject} args
+   * @returns {Promise<Charge>}
+   */
+  public async chargeAuthorization(args: chargeAuthorizeObject): Promise<Charge> {
+    return this.paymentAPI.chargeAuthorization(args)
+  }
+
+  /**
+   * Reversal (Cancel of authorize)
+   *
+   * @param {*} args
+   * @returns {Promise<Cancel>}
+   */
+  public async cancelAuthorization(args: cancelAuthorizeObject): Promise<Cancel> {
+    return this.paymentAPI.cancelAuthorization(args)
   }
 
   /**

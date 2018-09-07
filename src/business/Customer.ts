@@ -328,7 +328,7 @@ class Customer {
    * @param {CustomerBuilder} builder
    */
   constructor(builder: CustomerBuilder) {
-    this._firstName = builder.getFirstName() || ''
+    this._firstName = builder.getFirstName()
     this._lastName = builder.getLastName()
     this._salutation = builder.getSalutation()
     this._customerId = builder.getCustomerId()
