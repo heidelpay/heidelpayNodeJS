@@ -5,7 +5,7 @@ import { CardBuilder, Card } from '../../src/payments/card'
 import { CustomerBuilder, Customer, Salutation, Address } from '../../src/business/Customer'
 import { authorizeObject } from '../../src/business/Authorization'
 
-describe('Customer test', () => {
+describe('Authorize test', () => {
   let heidelpay
 
   beforeAll(() => {
@@ -19,7 +19,15 @@ describe('Customer test', () => {
     })
 
     fetchMock.post('end:/payments/authorize', {
-      id: 's-aut-1'
+      id: 's-aut-1',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3195',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-egvhe5zs1imk'
+      }
     })
   })
 
@@ -31,7 +39,8 @@ describe('Customer test', () => {
     const authorizePayload: authorizeObject = {
       amount: 5,
       currency: 'EUR',
-      typeId: 's-crd-rcgriiqelkum'
+      typeId: 's-crd-rcgriiqelkum',
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
@@ -49,7 +58,8 @@ describe('Customer test', () => {
     const authorizePayload: authorizeObject = {
       amount: 5,
       currency: 'EUR',
-      typeId: card
+      typeId: card,
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
@@ -83,7 +93,8 @@ describe('Customer test', () => {
       amount: 5,
       currency: 'EUR',
       typeId: 's-crd-rcgriiqelkum',
-      customerId: customer
+      customerId: customer,
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
@@ -95,7 +106,8 @@ describe('Customer test', () => {
       amount: 5,
       currency: 'EUR',
       typeId: 's-crd-rcgriiqelkum',
-      customerId: 's-cst-27001cb455ba'
+      customerId: 's-cst-27001cb455ba',
+      returnUrl: 'https://www.google.at'
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
