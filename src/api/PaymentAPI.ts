@@ -8,11 +8,17 @@ import { Authorization } from '../payments'
 import PaymentEntity from '../payments/AbstractPaymentEntity'
 import { authorizeObject, chargeAuthorizeObject } from '../business/Authorization'
 import Charge, { chargeObject } from '../business/Charge'
-import { replaceUrl } from '../utils/Utils'
+import * as Utils from '../utils/Utils'
 import Resources from '../payments/Resources'
 import { Cancel, cancelAuthorizeObject } from '../business/Cancel'
 
-export default class PaymentService {
+/**
+ * Class Payment API
+ *
+ * @export
+ * @class PaymentAPI
+ */
+export default class PaymentAPI {
   private requestAdapter: FetchAdapter
   /**
    * Heidelpay object
@@ -22,6 +28,10 @@ export default class PaymentService {
    */
   private heidelpay: Heidelpay
 
+  /**
+   * Creates an instance of PaymentAPI.
+   * @param {Heidelpay} heidelpay
+   */
   constructor(heidelpay: Heidelpay) {
     this.heidelpay = heidelpay
     this.requestAdapter = new FetchAdapter()
@@ -83,14 +93,44 @@ export default class PaymentService {
       )
 
       const newCustomer = new CustomerBuilder()
+        .setCustomerId(response.id)
         .setFirstName(customer.getFirstName())
         .setLastName(customer.getLastName())
         .setSalutation(customer.getSalutation())
-        .setCustomerId(response.id)
         .setBirthDate(customer.getBirthDate())
         .setEmail(customer.getEmail())
         .setPhone(customer.getPhone())
         .setMobile(customer.getMobile())
+        .create()
+
+      resolve(newCustomer)
+    })
+  }
+
+  /**
+   * Fetch customer info by customer Id
+   *
+   * @param {string} customerId
+   * @returns {Promise<Customer>}
+   */
+  public fetchCustomer(customerId: string): Promise<Customer> {
+    return new Promise(async resolve => {
+      const response: any = await this.requestAdapter.get(
+        Utils.replaceUrl(apiURL.URL_CUSTOMER_FETCH, {
+          customerId: customerId
+        }),
+        this.heidelpay.getPrivateKey()
+      )
+
+      const newCustomer = new CustomerBuilder()
+        .setFirstName(response.firstname)
+        .setLastName(response.lastname)
+        .setSalutation(response.salutation)
+        .setCustomerId(response.id)
+        .setBirthDate(response.birthDate)
+        .setEmail(response.email)
+        .setPhone(response.phone)
+        .setMobile(response.mobile)
         .create()
 
       resolve(newCustomer)
@@ -128,17 +168,20 @@ export default class PaymentService {
         this.heidelpay.getPrivateKey()
       )
 
+      // New Authorize with Hedeipay instance
       const authorize = new Authorization(this.heidelpay)
 
-      const resources = new Resources()
+      // Set authorizeId
+      authorize.setId(response.id)
+
+      // Set resources
+      authorize
+        .getResources()
         .setCustomerId(response.resources.customerId)
         .setMetadataId(response.resources.metadataId)
         .setPaymentId(response.resources.paymentId)
         .setTypeId(response.resources.typeId)
         .setRiskId(response.resources.riskId)
-
-      authorize.setResources(resources)
-      authorize.setId(response.id)
 
       resolve(authorize)
     })
@@ -169,17 +212,20 @@ export default class PaymentService {
         this.heidelpay.getPrivateKey()
       )
 
+      // New Charge with Hedeipay instance
       const charge = new Charge(this.heidelpay)
 
-      const resources = new Resources()
+      // Set chargeId
+      charge.setId(response.id)
+
+      // Set resources
+      charge
+        .getResources()
         .setCustomerId(response.resources.customerId)
         .setMetadataId(response.resources.metadataId)
         .setPaymentId(response.resources.paymentId)
         .setTypeId(response.resources.typeId)
         .setRiskId(response.resources.riskId)
-
-      charge.setResources(resources)
-      charge.setId(response.id)
 
       resolve(charge)
     })
@@ -200,24 +246,27 @@ export default class PaymentService {
       }
 
       const response: any = await this.requestAdapter.post(
-        replaceUrl(apiURL.URL_PAYMENT_CHARGE_AUTHORIZE, {
+        Utils.replaceUrl(apiURL.URL_PAYMENT_CHARGE_AUTHORIZE, {
           paymentId: args.paymentId
         }),
         payload,
         this.heidelpay.getPrivateKey()
       )
 
+      // New Charge with Hedeipay instance
       const charge = new Charge(this.heidelpay)
 
-      const resources = new Resources()
+      // Set charge Id
+      charge.setId(response.id)
+
+      // Set resources
+      charge
+        .getResources()
         .setCustomerId(response.resources.customerId)
         .setMetadataId(response.resources.metadataId)
         .setPaymentId(response.resources.paymentId)
         .setTypeId(response.resources.typeId)
         .setRiskId(response.resources.riskId)
-
-      charge.setResources(resources)
-      charge.setId(response.id)
 
       resolve(charge)
     })
@@ -238,7 +287,7 @@ export default class PaymentService {
       }
 
       const response: any = await this.requestAdapter.post(
-        replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
+        Utils.replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
           paymentId: args.paymentId,
           authorizationId: args.authorizationId
         }),
@@ -246,17 +295,20 @@ export default class PaymentService {
         this.heidelpay.getPrivateKey()
       )
 
+      // New Cancel with Hedeipay instance
       const cancel = new Cancel(this.heidelpay)
 
-      const resources = new Resources()
+      // Set cancel Id
+      cancel.setId(response.id)
+
+      // Set resources
+      cancel
+        .getResources()
         .setCustomerId(response.resources.customerId)
         .setMetadataId(response.resources.metadataId)
         .setPaymentId(response.resources.paymentId)
         .setTypeId(response.resources.typeId)
         .setRiskId(response.resources.riskId)
-
-      cancel.setResources(resources)
-      cancel.setId(response.id)
 
       resolve(cancel)
     })

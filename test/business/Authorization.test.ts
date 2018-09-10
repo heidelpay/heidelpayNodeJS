@@ -18,10 +18,31 @@ describe('Authorize test', () => {
       id: 's-cst-27001cb455ba'
     })
 
+    fetchMock.get('end:/customers/s-cst-27001cb455ba', {
+      id: 's-cst-27001cb455ba',
+      lastname: 'Doe',
+      firstname: 'John',
+      salutation: 'mr',
+      company: 'heidelpay GmbH',
+      customerId: '7694',
+      birthDate: '1964-12-29',
+      email: 'John.Doe@heidelpay.com',
+      phone: '+4962216471100',
+      mobile: '+49172123456',
+      address: {
+        name: 'Peter Universum',
+        street: 'Hugo-Junkers-Str. 5',
+        state: 'DE-BO',
+        zip: '60386',
+        city: 'Frankfurt am Main',
+        country: 'DE'
+      }
+    })
+
     fetchMock.post('end:/payments/authorize', {
       id: 's-aut-1',
       resources: {
-        customerId: '',
+        customerId: 's-cst-27001cb455ba',
         paymentId: 's-pay-3195',
         basketId: '',
         riskId: '',
@@ -148,6 +169,23 @@ describe('Authorize test', () => {
     }
 
     const authorize: Authorization = await heidelpay.authorize(authorizePayload)
+    expect(authorize.getId()).toEqual('s-aut-1')
+  })
+
+  it('Test authorize with fetch customer', async () => {
+    const authorizePayload: authorizeObject = {
+      amount: 5,
+      currency: 'EUR',
+      customerId: 's-cst-27001cb455ba',
+      typeId: 's-crd-rcgriiqelkum',
+      returnUrl: 'https://www.google.at'
+    }
+
+    const authorize: Authorization = await heidelpay.authorize(authorizePayload)
+    const customer: Customer = await authorize.getResources().fetchCustomer()
+
+    expect(customer).toBeInstanceOf(Customer)
+    expect(customer.getCustomerId()).toEqual('s-cst-27001cb455ba')
     expect(authorize.getId()).toEqual('s-aut-1')
   })
 })
