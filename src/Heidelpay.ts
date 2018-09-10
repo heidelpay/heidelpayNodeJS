@@ -133,15 +133,15 @@ export default class Heidelpay {
     return this.paymentAPI.createCustomer(customer)
   }
 
-  // /**
-  //  * Fetch a customer
-  //  *
-  //  * @param {string} customerId
-  //  * @returns {Promise}
-  //  */
-  // public fetchCustomer(customerId: string): Promise<Response> {
-  //   return this.requestAdapter.get(`/customers/${customerId}`)
-  // }
+  /**
+   * Fetch a customer
+   *
+   * @param {string} customerId
+   * @returns {Promise}
+   */
+  public fetchCustomer(customerId: string): Promise<Customer> {
+    return this.paymentAPI.fetchCustomer(customerId)
+  }
 
   // /**
   //  * Fetch a payment

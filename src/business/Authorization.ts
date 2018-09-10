@@ -15,9 +15,13 @@ import { Cancel, cancelAuthorizeObject } from './Cancel'
 export default class Authorization extends AbstractPayment {
   private resources: Resources
 
+  /**
+   * Creates an instance of Authorization.
+   * @param {Heidelpay} heidelpay
+   */
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources()
+    this.resources = new Resources(heidelpay)
   }
 
   /**
@@ -55,15 +59,6 @@ export default class Authorization extends AbstractPayment {
     }
 
     return this.getHeidelpay().cancelAuthorization(cancelAuthorizePayload)
-  }
-
-  /**
-   * Set resources
-   *
-   * @param {Resources} resources
-   */
-  public setResources(resources: Resources): void {
-    this.resources = resources
   }
 
   /**

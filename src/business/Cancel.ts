@@ -11,17 +11,13 @@ import Resources from '../payments/Resources'
 export class Cancel extends AbstractPayment {
   private resources: Resources
 
+  /**
+   * Creates an instance of Cancel.
+   * @param {Heidelpay} heidelpay
+   */
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources()
-  }
-  /**
-   * Set resources
-   *
-   * @param {Resources} resources
-   */
-  public setResources(resources: Resources): void {
-    this.resources = resources
+    this.resources = new Resources(heidelpay)
   }
 
   /**

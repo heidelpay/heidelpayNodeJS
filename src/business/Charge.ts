@@ -3,6 +3,29 @@ import Heidelpay from '../Heidelpay'
 import PaymentEntity from '../payments/PaymentEntity'
 import { Customer } from './Customer'
 import Resources from '../payments/Resources'
+/**
+ *
+ *
+ * @export
+ * @class Charge
+ * @extends {AbstractPayment}
+ */
+export default class Charge extends AbstractPayment {
+  private resources: Resources
+
+  /**
+   * Creates an instance of Charge.
+   * @param {Heidelpay} heidelpay
+   */
+  constructor(heidelpay: Heidelpay) {
+    super(heidelpay)
+    this.resources = new Resources(heidelpay)
+  }
+
+  public getResources(): Resources {
+    return this.resources
+  }
+}
 
 export type chargeObject = {
   amount: number
@@ -10,21 +33,4 @@ export type chargeObject = {
   returnUrl: string
   typeId: string | PaymentEntity
   customerId: string | Customer
-}
-
-export default class Charge extends AbstractPayment {
-  private resources: Resources
-
-  constructor(heidelpay: Heidelpay) {
-    super(heidelpay)
-    this.resources = new Resources()
-  }
-
-  public setResources(resources: Resources): void {
-    this.resources = resources
-  }
-
-  public getResources(): Resources {
-    return this.resources
-  }
 }
