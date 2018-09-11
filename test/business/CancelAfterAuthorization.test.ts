@@ -1,9 +1,7 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../src/Heidelpay'
-import { Authorization } from '../../src/payments'
-import { authorizeObject } from '../../src/business/Authorization'
-import Charge from '../../src/business/Charge'
-import { Cancel, cancelAuthorizeObject } from '../../src/business/Cancel'
+import Authorization, { authorizeObject } from '../../src/payments/business/Authorization'
+import Cancel, { cancelAuthorizeObject } from '../../src/payments/business/Cancel'
 
 describe('Cancel after authorize test', () => {
   let heidelpay
@@ -66,7 +64,7 @@ describe('Cancel after authorize test', () => {
 
   it('Test reversal partial after authorize', async () => {
     const authorizePayload: authorizeObject = {
-      amount: 5,
+      amount: 100,
       currency: 'EUR',
       typeId: 's-crd-rcgriiqelkum',
       returnUrl: 'https://www.google.at'

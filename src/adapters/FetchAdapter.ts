@@ -23,13 +23,14 @@ export class FetchAdapter {
   /**
    * @param  {string} url
    */
-  public get(url: string, privateKey: string): Promise<Response> {
+  public get(url: string, privateKey: string, isRawUrl: Boolean = false): Promise<Response> {
     return this._fetch(
       url,
       {
         method: 'GET'
       },
-      privateKey
+      privateKey,
+      isRawUrl
     )
   }
 
@@ -37,14 +38,20 @@ export class FetchAdapter {
    * @param  {string} url
    * @param  {object} body
    */
-  public post(url: string, body: object, privateKey: string): Promise<Response> {
+  public post(
+    url: string,
+    body: object,
+    privateKey: string,
+    isRawUrl: Boolean = false
+  ): Promise<Response> {
     return this._fetch(
       url,
       {
         method: 'POST',
         body: JSON.stringify(body)
       },
-      privateKey
+      privateKey,
+      isRawUrl
     )
   }
 
@@ -78,11 +85,17 @@ export class FetchAdapter {
     )
   }
 
-  private _fetch(url: string, options = {}, privateKey: string): Promise<Response> {
+  private _fetch(
+    url: string,
+    options = {},
+    privateKey: string,
+    isRawUrl: Boolean = false
+  ): Promise<Response> {
     const password = ''
     const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
+    const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
 
-    return fetch(`${this.api}${url}`, {
+    return fetch(requestUrl, {
       headers: {
         Authorization: `Basic ${basicAuthValue}`,
         'Content-Type': 'application/json'

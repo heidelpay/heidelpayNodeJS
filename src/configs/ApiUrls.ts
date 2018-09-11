@@ -1,3 +1,4 @@
+export const URL_PAYMENT_FETCH = '/payments/{paymentId}'
 export const URL_PAYMENT_AUTHORIZE = '/payments/authorize'
 export const URL_PAYMENT_AUTHORIZE_CANCEL =
   '/payments/{paymentId}/authorize/{authorizationId}/cancels'
@@ -7,3 +8,4 @@ export const URL_PAYMENT_CHARGE_CANCEL = '/payments/{paymentId}/charges/{chargeI
 export const URL_CUSTOMER = '/customers'
 export const URL_CUSTOMER_FETCH = '/customers/{customerId}'
 export const URL_TYPE_CARD = '/types/cards'
+export const URL_TYPE_CARD_FETCH = '/types/cards/{typeId}'

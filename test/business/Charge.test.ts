@@ -1,8 +1,8 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../src/Heidelpay'
-import Charge, { chargeObject } from '../../src/business/Charge'
-import { CardBuilder, Card } from '../../src/payments/card'
-import { Address, Customer, CustomerBuilder, Salutation } from '../../src/business/Customer'
+import Charge, { chargeObject } from '../../src/payments/business/Charge'
+import Card from '../../src/payments/types/Card'
+import { Address, Customer, Salutation } from '../../src/payments/Customer'
 
 describe('Charge test', () => {
   let heidelpay
@@ -47,11 +47,8 @@ describe('Charge test', () => {
   })
 
   it('Test charge with payment type', async () => {
-    const card: Card = new CardBuilder()
-      .setPanNumber('4711100000000000')
-      .setCVC('123')
-      .setExpiryDate('01/22')
-      .create()
+    const card: Card = new Card('4711100000000000', '01/22')
+    card.setCVC('123')
 
     const chargePayload: chargeObject = {
       amount: 5,
@@ -74,7 +71,7 @@ describe('Charge test', () => {
       country: 'DE'
     }
 
-    const customerBuilder: Customer = new CustomerBuilder()
+    const customerBuilder: Customer = new Customer()
       .setFirstName('John')
       .setLastName('Doe')
       .setSalutation(Salutation.mr)
@@ -83,7 +80,6 @@ describe('Charge test', () => {
       .setPhone('+49 6221 64 71 100')
       .setMobile('+49 172 123 456')
       .setAddress(address)
-      .create()
 
     const customer: Customer = await heidelpay.createCustomer(customerBuilder)
 
