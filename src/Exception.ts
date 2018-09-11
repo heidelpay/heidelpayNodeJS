@@ -19,7 +19,12 @@ export class Exception {
    * @param {Exception} innerException - Optional inner exception
    * @param {bool} isFinal - Indicates if this exception prevents further execution
    **/
-  constructor(message: string | Error, type: string, innerException: Exception, isFinal: boolean) {
+  constructor(
+    message: string | Error | Exception,
+    type: string,
+    innerException: Exception,
+    isFinal: boolean
+  ) {
     if (!message) {
       throw new Error('Message is mandatory to create a new Exception')
     }
