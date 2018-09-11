@@ -1,6 +1,6 @@
 import { FetchAdapter } from '../adapters/FetchAdapter'
 import Heidelpay from '../Heidelpay'
-import * as apiURL from '../configs/apiURLs'
+import * as apiURL from '../configs/ApiUrls'
 import PaymentType from '../payments/PaymentType'
 import { Card, PaymentCard } from '../payments/card'
 import { Customer, CustomerBuilder } from '../business/Customer'
