@@ -1,12 +1,6 @@
 import Heidelpay from '..'
-import { Customer } from '../business/Customer'
+import { Customer } from './Customer'
 
-/**
- * Resources class
- *
- * @export
- * @class Resources
- */
 export default class Resources {
   private typeId: string
   private customerId: string
@@ -24,7 +18,7 @@ export default class Resources {
    *
    * @returns
    */
-  public getHeidelpay() {
+  public getHeidelpay(): Heidelpay {
     return this._heidelpay
   }
 

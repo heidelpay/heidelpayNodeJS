@@ -1,4 +1,4 @@
-import { CustomerBuilder, Customer, Salutation, Address } from '../../src/business/Customer'
+import { Customer, Salutation, Address } from '../../src/payments/Customer'
 import Heidelpay from '../../src/Heidelpay'
 
 describe('Customer test', () => {
@@ -9,7 +9,7 @@ describe('Customer test', () => {
   })
 
   it('Test create Customer Builder', () => {
-    const customer: Customer = new CustomerBuilder().create()
+    const customer: Customer = new Customer()
 
     expect(customer).toBeInstanceOf(Customer)
   })
@@ -24,7 +24,7 @@ describe('Customer test', () => {
       country: 'DE'
     }
 
-    const customer: Customer = new CustomerBuilder()
+    const customer: Customer = new Customer()
       .setFirstName('John')
       .setLastName('Doe')
       .setSalutation(Salutation.mr)
@@ -34,7 +34,6 @@ describe('Customer test', () => {
       .setPhone('+49 6221 64 71 100')
       .setMobile('+49 172 123 456')
       .setAddress(address)
-      .create()
 
     expect(customer.getFirstName()).toEqual('John')
     expect(customer.getLastName()).toEqual('Doe')
@@ -48,7 +47,7 @@ describe('Customer test', () => {
   })
 
   it('Test Heidelpay class create Customer', () => {
-    const customer: Customer = new CustomerBuilder()
+    const customer: Customer = new Customer()
       .setFirstName('John')
       .setLastName('Doe')
       .setSalutation(Salutation.mr)
@@ -57,7 +56,6 @@ describe('Customer test', () => {
       .setEmail('John.Doe@heidelpay.com')
       .setPhone('+49 6221 64 71 100')
       .setMobile('+49 172 123 456')
-      .create()
 
     const newCustomer = heidelpay.createCustomer(customer)
     expect(newCustomer).toBeInstanceOf(Promise)

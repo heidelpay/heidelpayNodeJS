@@ -1,9 +1,8 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../src/Heidelpay'
-import { Authorization } from '../../src/payments'
-import { CardBuilder, Card } from '../../src/payments/card'
-import { CustomerBuilder, Customer, Salutation, Address } from '../../src/business/Customer'
-import { authorizeObject } from '../../src/business/Authorization'
+import Authorization, { authorizeObject } from '../../src/payments/business/Authorization'
+import Card from '../../src/payments/types/Card'
+import { Customer, Salutation, Address } from '../../src/payments/Customer'
 
 describe('Authorize test', () => {
   let heidelpay
@@ -70,11 +69,10 @@ describe('Authorize test', () => {
   })
 
   it('Test authorize with payment type Card', async () => {
-    const card: Card = new CardBuilder()
+    const card: Card = new Card()
       .setPanNumber('4711100000000000')
       .setCVC('123')
       .setExpiryDate('01/22')
-      .create()
 
     const authorizePayload: authorizeObject = {
       amount: 5,
@@ -98,7 +96,7 @@ describe('Authorize test', () => {
       country: 'DE'
     }
 
-    const customerBuilder: Customer = new CustomerBuilder()
+    const customerBuilder: Customer = new Customer()
       .setFirstName('John')
       .setLastName('Doe')
       .setSalutation(Salutation.mr)
@@ -107,7 +105,6 @@ describe('Authorize test', () => {
       .setPhone('+49 6221 64 71 100')
       .setMobile('+49 172 123 456')
       .setAddress(address)
-      .create()
 
     const customer: Customer = await heidelpay.createCustomer(customerBuilder)
     const authorizePayload: authorizeObject = {

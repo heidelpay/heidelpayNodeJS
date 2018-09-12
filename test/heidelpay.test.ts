@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../src'
-import { Card, CardBuilder, PaymentCard } from '../src/payments/card'
-import { CustomerBuilder, Customer, Salutation, Address } from '../src/business/Customer'
+import Card from '../src/payments/types/Card'
+import { Customer, Salutation } from '../src/payments/Customer'
 
 describe('Initial test', () => {
   let heidelpay
@@ -26,20 +26,19 @@ describe('Initial test', () => {
   })
 
   it('Test create payment card with a card', async () => {
-    const card: Card = new CardBuilder()
+    const card: Card = new Card()
       .setPanNumber('4711100000000000')
       .setCVC('123')
       .setExpiryDate('01/22')
-      .create()
 
-    const paymentCard: PaymentCard = await heidelpay.createPaymentType(card)
+    const paymentCard: Card = await heidelpay.createPaymentType(card)
 
-    expect(paymentCard).toBeInstanceOf(PaymentCard)
+    expect(paymentCard).toBeInstanceOf(Card)
     expect(paymentCard.getId()).toEqual('s-crd-llany1bnku9e')
   })
 
   it('Test Heidelpay class create Customer', async () => {
-    const customer: Customer = new CustomerBuilder()
+    const customer: Customer = new Customer()
       .setFirstName('John')
       .setLastName('Doe')
       .setSalutation(Salutation.mr)
@@ -48,7 +47,6 @@ describe('Initial test', () => {
       .setEmail('John.Doe@heidelpay.com')
       .setPhone('+49 6221 64 71 100')
       .setMobile('+49 172 123 456')
-      .create()
 
     const newCustomer: Customer = await heidelpay.createCustomer(customer)
     expect(newCustomer).toBeInstanceOf(Customer)
