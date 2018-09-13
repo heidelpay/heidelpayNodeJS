@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
-import Giropay from '../../../src/payments/types/giropay'
+import Giropay from '../../../src/payments/types/Giropay'
 
 describe('Payment Type GiroPay Test', () => {
   let heidelpay

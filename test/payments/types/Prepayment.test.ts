@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
-import Prepayment from '../../../src/payments/types/prepayment'
+import Prepayment from '../../../src/payments/types/Prepayment'
 
 describe('Payment Type Prepayment Test', () => {
   let heidelpay
