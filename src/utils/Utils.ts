@@ -1,5 +1,16 @@
 import Card from '../payments/types/Card'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
+import Eps from '../payments/types/Eps'
+import Giropay from '../payments/types/Giropay'
+import Ideal from '../payments/types/Ideal'
+import Invoice from '../payments/types/Invoice'
+import InvoiceGuaranteed from '../payments/types/InvoiceGuaranteed'
+import Paypal from '../payments/types/Paypal'
+import Prepayment from '../payments/types/Prepayment'
+import Przelewy24 from '../payments/types/Przelewy24'
+import SepaDirectDebit from '../payments/types/SepaDirectDebit'
+import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuaranteed'
+import Sofort from '../payments/types/Sofort'
 
 export const replaceUrl = (url: string, args: any) => {
   const regex = /{([a-zA-Z]+)}/gm
@@ -20,6 +31,28 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
   switch (paymentType) {
     case 'crd':
       return new Card()
+    case 'eps':
+      return new Eps()
+    case 'gro':
+      return new Giropay()
+    case 'idl':
+      return new Ideal()
+    case 'ivc':
+      return new Invoice()
+    case 'ivg':
+      return new InvoiceGuaranteed()
+    case 'ppl':
+      return new Paypal()
+    case 'ppy':
+      return new Prepayment()
+    case 'p24':
+      return new Przelewy24()
+    case 'sdd':
+      return new SepaDirectDebit()
+    case 'ddg':
+      return new SepaDirectDebitGuaranteed()
+    case 'sft':
+      return new Sofort()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -34,8 +67,78 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
         .setCVC(response.cvv)
 
       card.setId(response.id)
-
       return card
+
+    case 'eps':
+      const eps: Eps = new Eps().setBankName(response.bankName)
+
+      eps.setId(response.id)
+      return eps
+
+    case 'giropay':
+      const giropay: Giropay = new Giropay()
+
+      giropay.setId(response.id)
+      return giropay
+
+    case 'ideal':
+      const ideal: Ideal = new Ideal().setBankName(response.bankName)
+
+      ideal.setId(response.id)
+      return ideal
+
+    case 'invoice':
+      const invoice: Invoice = new Invoice()
+
+      invoice.setId(response.id)
+      return invoice
+
+    case 'invoice-guaranteed':
+      const invoiceGuaranteed: InvoiceGuaranteed = new InvoiceGuaranteed()
+
+      invoiceGuaranteed.setId(response.id)
+      return invoiceGuaranteed
+
+    case 'paypal':
+      const paypal: Paypal = new Paypal()
+
+      paypal.setId(response.id)
+      return paypal
+
+    case 'przelewy24':
+      const przelewy24: Przelewy24 = new Przelewy24()
+
+      przelewy24.setId(response.id)
+      return przelewy24
+
+    case 'prepayment':
+      const prepayment: Prepayment = new Prepayment()
+
+      prepayment.setId(response.id)
+      return prepayment
+
+    case 'sepa-direct-debit':
+      const sepaDirectDebit: SepaDirectDebit = new SepaDirectDebit()
+      sepaDirectDebit
+        .setBic(response.bic)
+        .setIban(response.iban)
+        .setHolder(response.holder)
+
+      sepaDirectDebit.setId(response.id)
+      return sepaDirectDebit
+
+    case 'sepa-direct-debit-guaranteed':
+      const ddg: SepaDirectDebitGuaranteed = new SepaDirectDebitGuaranteed()
+      ddg.setIban(response.iban)
+
+      ddg.setId(response.id)
+      return ddg
+
+    case 'sofort':
+      const sofort: Sofort = new Sofort()
+
+      sofort.setId(response.id)
+      return sofort
     default:
       throw new Error(`Type ${response.method} is currently not supported by the SDK`)
   }

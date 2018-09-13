@@ -1,6 +1,8 @@
-import * as apiURL from '../configs/apiURLs'
+import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
 import Charge, { chargeObject } from '../payments/business/Charge'
+import AbstractPayment from '../payments/business/AbstractPayment'
+import ResponseResourceMapper from './mappers/ResponseResourceMapper'
 
 export default (args: chargeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async resolve => {
@@ -15,25 +17,21 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
       }
     }
 
+    // Call api end point to get response
     const response: any = await paymentService
       .getRequestAdapter()
       .post(apiURL.URL_PAYMENT_CHARGE, payload, paymentService.getHeidelpay().getPrivateKey())
 
     // New Charge with Hedeipay instance
-    const charge = new Charge(paymentService.getHeidelpay())
+    let charge = new Charge(paymentService.getHeidelpay())
 
     // Set chargeId
     charge.setId(response.id)
 
-    // Set resources
-    charge
-      .getResources()
-      .setCustomerId(response.resources.customerId)
-      .setMetadataId(response.resources.metadataId)
-      .setPaymentId(response.resources.paymentId)
-      .setTypeId(response.resources.typeId)
-      .setRiskId(response.resources.riskId)
+    // Mapper resources
+    charge = ResponseResourceMapper(charge as AbstractPayment, response.resources) as Charge
 
+    // Resolve final result
     resolve(charge)
   })
 }

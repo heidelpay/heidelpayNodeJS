@@ -5,14 +5,21 @@ import AbstractPaymentType from '../payments/types/AbstractPaymentType'
 
 export default (typeId: string, paymentService: PaymentService): Promise<PaymentType> => {
   return new Promise(async resolve => {
+    // Parse paymentTypeId string to typeId and create a PaymentType
     const paymentType: AbstractPaymentType = Utils.getPaymentTypeFromTypeId(typeId)
-    paymentType.setHeidelpay(paymentService.getHeidelpay())
-    const requestUrl = Utils.replaceUrl(paymentType.getFetchTypeUrl(), { typeId: typeId })
 
+    // Set Heidelpay instance
+    paymentType.setHeidelpay(paymentService.getHeidelpay())
+
+    // Parse URL with parameters
+    const requestUrl = `${paymentType.getTypeUrl()}/${typeId}`
+
+    // Call api end point to get response
     const response: any = await paymentService
       .getRequestAdapter()
       .get(requestUrl, paymentService.getHeidelpay().getPrivateKey())
 
+    // Resolve final result
     resolve(Utils.mapResponsePaymentType(response))
   })
 }

@@ -16,10 +16,6 @@ export default class Heidelpay {
   private paymentService: PaymentService
   private privateKey: string
 
-  /**
-   * Creates an instance of Heidelpay.
-   * @param {string} privateKey
-   */
   constructor(privateKey: string) {
     this.privateKey = privateKey
     this.paymentService = new PaymentService(this)
@@ -153,13 +149,19 @@ export default class Heidelpay {
   /**
    * Reversal (Cancel of authorize)
    *
-   * @param {*} args
+   * @param {cancelAuthorizeObject} args
    * @returns {Promise<Cancel>}
    */
   public cancelAuthorization(args: cancelAuthorizeObject): Promise<Cancel> {
     return this.paymentService.cancelAuthorization(args)
   }
 
+  /**
+   * Cancel charge
+   *
+   * @param {cancelChargeObject} args
+   * @returns {Promise<Cancel>}
+   */
   public cancelCharge(args: cancelChargeObject): Promise<Cancel> {
     return this.paymentService.cancelCharge(args)
   }

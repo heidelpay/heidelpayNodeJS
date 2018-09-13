@@ -1,4 +1,5 @@
 import Heidelpay from '../../Heidelpay'
+import Resources from '../Resources'
 
 export default abstract class AbstractPayment {
   private _id: string
@@ -39,4 +40,6 @@ export default abstract class AbstractPayment {
   public getId(): string {
     return this._id
   }
+
+  abstract getResources(): Resources
 }
