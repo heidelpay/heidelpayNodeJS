@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
-import Paypal from '../../../src/payments/types/paypal'
+import Paypal from '../../../src/payments/types/Paypal'
 
 describe('Payment Type Paypal Test', () => {
   let heidelpay
