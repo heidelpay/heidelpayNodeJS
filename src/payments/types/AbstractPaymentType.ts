@@ -6,14 +6,7 @@ export default abstract class AbstractPaymentType {
   private _id: string
   private _heidelpay: Heidelpay
 
-  /**
-   * Get type URL
-   *
-   * @abstract
-   * @returns {string}
-   */
   public abstract getTypeUrl(): string
-  public abstract getFetchTypeUrl(): string
   public abstract getPayload(): any
 
   /**

@@ -75,6 +75,12 @@ export default class PaymentService {
     return FetchPayment(paymentId, this)
   }
 
+  /**
+   * Fetch a payment type
+   *
+   * @param {string} paymentTypeId
+   * @returns {Promise<PaymentType>}
+   */
   public fetchPaymentType(paymentTypeId: string): Promise<PaymentType> {
     return FetchPaymentType(paymentTypeId, this)
   }

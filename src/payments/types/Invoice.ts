@@ -1,15 +1,15 @@
 import * as apiURL from '../../configs/ApiUrls'
-import PaymentType from './PaymentType'
 import AbstractPaymentType from './AbstractPaymentType'
+import PaymentType from './PaymentType'
 
-export default class Paypal extends AbstractPaymentType implements PaymentType {
+export default class Invoice extends AbstractPaymentType implements PaymentType {
   /**
    * Get url end point
    *
    * @returns {string}
    */
   public getTypeUrl(): string {
-    return apiURL.URL_TYPE_PAYPAL
+    return apiURL.URL_TYPE_INVOICE
   }
 
   /**

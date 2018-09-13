@@ -1,40 +1,40 @@
-import * as apiURL from '../configs/apiURLs'
+import * as apiURL from '../configs/ApiUrls'
 import * as Utils from '../utils/Utils'
 import PaymentService from './PaymentService'
 import Cancel, { cancelAuthorizeObject } from '../payments/business/Cancel'
+import AbstractPayment from '../payments/business/AbstractPayment'
+import ResponseResourceMapper from './mappers/ResponseResourceMapper'
 
 export default (args: cancelAuthorizeObject, paymentService: PaymentService): Promise<Cancel> => {
   return new Promise(async resolve => {
     let payload: any = {}
 
+    // Add amount into payload if its passed
     if (args.amount) {
       payload.amount = args.amount
     }
 
-    const response: any = await paymentService.getRequestAdapter().post(
-      Utils.replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
-        paymentId: args.paymentId,
-        authorizationId: args.authorizationId
-      }),
-      payload,
-      paymentService.getHeidelpay().getPrivateKey()
-    )
+    // Parse and replace URL with parameters
+    const requestUrl = Utils.replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
+      paymentId: args.paymentId,
+      authorizationId: args.authorizationId
+    })
+
+    // Call api end point to get response
+    const response: any = await paymentService
+      .getRequestAdapter()
+      .post(requestUrl, payload, paymentService.getHeidelpay().getPrivateKey())
 
     // New Cancel with Hedeipay instance
-    const cancel = new Cancel(paymentService.getHeidelpay())
+    let cancel = new Cancel(paymentService.getHeidelpay())
 
     // Set cancel Id
     cancel.setId(response.id)
 
-    // Set resources
-    cancel
-      .getResources()
-      .setCustomerId(response.resources.customerId)
-      .setMetadataId(response.resources.metadataId)
-      .setPaymentId(response.resources.paymentId)
-      .setTypeId(response.resources.typeId)
-      .setRiskId(response.resources.riskId)
+    // Mapper resources
+    cancel = ResponseResourceMapper(cancel as AbstractPayment, response.resources) as Cancel
 
+    // Resolve final result
     resolve(cancel)
   })
 }

@@ -106,6 +106,25 @@ describe('Payment Type Card Test', () => {
     expect(authorize.getId()).toEqual('s-aut-1')
   })
 
+  it('Test Authorize card with customer Id', async () => {
+    let card: Card = new Card('4444333322221111', '03/20')
+    card.setCVC('123')
+
+    const authorizePayload: authorizeObject = {
+      amount: 5,
+      currency: 'EUR',
+      customerId: 's-cst-27001cb455ba',
+      typeId: 's-crd-rcgriiqelkum',
+      returnUrl: 'https://www.google.at'
+    }
+
+    card = await heidelpay.createPaymentType(card)
+    const authorize: Authorization = await card.authorize(authorizePayload)
+
+    expect(authorize).toBeInstanceOf(Authorization)
+    expect(authorize.getId()).toEqual('s-aut-1')
+  })
+
   // @TODO Authorize and Get Payment
 
   it('Test Charge card type', async () => {

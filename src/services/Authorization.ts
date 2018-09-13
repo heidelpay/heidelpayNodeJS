@@ -1,6 +1,8 @@
-import * as apiURL from '../configs/apiURLs'
+import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
 import Authorization, { authorizeObject } from '../payments/business/Authorization'
+import ResponseResourceMapper from './mappers/ResponseResourceMapper'
+import AbstractPayment from '../payments/business/AbstractPayment'
 
 export default (args: authorizeObject, paymentService: PaymentService): Promise<Authorization> => {
   return new Promise(async resolve => {
@@ -8,38 +10,35 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
     let payload: any = {
       amount: amount,
       currency: currency,
+      returnUrl: returnUrl,
       resources: {
         typeId: typeId
       }
     }
 
+    // Add customer Id into payload if its passed
     if (customerId) {
       payload.resources.customerId = customerId
     }
 
-    if (returnUrl) {
-      payload.returnUrl = returnUrl
-    }
-
+    // Call api end point to get response
     const response: any = await paymentService
       .getRequestAdapter()
       .post(apiURL.URL_PAYMENT_AUTHORIZE, payload, paymentService.getHeidelpay().getPrivateKey())
 
     // New Authorize with Hedeipay instance
-    const authorize = new Authorization(paymentService.getHeidelpay())
+    let authorize = new Authorization(paymentService.getHeidelpay())
 
-    // Set authorizeId
+    // Set authorize Id
     authorize.setId(response.id)
 
-    // Set resources
-    authorize
-      .getResources()
-      .setCustomerId(response.resources.customerId)
-      .setMetadataId(response.resources.metadataId)
-      .setPaymentId(response.resources.paymentId)
-      .setTypeId(response.resources.typeId)
-      .setRiskId(response.resources.riskId)
+    // Mapper resources
+    authorize = ResponseResourceMapper(
+      authorize as AbstractPayment,
+      response.resources
+    ) as Authorization
 
+    // Resolve final result
     resolve(authorize)
   })
 }

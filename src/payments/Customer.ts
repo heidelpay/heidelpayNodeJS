@@ -19,6 +19,19 @@ class Customer {
     this._lastName = lastName
   }
 
+  public getRequestPayload() {
+    return {
+      lastname: this.getLastName(),
+      firstname: this.getFirstName(),
+      salutation: this.getSalutation(),
+      birthDate: this.getBirthDate(),
+      email: this.getEmail(),
+      phone: this.getPhone(),
+      mobile: this.getMobile(),
+      address: this.getAddress()
+    }
+  }
+
   /**
    * Set FirstName
    *

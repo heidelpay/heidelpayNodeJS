@@ -8,13 +8,19 @@ export default (
   paymentService: PaymentService
 ): Promise<AbstractPayment> => {
   return new Promise(async resolve => {
-    const response = await paymentService
-      .getRequestAdapter()
-      .get(transactionItem.getUrl(), paymentService.getHeidelpay().getPrivateKey(), true)
+    // Call api end point to get response
+    await paymentService.getRequestAdapter().get(
+      transactionItem.getUrl(),
+      paymentService.getHeidelpay().getPrivateKey(),
+      true // set true for raw URL
+    )
 
     // New Authorize with Hedeipay instance
     const authorize = new Authorization(paymentService.getHeidelpay())
 
+    // @TODO Map response
+
+    // Resolve final result
     resolve(authorize)
   })
 }
