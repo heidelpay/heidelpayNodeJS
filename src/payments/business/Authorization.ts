@@ -7,6 +7,7 @@ import Cancel, { cancelAuthorizeObject } from './Cancel'
 import PaymentType from '../types/PaymentType'
 
 export default class Authorization extends AbstractPayment {
+  private amount: string
   private resources: Resources
 
   /**
@@ -18,6 +19,23 @@ export default class Authorization extends AbstractPayment {
     this.resources = new Resources(heidelpay)
   }
 
+  /**
+   * Set Amount
+   *
+   * @param {string} amount
+   */
+  public setAmount(amount: string) {
+    this.amount = amount
+  }
+
+  /**
+   * Get Amount
+   *
+   * @returns {string}
+   */
+  public getAmount(): string {
+    return this.amount
+  }
   /**
    * Charge after authorize
    *

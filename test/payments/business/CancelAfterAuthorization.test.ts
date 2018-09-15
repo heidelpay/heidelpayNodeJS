@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock'
-import Heidelpay from '../../src/Heidelpay'
-import Authorization, { authorizeObject } from '../../src/payments/business/Authorization'
-import Cancel, { cancelAuthorizeObject } from '../../src/payments/business/Cancel'
+import Heidelpay from '../../../src/Heidelpay'
+import Authorization, { authorizeObject } from '../../../src/payments/business/Authorization'
+import Cancel, { cancelAuthorizeObject } from '../../../src/payments/business/Cancel'
 
 describe('Cancel after authorize test', () => {
   let heidelpay

@@ -1,8 +1,8 @@
 import fetchMock from 'fetch-mock'
-import Heidelpay from '../../src/Heidelpay'
-import Charge, { chargeObject } from '../../src/payments/business/Charge'
-import Card from '../../src/payments/types/Card'
-import { Address, Customer, Salutation } from '../../src/payments/Customer'
+import Heidelpay from '../../../src/Heidelpay'
+import Charge, { chargeObject } from '../../../src/payments/business/Charge'
+import Card from '../../../src/payments/types/Card'
+import { Address, Customer, Salutation } from '../../../src/payments/Customer'
 
 describe('Charge test', () => {
   let heidelpay

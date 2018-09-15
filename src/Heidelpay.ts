@@ -8,8 +8,6 @@ import Charge, { chargeObject } from './payments/business/Charge'
 import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
 import Payment from './payments/business/Payment'
-import AbstractPayment from './payments/business/AbstractPayment'
-import TransactionItem from './payments/TransactionItem'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
 
 export default class Heidelpay {
@@ -78,16 +76,6 @@ export default class Heidelpay {
    */
   public fetchPayment(paymentId: string): Promise<Payment> {
     return this.paymentService.fetchPayment(paymentId)
-  }
-
-  /**
-   * Fetch transaction detail
-   *
-   * @param {TransactionItem} transactionItem
-   * @returns {Promise<AbstractPayment>}
-   */
-  public fetchTransactionItem(transactionItem: TransactionItem): Promise<AbstractPayment> {
-    return this.paymentService.fetchTransactionItem(transactionItem)
   }
 
   /**

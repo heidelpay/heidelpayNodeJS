@@ -6,6 +6,7 @@ import PaymentType from '../types/PaymentType'
 import Cancel, { cancelChargeObject } from './Cancel'
 
 export default class Charge extends AbstractPayment {
+  private amount: string
   private resources: Resources
 
   /**
@@ -15,6 +16,24 @@ export default class Charge extends AbstractPayment {
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)
+  }
+
+  /**
+   * Set amount
+   *
+   * @param {string} amount
+   */
+  public setAmount(amount: string) {
+    this.amount = amount
+  }
+
+  /**
+   * Get amount
+   *
+   * @returns {string}
+   */
+  public getAmount(): string {
+    return this.amount
   }
 
   /**

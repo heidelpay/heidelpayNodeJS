@@ -9,12 +9,9 @@ import Authorization, {
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from '../payments/business/Cancel'
 import Charge, { chargeObject } from '../payments/business/Charge'
 import Payment from '../payments/business/Payment'
-import AbstractPayment from '../payments/business/AbstractPayment'
-import TransactionItem from '../payments/TransactionItem'
 import CreatePaymentType from './CreatePaymentType'
 import FetchPayment from './FetchPayment'
 import FetchPaymentType from './FetchPaymentType'
-import FetchTransactionItem from './FetchTransactionItem'
 import CreateCustomer from './CreateCustomer'
 import FetchCustomer from './FetchCustomer'
 import AuthorizationService from './Authorization'
@@ -83,16 +80,6 @@ export default class PaymentService {
    */
   public fetchPaymentType(paymentTypeId: string): Promise<PaymentType> {
     return FetchPaymentType(paymentTypeId, this)
-  }
-
-  /**
-   * Fetct transaction item
-   *
-   * @param {TransactionItem} transactionItem
-   * @returns {Promise<AbstractPayment>}
-   */
-  public fetchTransactionItem(transactionItem: TransactionItem): Promise<AbstractPayment> {
-    return FetchTransactionItem(transactionItem, this)
   }
 
   /**

@@ -22,6 +22,23 @@ export const replaceUrl = (url: string, args: any) => {
   return urlReplaced
 }
 
+/**
+ * Get refund id from url
+ *
+ * Ex:
+ * <domain>payments/s-pay-3883/charges/s-chg-1/cancels/s-cnl-1
+ * It should return s-chg-1 as refund Id of this cancel
+ *
+ * @param {string} url
+ * @returns
+ */
+export const getRefundIdOfCancel = (url: string) => {
+  const regex = /\/([a-zA-Z-0-9]+)\/cancels/gm
+  const matches = regex.exec(url)
+
+  return matches ? matches[1] : ''
+}
+
 export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType => {
   if (typeId.length < 5) {
     throw new Error(`Type ${typeId} is currently not supported by the SDK`)
