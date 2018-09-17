@@ -1,7 +1,8 @@
 import fetchMock from 'fetch-mock'
 import Heidelpay from '../../src/Heidelpay'
 import Payment from '../../src/payments/business/Payment'
-import TransactionItem from '../../src/payments/TransactionItem'
+import Charge from '../../src/payments/business/Charge'
+import Cancel from '../../src/payments/business/Cancel'
 
 describe('Payment Test', () => {
   let heidelpay
@@ -24,6 +25,34 @@ describe('Payment Test', () => {
           type: 'authorize',
           url: 'https://dev-api.heidelpay.com/v1/payments/s-pay-3645/authorize/s-aut-1',
           amount: '100.0000'
+        },
+        {
+          date: '2018-09-10 03:53:51',
+          type: 'charge',
+          url:
+            'https://dev-api.heidelpay.com/v1/payments/s-pay-3645/authorize/s-aut-1/charges/s-chg-1',
+          amount: '30.0000'
+        },
+        {
+          date: '2018-09-10 03:53:51',
+          type: 'charge',
+          url:
+            'https://dev-api.heidelpay.com/v1/payments/s-pay-3645/authorize/s-aut-1/charges/s-chg-2',
+          amount: '50.0000'
+        },
+        {
+          date: '2018-09-10 03:53:51',
+          type: 'cancel',
+          url:
+            'https://dev-api.heidelpay.com/v1/payments/s-pay-3645/authorize/s-aut-1/cancels/s-cnl-1',
+          amount: '30.0000'
+        },
+        {
+          date: '2018-09-10 03:53:51',
+          type: 'cancel-charge',
+          url:
+            'https://dev-api.heidelpay.com/v1/payments/s-pay-3645/charges/s-chg-1/cancels/s-cnl-1',
+          amount: '30.0000'
         }
       ]
     })
@@ -49,6 +78,97 @@ describe('Payment Test', () => {
         shortId: '4004.7803.1664'
       }
     })
+
+    fetchMock.get('end:/payments/s-pay-3645/authorize/s-aut-1/charges/s-chg-1', {
+      id: 's-chg-1',
+      isSuccess: true,
+      isPending: false,
+      type: 'charge',
+      amount: '30.0000',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3645',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-qvk4snmq3evq'
+      }
+    })
+
+    fetchMock.get('end:/payments/s-pay-3645/authorize/s-aut-1/charges/s-chg-2', {
+      id: 's-chg-2',
+      amount: '50.0000',
+      type: 'charge',
+      currency: 'EUR',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3645',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-qvk4snmq3evq'
+      }
+    })
+
+    fetchMock.post('end:/payments/s-pay-3645/authorize/s-aut-1/cancels', {
+      id: 's-cnl-1',
+      amount: '50.0000',
+      type: 'cancel',
+      currency: 'EUR',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3645',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-qvk4snmq3evq'
+      }
+    })
+
+    fetchMock.post('end:/payments/s-pay-3645/charges/s-chg-1/cancels', {
+      id: 's-cnl-1',
+      amount: '50.0000',
+      type: 'cancel',
+      currency: 'EUR',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3645',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-qvk4snmq3evq'
+      }
+    })
+
+    fetchMock.get('end:/payments/s-pay-3645/authorize/s-aut-1/cancels/s-cnl-1', {
+      id: 's-cnl-1',
+      amount: '50.0000',
+      type: 'cancel',
+      currency: 'EUR',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3645',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-qvk4snmq3evq'
+      }
+    })
+
+    fetchMock.get('end:/payments/s-pay-3645/charges/s-chg-1/cancels/s-cnl-1', {
+      id: 's-cnl-1',
+      amount: '50.0000',
+      type: 'cancel',
+      currency: 'EUR',
+      resources: {
+        customerId: '',
+        paymentId: 's-pay-3645',
+        basketId: '',
+        riskId: '',
+        metadataId: '',
+        typeId: 's-crd-qvk4snmq3evq'
+      }
+    })
   })
 
   it('Heidelpay is instantiable', () => {
@@ -69,40 +189,62 @@ describe('Payment Test', () => {
     expect(payment.getResources().getPaymentId()).toEqual('s-pay-3645')
   })
 
-  it('Fetch a payment and get list transactions', async () => {
+  it('Fetch a payment and get authorize', async () => {
     const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
-    const listTransactions = []
-    const transactionItem = new TransactionItem(heidelpay)
-
-    transactionItem
-      .setDate('2018-09-10 03:53:51')
-      .setAmount('100.0000')
-      .setType('authorize')
-      .setUrl('https://dev-api.heidelpay.com/v1/payments/s-pay-3645/authorize/s-aut-1')
-
-    listTransactions.push(transactionItem)
 
     expect(payment).toBeInstanceOf(Payment)
     expect(payment.getId()).toEqual('s-pay-3645')
-    expect(payment.getTransactions().getList()).toEqual(listTransactions)
+    expect(payment.getAuthorization().getId()).toEqual('s-aut-1')
   })
 
-  it('Fetch a payment and get detail transactions', async () => {
+  it('Fetch a payment and get authorize and cancel', async () => {
     const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
-    const listTransactions = []
-    const transactionItem = new TransactionItem(heidelpay)
-
-    transactionItem
-      .setDate('2018-09-10 03:53:51')
-      .setAmount('100.0000')
-      .setType('authorize')
-      .setUrl('https://dev-api.heidelpay.com/v1/payments/s-pay-3645/authorize/s-aut-1')
-
-    listTransactions.push(transactionItem)
+    const cancel: Cancel = await payment.getAuthorization().cancel()
 
     expect(payment).toBeInstanceOf(Payment)
     expect(payment.getId()).toEqual('s-pay-3645')
-    expect(payment.getTransactions().getList()).toEqual(listTransactions)
-    expect(payment.getTransactions().fetchTransactionItem(0)).toBeDefined()
+    expect(cancel.getId()).toEqual('s-cnl-1')
+  })
+
+  it('Fetch a payment and get list charges', async () => {
+    const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
+
+    expect(payment).toBeInstanceOf(Payment)
+    expect(payment.getId()).toEqual('s-pay-3645')
+    expect(payment.getChargeList().length).toEqual(2)
+  })
+
+  it('Fetch a payment and get charge Item', async () => {
+    const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
+
+    expect(payment).toBeInstanceOf(Payment)
+    expect(payment.getId()).toEqual('s-pay-3645')
+    expect(payment.getCharge('s-chg-1')).toBeInstanceOf(Charge)
+  })
+
+  it('Fetch a payment and get cancel', async () => {
+    const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
+    const cancel: Cancel = payment.getCancel('s-cnl-1')
+
+    expect(payment).toBeInstanceOf(Payment)
+    expect(payment.getId()).toEqual('s-pay-3645')
+    expect(cancel.getId()).toEqual('s-cnl-1')
+  })
+
+  it('Fetch a payment and get cancel item and with refund Id', async () => {
+    const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
+    const cancel: Cancel = payment.getCancel('s-cnl-1', 's-chg-1')
+
+    expect(payment).toBeInstanceOf(Payment)
+    expect(payment.getId()).toEqual('s-pay-3645')
+    expect(cancel.getId()).toEqual('s-cnl-1')
+  })
+
+  it('Fetch a payment and get list cancels', async () => {
+    const payment: Payment = await heidelpay.fetchPayment('s-pay-3645')
+
+    expect(payment).toBeInstanceOf(Payment)
+    expect(payment.getId()).toEqual('s-pay-3645')
+    expect(payment.getCancelList().length).toEqual(2)
   })
 })

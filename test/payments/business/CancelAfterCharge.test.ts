@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock'
-import Heidelpay from '../../src/Heidelpay'
-import Charge, { chargeObject } from '../../src/payments/business/Charge'
-import Cancel, { cancelChargeObject } from '../../src/payments/business/Cancel'
+import Heidelpay from '../../../src/Heidelpay'
+import Charge, { chargeObject } from '../../../src/payments/business/Charge'
+import Cancel, { cancelChargeObject } from '../../../src/payments/business/Cancel'
 
 describe('Cancel after charge test', () => {
   let heidelpay

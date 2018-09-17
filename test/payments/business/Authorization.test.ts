@@ -1,8 +1,8 @@
 import fetchMock from 'fetch-mock'
-import Heidelpay from '../../src/Heidelpay'
-import Authorization, { authorizeObject } from '../../src/payments/business/Authorization'
-import Card from '../../src/payments/types/Card'
-import { Customer, Salutation, Address } from '../../src/payments/Customer'
+import Heidelpay from '../../../src/Heidelpay'
+import Authorization, { authorizeObject } from '../../../src/payments/business/Authorization'
+import Card from '../../../src/payments/types/Card'
+import { Customer, Salutation, Address } from '../../../src/payments/Customer'
 
 describe('Authorize test', () => {
   let heidelpay

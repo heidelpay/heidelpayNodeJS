@@ -4,6 +4,7 @@ import Resources from '../Resources'
 
 export default class Cancel extends AbstractPayment {
   private resources: Resources
+  private refundId: string
 
   /**
    * Creates an instance of Cancel.
@@ -12,6 +13,24 @@ export default class Cancel extends AbstractPayment {
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)
+  }
+
+  /**
+   * Set refund Id
+   *
+   * @param {string} refund Id
+   */
+  public setRefundId(refundId: string) {
+    this.refundId = refundId
+  }
+
+  /**
+   * Get refund Id
+   *
+   * @returns {string}
+   */
+  public getRefundId(): string {
+    return this.refundId
   }
 
   /**
