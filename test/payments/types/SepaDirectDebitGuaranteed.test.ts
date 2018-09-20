@@ -1,12 +1,12 @@
 import Heidelpay from '../../../src/Heidelpay'
 import * as TestHelper from '../../helpers/TestHelper'
-import SepaDirectDebitGGuaranteed from '../../../src/payments/types/SepaDirectDebitGuaranteed'
+import SepaDirectDebitGuaranteed from '../../../src/payments/types/SepaDirectDebitGuaranteed'
 
-describe('Payment Type SepaDirectDebitGGuaranteed Test', () => {
+describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
   let heidelpay: Heidelpay
 
   const getSSD = () => {
-    return new SepaDirectDebitGGuaranteed("DE89370400440532013000")
+    return new SepaDirectDebitGuaranteed("DE89370400440532013000")
     .setBic("COBADEFFXXX")
     .setHolder("Rene Felder")
   }
@@ -16,16 +16,16 @@ describe('Payment Type SepaDirectDebitGGuaranteed Test', () => {
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
   })
 
-  it('Test Create SepaDirectDebitGGuaranteed payment type', async () => {
-    const ssd: SepaDirectDebitGGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGGuaranteed
+  it('Test Create SepaDirectDebitGuaranteed payment type', async () => {
+    const ssd: SepaDirectDebitGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGuaranteed
 
     expect(ssd.getId()).toBeDefined()
   })
 
-  it('Test Fetch SepaDirectDebitGGuaranteed payment type', async () => {
-    const ssd: SepaDirectDebitGGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGGuaranteed
-    const fetchSepaDirectDebitGGuaranteed: SepaDirectDebitGGuaranteed = await heidelpay.fetchPaymentType(ssd.getId()) as SepaDirectDebitGGuaranteed
+  it('Test Fetch SepaDirectDebitGuaranteed payment type', async () => {
+    const ssd: SepaDirectDebitGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGuaranteed
+    const fetchSepaDirectDebitGuaranteed: SepaDirectDebitGuaranteed = await heidelpay.fetchPaymentType(ssd.getId()) as SepaDirectDebitGuaranteed
 
-    expect(fetchSepaDirectDebitGGuaranteed.getId()).toEqual(ssd.getId())
+    expect(fetchSepaDirectDebitGuaranteed.getId()).toEqual(ssd.getId())
   })
 })

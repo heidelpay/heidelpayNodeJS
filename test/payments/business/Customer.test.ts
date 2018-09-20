@@ -41,4 +41,22 @@ describe('Customer test', () => {
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getCustomerId()).toEqual(fetchCustomer.getCustomerId())
   })
+
+  it('Test update customer', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
+
+    const updateDataCustomer = new Customer(customer.getFirstName(), customer.getLastName())
+    updateDataCustomer.setFirstName("Max")
+
+    const updatedCustomer = await heidelpay.updateCustomer(customer.getCustomerId(), updateDataCustomer)
+    const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
+    expect(updatedCustomer.getFirstName()).toEqual(fetchCustomer.getFirstName())
+  })
+
+  it('Test delete customer', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
+    const deleteCustomer = await heidelpay.deleteCustomer(customer.getCustomerId())
+
+    expect(deleteCustomer).toBeTruthy()
+  })
 })

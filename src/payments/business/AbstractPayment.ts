@@ -7,10 +7,6 @@ export default abstract class AbstractPayment {
   private _heidelpay: Heidelpay
   private _payment: Payment
 
-  /**
-   * Creates an instance of AbstractPayment.
-   * @param {Heidelpay} heidelpay
-   */
   constructor(heidelpay: Heidelpay) {
     this._heidelpay = heidelpay
     this._id = ''

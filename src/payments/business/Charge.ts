@@ -10,10 +10,6 @@ export default class Charge extends AbstractPayment {
   private resources: Resources
   private cancelList: Array<Cancel>
 
-  /**
-   * Creates an instance of Charge.
-   * @param {Heidelpay} heidelpay
-   */
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)

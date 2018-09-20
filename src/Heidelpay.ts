@@ -59,6 +59,27 @@ export default class Heidelpay {
   }
 
   /**
+   * Update customer
+   *
+   * @param {string} customerId
+   * @param {Customer} customer
+   * @returns {Promise<Customer>}
+   */
+  public updateCustomer(customerId: string, customer: Customer): Promise<Customer> {
+    return this.paymentService.updateCustomer(customerId, customer)
+  }
+
+  /**
+   * Delete a customer
+   *
+   * @param {string} customerId
+   * @returns {Promise<boolean>}
+   */
+  public deleteCustomer(customerId: string): Promise<boolean> {
+    return this.paymentService.deleteCustomer(customerId)
+  }
+
+  /**
    * Fetch a payment
    *
    * @param {string} orderId

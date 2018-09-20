@@ -1,0 +1,18 @@
+import * as apiURL from '../configs/ApiUrls'
+import PaymentService from './PaymentService'
+
+export default (customerId: string, paymentService: PaymentService): Promise<boolean> => {
+  return new Promise(async resolve => {
+    // Call api end point to get response
+    const response: any = await paymentService
+      .getRequestAdapter()
+      .delete(
+        `${apiURL.URL_CUSTOMER}/${customerId}`, 
+        {}, // send empty body when call delete customer
+        paymentService.getHeidelpay().getPrivateKey()
+      )
+
+    // Resolve final result
+    resolve(response)
+  })
+}
