@@ -1,43 +1,29 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 import Ideal from '../../../src/payments/types/Ideal'
 
 describe('Payment Type Ideal Test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+
+  const getIdeal = () => {
+    return new Ideal().setBankName("RABONL2U")
+  }
+
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/ideal', {
-      id: 's-idl-llany1bnku9e'
-    })
-
-    fetchMock.get('end:/types/ideal/s-idl-llany1bnku9e', {
-      id: 's-idl-llany1bnku9e',
-      method: 'ideal',
-      bankName: 'RABONL2U'
-    })
-  })
-
-  afterAll(() => {
-    fetchMock.restore()
   })
 
   it('Test Create Ideal payment type', async () => {
-    let ideal: Ideal = new Ideal()
-    ideal.setBankName('RABONL2U')
+    const ideal: Ideal = await heidelpay.createPaymentType(getIdeal()) as Ideal
 
-    const paymentIdeal: Ideal = await heidelpay.createPaymentType(ideal)
-
-    expect(paymentIdeal.getId()).toEqual('s-idl-llany1bnku9e')
+    expect(ideal.getId()).toBeDefined()
   })
 
-  it('Test Fetch Ideal payment', async () => {
-    let ideal: Ideal = new Ideal()
-    ideal.setBankName('RABONL2U')
+  it('Test Fetch Ideal payment type', async () => {
+    const ideal: Ideal = await heidelpay.createPaymentType(getIdeal()) as Ideal
+    const fetchIdeal: Ideal = await heidelpay.fetchPaymentType(ideal.getId()) as Ideal
 
-    const paymentIdeal: Ideal = await heidelpay.createPaymentType(ideal)
-    const fetchedIdeal: Ideal = await heidelpay.fetchPaymentType(paymentIdeal.getId())
-
-    expect(fetchedIdeal.getId()).toEqual('s-idl-llany1bnku9e')
-    expect(fetchedIdeal.getBankName()).toEqual(paymentIdeal.getBankName())
+    expect(fetchIdeal.getId()).toEqual(ideal.getId())
   })
 })

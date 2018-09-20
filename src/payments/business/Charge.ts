@@ -8,6 +8,7 @@ import Cancel, { cancelChargeObject } from './Cancel'
 export default class Charge extends AbstractPayment {
   private amount: string
   private resources: Resources
+  private cancelList: Array<Cancel>
 
   /**
    * Creates an instance of Charge.
@@ -46,6 +47,20 @@ export default class Charge extends AbstractPayment {
   }
 
   /**
+   * Set resources
+   *
+   * @param {*} resources
+   */
+  public setResources(resources: any) {
+    this.resources
+    .setCustomerId(resources.customerId)
+    .setMetadataId(resources.metadataId)
+    .setPaymentId(resources.paymentId)
+    .setTypeId(resources.typeId)
+    .setRiskId(resources.riskId)
+  }
+
+  /**
    * Refund (Cancel of charge)
    *
    * @param {number} [amount]
@@ -63,6 +78,24 @@ export default class Charge extends AbstractPayment {
 
     return this.getHeidelpay().cancelCharge(cancelChargePayload)
   }
+
+  public setCancelList(cancelList: Array<Cancel>) {
+    this.cancelList = cancelList
+  }
+
+  public getCancelList(): Array<Cancel> {
+    return this.cancelList
+  }
+
+  public getCancel(cancelId: string): Cancel {
+    const cancelItem = this.getCancelList().find((item: Cancel) => item.getId() === cancelId) as Cancel
+
+    if (cancelItem && cancelItem.getId()) {
+      return cancelItem
+    }
+
+    throw new Error(`Cancel Id is not found in list of transaction`)
+  }
 }
 
 export type chargeObject = {
@@ -70,5 +103,5 @@ export type chargeObject = {
   currency: string
   returnUrl: string
   typeId: string | PaymentType
-  customerId: string | Customer
+  customerId?: string | Customer
 }

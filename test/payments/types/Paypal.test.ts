@@ -1,39 +1,29 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 import Paypal from '../../../src/payments/types/Paypal'
 
 describe('Payment Type Paypal Test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+
+  const getPaypal = () => {
+    return new Paypal()
+  }
+
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/paypal', {
-      id: 's-ppl-llany1bnku9e'
-    })
-
-    fetchMock.get('end:/types/paypal/s-ppl-llany1bnku9e', {
-      id: 's-ppl-llany1bnku9e',
-      method: 'paypal'
-    })
-  })
-
-  afterAll(() => {
-    fetchMock.restore()
   })
 
   it('Test Create Paypal payment type', async () => {
-    let paypal: Paypal = new Paypal()
+    const paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
 
-    const paymentPaypal: Paypal = await heidelpay.createPaymentType(paypal)
-
-    expect(paymentPaypal.getId()).toEqual('s-ppl-llany1bnku9e')
+    expect(paypal.getId()).toBeDefined()
   })
 
-  it('Test Fetch Paypal payment', async () => {
-    let paypal: Paypal = new Paypal()
+  it('Test Fetch Paypal payment type', async () => {
+    const paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
+    const fetchPaypal: Paypal = await heidelpay.fetchPaymentType(paypal.getId()) as Paypal
 
-    const paymentPaypal: Paypal = await heidelpay.createPaymentType(paypal)
-    const fetchedpaypal: Paypal = await heidelpay.fetchPaymentType(paymentPaypal.getId())
-
-    expect(fetchedpaypal.getId()).toEqual(paymentPaypal.getId())
+    expect(fetchPaypal.getId()).toEqual(paypal.getId())
   })
 })

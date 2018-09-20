@@ -1,78 +1,63 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
-import Charge, { chargeObject } from '../../../src/payments/business/Charge'
-import Cancel, { cancelChargeObject } from '../../../src/payments/business/Cancel'
+import Charge from '../../../src/payments/business/Charge'
+import Cancel from '../../../src/payments/business/Cancel'
+import * as TestHelper from '../../helpers/TestHelper'
 
 describe('Cancel after charge test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+  let createPaymentTypeCard
+  const {getCharge, getCancelCharge} = TestHelper
 
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/cards', {
-      id: 's-crd-llany1bnku9e'
-    })
-
-    fetchMock.post('end:/payments/charges', {
-      id: 's-chg-1',
-      resources: {
-        customerId: '',
-        paymentId: 's-pay-3195',
-        basketId: '',
-        riskId: '',
-        metadataId: '',
-        typeId: 's-crd-egvhe5zs1imk'
-      }
-    })
-
-    fetchMock.post('end:/payments/s-pay-3195/charges/s-chg-1/cancels', {
-      id: 's-cnl-1',
-      resources: {
-        customerId: '',
-        paymentId: 's-pay-3195',
-        basketId: '',
-        riskId: '',
-        metadataId: '',
-        typeId: 's-crd-egvhe5zs1imk'
-      }
-    })
+    createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
-  afterAll(() => {
-    fetchMock.restore()
-  })
-
-  it('Test refund after charge', async () => {
-    const chargePayload: chargeObject = {
-      amount: 5,
-      currency: 'EUR',
-      returnUrl: 'https://www.google.at',
-      customerId: 's-cst-27001cb455ba',
-      typeId: 's-crd-llany1bnku9e'
-    }
-
-    const charge: Charge = await heidelpay.charge(chargePayload)
-    const cancelCharge: Cancel = await charge.cancel()
+  it('Test fetch charge with Id', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const fetchCharge: Charge = await heidelpay.fetchCharge(charge.getResources().getPaymentId(), charge.getId())
 
     expect(charge).toBeInstanceOf(Charge)
-    expect(charge.getId()).toEqual('s-chg-1')
-    expect(cancelCharge.getId()).toEqual('s-cnl-1')
+    expect(charge.getId()).toEqual(fetchCharge.getId())
   })
 
-  it('Test reversal partial after charge', async () => {
-    const chargePayload: chargeObject = {
-      amount: 100,
-      currency: 'EUR',
-      returnUrl: 'https://www.google.at',
-      customerId: 's-cst-27001cb455ba',
-      typeId: 's-crd-llany1bnku9e'
-    }
+  it('Test full refund with Id', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const cancel: Cancel = await heidelpay.cancelCharge(getCancelCharge(charge.getResources().getPaymentId(), charge.getId()))
 
-    const charge: Charge = await heidelpay.charge(chargePayload)
-    const cancelcharge: Cancel = await charge.cancel(50)
+    expect(cancel).toBeInstanceOf(Cancel)
+    expect(cancel.getId()).toBeDefined()
+  })
 
-    expect(charge).toBeInstanceOf(Charge)
-    expect(charge.getId()).toEqual('s-chg-1')
+  it('Test full refund with charge', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const fetchCharge: Charge = await heidelpay.fetchCharge(charge.getResources().getPaymentId(), charge.getId())
+    const cancel: Cancel = await fetchCharge.cancel()
 
-    expect(cancelcharge.getId()).toEqual('s-cnl-1')
+    expect(cancel).toBeInstanceOf(Cancel)
+    expect(cancel.getId()).toBeDefined()
+  })
+
+  it('Test partial refund with Id', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const cancel: Cancel = await heidelpay.cancelCharge(getCancelCharge(charge.getResources().getPaymentId(), charge.getId(), 10))
+
+    expect(cancel).toBeInstanceOf(Cancel)
+    expect(cancel.getId()).toBeDefined()
+  })
+
+  it('Test partial refund with charge', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const fetchCharge: Charge = await heidelpay.fetchCharge(charge.getResources().getPaymentId(), charge.getId())
+    const cancel: Cancel = await fetchCharge.cancel(10)
+
+    expect(cancel).toBeInstanceOf(Cancel)
+    expect(cancel.getId()).toBeDefined()
   })
 })

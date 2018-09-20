@@ -1,41 +1,29 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 import Przelewy24 from '../../../src/payments/types/Przelewy24'
 
-describe('Payment Type Przelewy Test', () => {
-  let heidelpay
+describe('Payment Type Przelewy24 Test', () => {
+  let heidelpay: Heidelpay
+
+  const getPrzelewy24 = () => {
+    return new Przelewy24()
+  }
+
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/przelewy24', {
-      id: 's-p24-llany1bnku9e'
-    })
-
-    fetchMock.get('end:/types/przelewy24/s-p24-llany1bnku9e', {
-      id: 's-p24-llany1bnku9e',
-      method: 'przelewy24'
-    })
   })
 
-  afterAll(() => {
-    fetchMock.restore()
+  it('Test Create Przelewy24 payment type', async () => {
+    const przelewy24: Przelewy24 = await heidelpay.createPaymentType(getPrzelewy24()) as Przelewy24
+
+    expect(przelewy24.getId()).toBeDefined()
   })
 
-  it('Test Create Przelewy payment type', async () => {
-    let przelewy24: Przelewy24 = new Przelewy24()
+  it('Test Fetch Przelewy24 payment type', async () => {
+    const przelewy24: Przelewy24 = await heidelpay.createPaymentType(getPrzelewy24()) as Przelewy24
+    const fetchPrzelewy24: Przelewy24 = await heidelpay.fetchPaymentType(przelewy24.getId()) as Przelewy24
 
-    const paymentPrzelewy24: Przelewy24 = await heidelpay.createPaymentType(przelewy24)
-
-    expect(paymentPrzelewy24.getId()).toEqual('s-p24-llany1bnku9e')
-  })
-
-  it('Test Fetch Przelewy payment', async () => {
-    let przelewy24: Przelewy24 = new Przelewy24()
-
-    const paymentPrzelewy24: Przelewy24 = await heidelpay.createPaymentType(przelewy24)
-    const fetchedPrzelewy24: Przelewy24 = await heidelpay.fetchPaymentType(
-      paymentPrzelewy24.getId()
-    )
-
-    expect(fetchedPrzelewy24.getId()).toEqual(paymentPrzelewy24.getId())
+    expect(fetchPrzelewy24.getId()).toEqual(przelewy24.getId())
   })
 })

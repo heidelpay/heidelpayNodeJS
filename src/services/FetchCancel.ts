@@ -1,7 +1,5 @@
 import PaymentService from './PaymentService'
 import Cancel from '../payments/business/Cancel'
-import ResponseResourceMapper from './mappers/ResponseResourceMapper'
-import AbstractPayment from '../payments/business/AbstractPayment'
 
 export default (args: string, paymentService: PaymentService): Promise<Cancel> => {
   return new Promise(async resolve => {
@@ -16,8 +14,11 @@ export default (args: string, paymentService: PaymentService): Promise<Cancel> =
     // Set cancel Id
     cancel.setId(response.id)
 
-    // Mapper resources
-    cancel = ResponseResourceMapper(cancel as AbstractPayment, response.resources) as Cancel
+    // Set amount of cancel
+    cancel.setAmount(response.amount)
+
+    // Set resources
+    cancel.setResources(response.resources)
 
     // Resolve final result
     resolve(cancel)

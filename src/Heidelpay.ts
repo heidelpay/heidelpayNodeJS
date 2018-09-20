@@ -79,6 +79,48 @@ export default class Heidelpay {
   }
 
   /**
+   * Fetch authorization transaction
+   *
+   * @param {string} paymentId
+   * @returns {Promise<Authorization>}
+   */
+  public fetchAuthorization(paymentId: string): Promise<Authorization> {
+    return new Promise(async (resolve) => {
+      const payment = await this.paymentService.fetchPayment(paymentId) as Payment
+      resolve(payment.getAuthorization())
+    })
+  }
+
+  /**
+   * Fetch charge transaction
+   *
+   * @param {string} paymentId
+   * @param {string} chargeId
+   * @returns {Promise<Charge>}
+   */
+  public fetchCharge(paymentId: string, chargeId: string): Promise<Charge> {
+    return new Promise(async (resolve) => {
+      const payment = await this.paymentService.fetchPayment(paymentId) as Payment
+      resolve(payment.getCharge(chargeId))
+    })
+  }
+
+  /**
+   * Fetch cancel transaction
+   *
+   * @param {string} paymentId
+   * @param {string} refundId
+   * @param {string} cancelId
+   * @returns {Promise<Cancel>}
+   */
+  public fetchCancel(paymentId: string, refundId: string, cancelId: string): Promise<Cancel> {
+    return new Promise(async (resolve) => {
+      const payment = await this.paymentService.fetchPayment(paymentId) as Payment
+      resolve(payment.getCancel(cancelId, refundId))
+    })
+  }
+
+  /**
    * Heidelpay Authorize
    *
    * @param {number} amount
@@ -87,19 +129,23 @@ export default class Heidelpay {
    * @returns {Authorization}
    */
   public async authorize(args: authorizeObject): Promise<Authorization> {
-    const { typeId, customerId } = args
+    let { typeId, customerId } = args
 
+    // If typeId is a instance of PaymentType (not string)
+    // we will create a payment first then authorize with paymentTypeId
     if (typeId instanceof AbstractPaymentType) {
       const paymentType: PaymentType = await this.createPaymentType(typeId)
-      return this.paymentService.authorize({ ...args, typeId: paymentType.getId() })
+      typeId = paymentType.getId()
     }
 
+    // If customerId is a instance of Customer (not string)
+    // we will create a payment first then authorize with paymentTypeId
     if (customerId instanceof Customer) {
       const customer: Customer = await this.createCustomer(customerId)
-      return this.paymentService.authorize({ ...args, customerId: customer.getCustomerId() })
+      customerId = customer.getCustomerId()
     }
 
-    return this.paymentService.authorize(args)
+    return this.paymentService.authorize({ ...args, typeId: typeId, customerId: customerId })
   }
 
   /**
@@ -109,19 +155,23 @@ export default class Heidelpay {
    * @returns {Promise<Charge>}
    */
   public async charge(args: chargeObject): Promise<Charge> {
-    const { typeId, customerId } = args
+    let { typeId, customerId } = args
 
+    // If typeId is a instance of PaymentType (not string)
+    // we will create a payment first then authorize with paymentTypeId
     if (typeId instanceof AbstractPaymentType) {
       const paymentType: PaymentType = await this.createPaymentType(typeId)
-      return this.paymentService.charge({ ...args, typeId: paymentType.getId() })
+      typeId = paymentType.getId()
     }
 
+    // If customerId is a instance of Customer (not string)
+    // we will create a payment first then authorize with paymentTypeId
     if (customerId instanceof Customer) {
       const customer: Customer = await this.createCustomer(customerId)
-      return this.paymentService.charge({ ...args, customerId: customer.getCustomerId() })
+      customerId = customer.getCustomerId()
     }
 
-    return this.paymentService.charge(args)
+    return this.paymentService.charge({ ...args, typeId: typeId, customerId: customerId })
   }
 
   /**

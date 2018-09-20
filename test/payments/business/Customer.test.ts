@@ -1,63 +1,44 @@
 import { Customer, Salutation, Address } from '../../../src/payments/Customer'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 
 describe('Customer test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+  const {createMiniumCustomer, createFullCustomer} = TestHelper
 
-  beforeEach(() => {
-    heidelpay = new Heidelpay('s-pri-xxx')
+  beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
+    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
   })
 
-  it('Test create Customer Builder', () => {
-    const customer: Customer = new Customer()
-
+  it('Test create minium customer', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createMiniumCustomer())
+    
     expect(customer).toBeInstanceOf(Customer)
+    expect(customer.getFirstName()).toEqual(createMiniumCustomer().getFirstName())
+    expect(customer.getLastName()).toEqual(createMiniumCustomer().getLastName())
   })
 
-  it('Test set firstName and lastName into customer builder', () => {
-    const address: Address = {
-      name: 'Peter Universum',
-      street: 'Hugo-Junkers-Str. 5',
-      state: 'DE-BO',
-      zip: '60386',
-      city: 'Frankfurt am Main',
-      country: 'DE'
-    }
-
-    const customer: Customer = new Customer()
-      .setFirstName('John')
-      .setLastName('Doe')
-      .setSalutation(Salutation.mr)
-      .setCustomerId('45678')
-      .setBirthDate('1972-12-24')
-      .setEmail('John.Doe@heidelpay.com')
-      .setPhone('+49 6221 64 71 100')
-      .setMobile('+49 172 123 456')
-      .setAddress(address)
-
-    expect(customer.getFirstName()).toEqual('John')
-    expect(customer.getLastName()).toEqual('Doe')
-    expect(customer.getSalutation()).toEqual(Salutation.mr)
-    expect(customer.getCustomerId()).toEqual('45678')
-    expect(customer.getBirthDate()).toEqual('1972-12-24')
-    expect(customer.getEmail()).toEqual('John.Doe@heidelpay.com')
-    expect(customer.getPhone()).toEqual('+49 6221 64 71 100')
-    expect(customer.getMobile()).toEqual('+49 172 123 456')
-    expect(customer.getAddress()).toEqual(address)
+  it('Test create full customer', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
+    
+    expect(customer).toBeInstanceOf(Customer)
+    expect(customer.getCustomerId()).toBeDefined()
   })
 
-  it('Test Heidelpay class create Customer', () => {
-    const customer: Customer = new Customer()
-      .setFirstName('John')
-      .setLastName('Doe')
-      .setSalutation(Salutation.mr)
-      .setCustomerId('45678')
-      .setBirthDate('1972-12-24')
-      .setEmail('John.Doe@heidelpay.com')
-      .setPhone('+49 6221 64 71 100')
-      .setMobile('+49 172 123 456')
+  it('Test fetch minium customer', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createMiniumCustomer())
+    const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
+    
+    expect(customer).toBeInstanceOf(Customer)
+    expect(customer.getCustomerId()).toEqual(fetchCustomer.getCustomerId())
+  })
 
-    const newCustomer = heidelpay.createCustomer(customer)
-    expect(newCustomer).toBeInstanceOf(Promise)
+  it('Test fetch full customer', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
+    const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
+    
+    expect(customer).toBeInstanceOf(Customer)
+    expect(customer.getCustomerId()).toEqual(fetchCustomer.getCustomerId())
   })
 })

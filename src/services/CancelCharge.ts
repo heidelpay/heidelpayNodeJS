@@ -2,13 +2,13 @@ import * as apiURL from '../configs/ApiUrls'
 import * as Utils from '../utils/Utils'
 import PaymentService from './PaymentService'
 import Cancel, { cancelChargeObject } from '../payments/business/Cancel'
-import ResponseResourceMapper from './mappers/ResponseResourceMapper'
-import AbstractPayment from '../payments/business/AbstractPayment'
+import FetchPayment from './FetchPayment'
 
 export default (args: cancelChargeObject, paymentService: PaymentService): Promise<Cancel> => {
   return new Promise(async resolve => {
     let payload: any = {}
 
+    // Add amount into payload if its passed
     if (args.amount) {
       payload.amount = args.amount
     }
@@ -29,8 +29,14 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
     // Set cancel Id
     cancel.setId(response.id)
 
-    // Mapper resources
-    cancel = ResponseResourceMapper(cancel as AbstractPayment, response.resources) as Cancel
+    // Set amount of cancel
+    cancel.setAmount(response.amount)
+
+    // Set resources
+    cancel.setResources(response.resources)
+
+    // Set payment object
+    cancel.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
 
     // Resolve final result
     resolve(cancel)

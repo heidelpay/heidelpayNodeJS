@@ -3,6 +3,7 @@ import Heidelpay from '../../Heidelpay'
 import Resources from '../Resources'
 
 export default class Cancel extends AbstractPayment {
+  private amount: string
   private resources: Resources
   private refundId: string
 
@@ -13,6 +14,24 @@ export default class Cancel extends AbstractPayment {
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)
+  }
+
+  /**
+   * Set Amount
+   *
+   * @param {string} amount
+   */
+  public setAmount(amount: string) {
+    this.amount = amount
+  }
+
+  /**
+   * Get Amount
+   *
+   * @returns {string}
+   */
+  public getAmount(): string {
+    return this.amount
   }
 
   /**
@@ -40,6 +59,20 @@ export default class Cancel extends AbstractPayment {
    */
   public getResources(): Resources {
     return this.resources
+  }
+
+  /**
+   * Set resources
+   *
+   * @param {*} resources
+   */
+  public setResources(resources: any) {
+    this.resources
+    .setCustomerId(resources.customerId)
+    .setMetadataId(resources.metadataId)
+    .setPaymentId(resources.paymentId)
+    .setTypeId(resources.typeId)
+    .setRiskId(resources.riskId)
   }
 }
 

@@ -1,39 +1,29 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 import Sofort from '../../../src/payments/types/Sofort'
 
 describe('Payment Type Sofort Test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+
+  const getSofort = () => {
+    return new Sofort()
+  }
+
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/sofort', {
-      id: 's-sft-llany1bnku9e'
-    })
-
-    fetchMock.get('end:/types/sofort/s-sft-llany1bnku9e', {
-      id: 's-sft-llany1bnku9e',
-      method: 'sofort'
-    })
-  })
-
-  afterAll(() => {
-    fetchMock.restore()
   })
 
   it('Test Create Sofort payment type', async () => {
-    let sofort: Sofort = new Sofort()
+    const sofort: Sofort = await heidelpay.createPaymentType(getSofort()) as Sofort
 
-    const paymentSofort: Sofort = await heidelpay.createPaymentType(sofort)
-
-    expect(paymentSofort.getId()).toEqual('s-sft-llany1bnku9e')
+    expect(sofort.getId()).toBeDefined()
   })
 
-  it('Test Fetch Sofort payment', async () => {
-    let sofort: Sofort = new Sofort()
+  it('Test Fetch Sofort payment type', async () => {
+    const sofort: Sofort = await heidelpay.createPaymentType(getSofort()) as Sofort
+    const fetchSofort: Sofort = await heidelpay.fetchPaymentType(sofort.getId()) as Sofort
 
-    const paymentSofort: Sofort = await heidelpay.createPaymentType(sofort)
-    const fetchedSofort: Sofort = await heidelpay.fetchPaymentType(paymentSofort.getId())
-
-    expect(fetchedSofort.getId()).toEqual(paymentSofort.getId())
+    expect(fetchSofort.getId()).toEqual(sofort.getId())
   })
 })

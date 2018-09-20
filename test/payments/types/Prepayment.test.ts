@@ -1,41 +1,29 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 import Prepayment from '../../../src/payments/types/Prepayment'
 
 describe('Payment Type Prepayment Test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+
+  const getPrepayment = () => {
+    return new Prepayment()
+  }
+
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/prepayment', {
-      id: 's-ppy-llany1bnku9e'
-    })
-
-    fetchMock.get('end:/types/prepayment/s-ppy-llany1bnku9e', {
-      id: 's-ppy-llany1bnku9e',
-      method: 'prepayment'
-    })
-  })
-
-  afterAll(() => {
-    fetchMock.restore()
   })
 
   it('Test Create Prepayment payment type', async () => {
-    let prepayment: Prepayment = new Prepayment()
+    const prepayment: Prepayment = await heidelpay.createPaymentType(getPrepayment()) as Prepayment
 
-    const paymentPrepayment: Prepayment = await heidelpay.createPaymentType(prepayment)
-
-    expect(paymentPrepayment.getId()).toEqual('s-ppy-llany1bnku9e')
+    expect(prepayment.getId()).toBeDefined()
   })
 
-  it('Test Fetch Prepayment payment', async () => {
-    let prepayment: Prepayment = new Prepayment()
+  it('Test Fetch Prepayment payment type', async () => {
+    const prepayment: Prepayment = await heidelpay.createPaymentType(getPrepayment()) as Prepayment
+    const fetchPrepayment: Prepayment = await heidelpay.fetchPaymentType(prepayment.getId()) as Prepayment
 
-    const paymentPrepayment: Prepayment = await heidelpay.createPaymentType(prepayment)
-    const fetchedPrzelewy24: Prepayment = await heidelpay.fetchPaymentType(
-      paymentPrepayment.getId()
-    )
-
-    expect(fetchedPrzelewy24.getId()).toEqual(paymentPrepayment.getId())
+    expect(fetchPrepayment.getId()).toEqual(prepayment.getId())
   })
 })

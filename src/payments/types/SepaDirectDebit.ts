@@ -8,6 +8,15 @@ export default class SepaDirectDebit extends AbstractPaymentType implements Paym
   private _holder: string
 
   /**
+   * Creates an instance of SepaDirectDebit.
+   * @param {string} iban
+   */
+  constructor(iban: string) {
+    super()
+    this._iban = iban
+  }
+
+  /**
    * Set iban number
    *
    * @param {string} iban
@@ -82,6 +91,10 @@ export default class SepaDirectDebit extends AbstractPaymentType implements Paym
    * @returns
    */
   public getPayload() {
-    return {}
+    return {
+      iban: this.getIban(),
+      bic: this.getBic(),
+      holder: this.getHolder(),
+    }
   }
 }

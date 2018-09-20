@@ -2,10 +2,7 @@ import PaymentType from '../payments/types/PaymentType'
 import PaymentService from './PaymentService'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
 
-export default (
-  paymentType: AbstractPaymentType,
-  paymentService: PaymentService
-): Promise<PaymentType> => {
+export default (paymentType: AbstractPaymentType, paymentService: PaymentService): Promise<PaymentType> => {
   return new Promise(async resolve => {
     // Call api end point to get response
     const response: any = await paymentService

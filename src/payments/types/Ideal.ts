@@ -40,6 +40,8 @@ export default class Ideal extends AbstractPaymentType implements PaymentType {
    * @returns
    */
   public getPayload() {
-    return {}
+    return {
+      bankName: this.getBankName()
+    }
   }
 }

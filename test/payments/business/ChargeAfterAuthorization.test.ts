@@ -1,85 +1,60 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
-import Authorization, { authorizeObject } from '../../../src/payments/business/Authorization'
+import Authorization from '../../../src/payments/business/Authorization'
 import Charge from '../../../src/payments/business/Charge'
+import * as TestHelper from '../../helpers/TestHelper'
 
 describe('Charge after authorize test', () => {
-  let heidelpay
+  let heidelpay: Heidelpay
+  let createPaymentTypeCard
+  const {getChargeAuthorization, getAuthorization} = TestHelper
 
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/cards', {
-      id: 's-crd-llany1bnku9e'
-    })
-
-    fetchMock.post('end:/customers', {
-      id: 's-cst-27001cb455ba'
-    })
-
-    fetchMock.post('end:/payments/authorize', {
-      id: 's-aut-1',
-      resources: {
-        customerId: '',
-        paymentId: 's-pay-3195',
-        basketId: '',
-        riskId: '',
-        metadataId: '',
-        typeId: 's-crd-egvhe5zs1imk'
-      }
-    })
-
-    fetchMock.post('end:/payments/s-pay-3195/charges', {
-      id: 's-chg-1',
-      resources: {
-        customerId: '',
-        paymentId: 's-pay-3195',
-        basketId: '',
-        riskId: '',
-        metadataId: '',
-        typeId: 's-crd-egvhe5zs1imk'
-      }
-    })
+    createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
-  afterAll(() => {
-    fetchMock.restore()
+  it('Test fetch authorization', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+    const fetchAuthorize: Authorization = await heidelpay.fetchAuthorization(authorize.getResources().getPaymentId())
+
+    expect(fetchAuthorize).toBeInstanceOf(Authorization)
   })
 
-  it('Test charge after authorize', async () => {
-    const authorizePayload: authorizeObject = {
-      amount: 100,
-      currency: 'EUR',
-      typeId: 's-crd-rcgriiqelkum',
-      returnUrl: 'https://www.google.at'
-    }
+  it('Test full charge after authorization', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+    const charge: Charge = await authorize.charge()
 
-    const authorize: Authorization = await heidelpay.authorize(authorizePayload)
-    const chargeAuthorize: Charge = await authorize.charge()
-
-    expect(authorize).toBeInstanceOf(Authorization)
-    expect(authorize.getId()).toEqual('s-aut-1')
-
-    expect(chargeAuthorize.getId()).toEqual('s-chg-1')
-    expect(chargeAuthorize.getResources().getPaymentId()).toEqual('s-pay-3195')
-    expect(chargeAuthorize.getResources().getTypeId()).toEqual('s-crd-egvhe5zs1imk')
+    expect(charge).toBeInstanceOf(Charge)
+    expect(charge.getId()).toBeDefined()
   })
 
-  it('Test charge partial after authorize', async () => {
-    const authorizePayload: authorizeObject = {
-      amount: 100,
-      currency: 'EUR',
-      typeId: 's-crd-rcgriiqelkum',
-      returnUrl: 'https://www.google.at'
-    }
+  it('Test partial charge after authorization', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+    const charge: Charge = await authorize.charge(50)
 
-    const authorize: Authorization = await heidelpay.authorize(authorizePayload)
-    const chargeAuthorize: Charge = await authorize.charge(50)
+    expect(charge).toBeInstanceOf(Charge)
+    expect(charge.getId()).toBeDefined()
+  })
 
-    expect(authorize).toBeInstanceOf(Authorization)
-    expect(authorize.getId()).toEqual('s-aut-1')
+  it('Test full charge after authorization with Heidelpay', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+    const charge: Charge = await heidelpay.chargeAuthorization(getChargeAuthorization(authorize.getResources().getPaymentId()))
 
-    expect(chargeAuthorize.getId()).toEqual('s-chg-1')
-    expect(chargeAuthorize.getResources().getPaymentId()).toEqual('s-pay-3195')
-    expect(chargeAuthorize.getResources().getTypeId()).toEqual('s-crd-egvhe5zs1imk')
+    expect(charge).toBeInstanceOf(Charge)
+    expect(charge.getId()).toBeDefined()
+  })
+
+  it('Test partial charge after authorization with Heidelpay', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+    const charge: Charge = await heidelpay.chargeAuthorization(getChargeAuthorization(authorize.getResources().getPaymentId(), 50))
+
+    expect(charge).toBeInstanceOf(Charge)
+    expect(charge.getId()).toBeDefined()
   })
 })
