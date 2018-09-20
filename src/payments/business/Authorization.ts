@@ -36,6 +36,7 @@ export default class Authorization extends AbstractPayment {
   public getAmount(): string {
     return this.amount
   }
+
   /**
    * Charge after authorize
    *
@@ -80,6 +81,20 @@ export default class Authorization extends AbstractPayment {
    */
   public getResources(): Resources {
     return this.resources
+  }
+
+  /**
+   * Set resources
+   *
+   * @param {*} resources
+   */
+  public setResources(resources: any) {
+    this.resources
+    .setCustomerId(resources.customerId)
+    .setMetadataId(resources.metadataId)
+    .setPaymentId(resources.paymentId)
+    .setTypeId(resources.typeId)
+    .setRiskId(resources.riskId)
   }
 }
 

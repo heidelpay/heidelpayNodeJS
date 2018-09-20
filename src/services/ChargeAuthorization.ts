@@ -3,8 +3,7 @@ import * as Utils from '../utils/Utils'
 import PaymentService from './PaymentService'
 import Charge from '../payments/business/Charge'
 import { chargeAuthorizeObject } from '../payments/business/Authorization'
-import ResponseResourceMapper from './mappers/ResponseResourceMapper'
-import AbstractPayment from '../payments/business/AbstractPayment'
+import FetchPayment from './FetchPayment'
 
 export default (args: chargeAuthorizeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async resolve => {
@@ -29,8 +28,11 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
     // Set charge Id
     charge.setId(response.id)
 
-    // Mapper resources
-    charge = ResponseResourceMapper(charge as AbstractPayment, response.resources) as Charge
+    // Set resources
+    charge.setResources(response.resources)
+
+    // Set payment object
+    charge.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
 
     // Resolve final result
     resolve(charge)

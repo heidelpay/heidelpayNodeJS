@@ -1,15 +1,13 @@
 import * as apiURL from '../configs/ApiUrls'
 import Payment from '../payments/business/Payment'
 import PaymentService from './PaymentService'
-import ResponseResourceMapper from './mappers/ResponseResourceMapper'
-import AbstractPayment from '../payments/business/AbstractPayment'
 import Authorization from '../payments/business/Authorization'
 import { getRefundIdOfCancel } from '../utils/Utils'
-import AuthorizationService from './Authorization'
-import ChargeService from './Charge'
-import CancelService from './Cancel'
+import FetchCancel from './FetchCancel'
 import Charge from '../payments/business/Charge'
 import Cancel from '../payments/business/Cancel'
+import FetchCharge from './FetchCharge'
+import FetchAuthorization from './FetchAuthorization';
 
 export default (paymentId: string, paymentService: PaymentService): Promise<Payment> => {
   return new Promise(async (resolve, reject) => {
@@ -29,30 +27,24 @@ export default (paymentId: string, paymentService: PaymentService): Promise<Paym
     // Set payment Id
     payment.setId(response.id)
 
-    // Mapper resources
-    payment = ResponseResourceMapper(payment as AbstractPayment, response.resources) as Payment
+    // Set resources
+    payment.setResources(response.resources)
 
     // Fetch authorization transaction and set to payment object
-    const authorization: Authorization = await _getAuthorization(
-      response.transactions,
-      paymentService
-    )
-    payment.setAuthorization(authorization)
-
-    // Fetch charge list transaction and set to payment object
-    const chargeList: Array<Charge> = await _getChargeList(response.transactions, paymentService)
-    payment.setChargeList(chargeList)
+    payment.setAuthorization(await _fetchAuthorization(response.transactions, paymentService))
 
     // Fetch cancel list transaction and set to payment object
-    const canceList: Array<Cancel> = await _getCancelList(response.transactions, paymentService)
-    payment.setCancelList(canceList)
+    payment.setCancelList(await _fetchCancelList(payment, response.transactions, paymentService))
+
+    // Fetch charge list transaction and set to payment object
+    payment.setChargeList(await _fetchChargeList(payment, response.transactions, paymentService))
 
     // Resolve final result
     resolve(payment)
   })
 }
 
-const _getAuthorization = (
+const _fetchAuthorization = (
   transactions: any,
   paymentService: PaymentService
 ): Promise<Authorization> => {
@@ -60,29 +52,41 @@ const _getAuthorization = (
     // Find transaction authorize in list of transactions
     const authorizeItem = transactions.find((item: any) => item.type === 'authorize')
 
-    // Call Authorization service to fetch transaction
-    const authorization: Authorization = await AuthorizationService(
-      authorizeItem.url,
-      paymentService
-    )
-
-    // Resolve final result
-    resolve(authorization)
+    if(typeof authorizeItem === 'undefined') {
+      resolve() // No authorize Item found
+    } else {
+      // Call Authorization service to fetch transaction
+      const authorization: Authorization = await FetchAuthorization(
+        authorizeItem.url,
+        paymentService
+      )
+  
+      // Resolve final result
+      resolve(authorization)
+    }
   })
 }
 
-const _getChargeList = (
+const _fetchChargeList = (
+  payment: Payment,
   transactions: any,
-  paymentService: PaymentService
+  paymentService: PaymentService,
 ): Promise<Array<Charge>> => {
   return new Promise(async resolve => {
     // Find charge list in list of transactions
     const chargeListItem = transactions.filter((item: any) => item.type === 'charge')
     const chargeList: Array<Charge> = []
+    const cancelList: Array<Cancel> = payment.getCancelList()
 
     const promiseCharge = chargeListItem.map(async (item: any) => {
       // Call Charge service to fetch transaction
-      const charge: Charge = await ChargeService(item.url, paymentService)
+      const charge: Charge = await FetchCharge(item.url, paymentService)
+
+      // Set payment object in cancel
+      charge.setPayment(payment)
+
+      // Set cancel list for charge object
+      charge.setCancelList(cancelList.filter((itemCancel: any) => itemCancel.getRefundId() === charge.getId()))
 
       // Push charge instance to chargeList array
       chargeList.push(charge)
@@ -96,26 +100,27 @@ const _getChargeList = (
   })
 }
 
-const _getCancelList = (
+const _fetchCancelList = (
+  payment: Payment,
   transactions: any,
   paymentService: PaymentService
 ): Promise<Array<Cancel>> => {
   return new Promise(async resolve => {
     // Find charge list in list of transactions
     const cancelListItem = transactions.filter(
-      (item: any) => item.type === 'cancel' || item.type === 'cancel-charge'
+      (item: any) => item.type === 'cancel' || item.type === 'cancel-charge' || item.type === 'cancel-authorize'
     )
     const cancelList: Array<Cancel> = []
 
     const promiseCancel = cancelListItem.map(async (item: any) => {
-      // Call Charge service to fetch transaction
-      const cancel: Cancel = await CancelService(item.url, paymentService)
-
-      // Get refund Id from cancel url
-      const refundId = getRefundIdOfCancel(item.url)
+      // Call Cancel service to fetch transaction
+      const cancel: Cancel = await FetchCancel(item.url, paymentService)
+      
+      // Set payment object in cancel
+      cancel.setPayment(payment)
 
       // Set refund Id of cancel
-      cancel.setRefundId(refundId)
+      cancel.setRefundId(getRefundIdOfCancel(item.url))
 
       // Push charge instance to cancelList array
       cancelList.push(cancel)

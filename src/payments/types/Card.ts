@@ -29,7 +29,7 @@ export default class Card extends AbstractPaymentType implements PaymentType {
    */
   public getPayload() {
     return {
-      pan: this.getPanNumber(),
+      number: this.getPanNumber(),
       cvc: this.getCVC(),
       expiryDate: this.getExpiryDate()
     }

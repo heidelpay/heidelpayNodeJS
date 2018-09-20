@@ -65,9 +65,9 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
     case 'p24':
       return new Przelewy24()
     case 'sdd':
-      return new SepaDirectDebit()
+      return new SepaDirectDebit("")
     case 'ddg':
-      return new SepaDirectDebitGuaranteed()
+      return new SepaDirectDebitGuaranteed("")
     case 'sft':
       return new Sofort()
     default:
@@ -80,8 +80,8 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
     case 'card':
       const card: Card = new Card()
         .setPanNumber(response.number)
-        .setExpiryDate(response.expiry)
-        .setCVC(response.cvv)
+        .setExpiryDate(response.expiryDate)
+        .setCVC(response.cvc)
 
       card.setId(response.id)
       return card
@@ -135,18 +135,17 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       return prepayment
 
     case 'sepa-direct-debit':
-      const sepaDirectDebit: SepaDirectDebit = new SepaDirectDebit()
-      sepaDirectDebit
+      const sepaDirectDebit: SepaDirectDebit = new SepaDirectDebit(response.iban)
         .setBic(response.bic)
-        .setIban(response.iban)
         .setHolder(response.holder)
 
       sepaDirectDebit.setId(response.id)
       return sepaDirectDebit
 
     case 'sepa-direct-debit-guaranteed':
-      const ddg: SepaDirectDebitGuaranteed = new SepaDirectDebitGuaranteed()
-      ddg.setIban(response.iban)
+      const ddg: SepaDirectDebitGuaranteed = new SepaDirectDebitGuaranteed(response.iban)
+      .setBic(response.bic)
+      .setHolder(response.holder)
 
       ddg.setId(response.id)
       return ddg

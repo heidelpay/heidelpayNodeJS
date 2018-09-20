@@ -2,8 +2,7 @@ import * as apiURL from '../configs/ApiUrls'
 import * as Utils from '../utils/Utils'
 import PaymentService from './PaymentService'
 import Cancel, { cancelAuthorizeObject } from '../payments/business/Cancel'
-import AbstractPayment from '../payments/business/AbstractPayment'
-import ResponseResourceMapper from './mappers/ResponseResourceMapper'
+import FetchPayment from './FetchPayment'
 
 export default (args: cancelAuthorizeObject, paymentService: PaymentService): Promise<Cancel> => {
   return new Promise(async resolve => {
@@ -14,16 +13,15 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
       payload.amount = args.amount
     }
 
-    // Parse and replace URL with parameters
-    const requestUrl = Utils.replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
-      paymentId: args.paymentId,
-      authorizationId: args.authorizationId
-    })
-
     // Call api end point to get response
-    const response: any = await paymentService
-      .getRequestAdapter()
-      .post(requestUrl, payload, paymentService.getHeidelpay().getPrivateKey())
+    const response: any = await paymentService.getRequestAdapter().post(
+      Utils.replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
+        paymentId: args.paymentId,
+        authorizationId: args.authorizationId
+      }),
+      payload,
+      paymentService.getHeidelpay().getPrivateKey()
+    )
 
     // New Cancel with Hedeipay instance
     let cancel = new Cancel(paymentService.getHeidelpay())
@@ -31,8 +29,14 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
     // Set cancel Id
     cancel.setId(response.id)
 
-    // Mapper resources
-    cancel = ResponseResourceMapper(cancel as AbstractPayment, response.resources) as Cancel
+    // Set amount of cancel
+    cancel.setAmount(response.amount)
+
+    // Set resources
+    cancel.setResources(response.resources)
+
+    // Set payment object
+    cancel.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
 
     // Resolve final result
     resolve(cancel)

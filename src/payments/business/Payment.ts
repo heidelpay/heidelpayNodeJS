@@ -26,6 +26,20 @@ export default class Payment extends AbstractPayment {
   }
 
   /**
+   * Set resources
+   *
+   * @param {*} resources
+   */
+  public setResources(resources: any) {
+    this.resources
+    .setCustomerId(resources.customerId)
+    .setMetadataId(resources.metadataId)
+    .setPaymentId(resources.paymentId)
+    .setTypeId(resources.typeId)
+    .setRiskId(resources.riskId)
+  }
+
+  /**
    * Set authorize transaction
    *
    * @param {Authorization} authorization
@@ -72,7 +86,7 @@ export default class Payment extends AbstractPayment {
       (item: Charge) => item.getId() === chargeId
     ) as Charge
 
-    if (chargeItem.getId()) {
+    if (chargeItem && chargeItem.getId()) {
       return chargeItem
     }
 
@@ -108,7 +122,7 @@ export default class Payment extends AbstractPayment {
       (item: Cancel) => item.getId() === cancelId && item.getRefundId() === refundId
     ) as Cancel
 
-    if (cancelItem.getId()) {
+    if (cancelItem && cancelItem.getId()) {
       return cancelItem
     }
 

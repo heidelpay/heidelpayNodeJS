@@ -1,39 +1,29 @@
-import fetchMock from 'fetch-mock'
 import Heidelpay from '../../../src/Heidelpay'
+import * as TestHelper from '../../helpers/TestHelper'
 import Giropay from '../../../src/payments/types/Giropay'
 
-describe('Payment Type GiroPay Test', () => {
-  let heidelpay
+describe('Payment Type Giropay Test', () => {
+  let heidelpay: Heidelpay
+
+  const getGiropay = () => {
+    return new Giropay()
+  }
+
   beforeAll(() => {
+    jest.setTimeout(TestHelper.getTimeout())
     heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
-    fetchMock.post('end:/types/giropay', {
-      id: 's-gro-llany1bnku9e'
-    })
-
-    fetchMock.get('end:/types/giropay/s-gro-llany1bnku9e', {
-      id: 's-gro-llany1bnku9e',
-      method: 'giropay'
-    })
   })
 
-  afterAll(() => {
-    fetchMock.restore()
+  it('Test Create Giropay payment type', async () => {
+    const giropay: Giropay = await heidelpay.createPaymentType(getGiropay()) as Giropay
+
+    expect(giropay.getId()).toBeDefined()
   })
 
-  it('Test Create GiroPay payment type', async () => {
-    let giropay: Giropay = new Giropay()
+  it('Test Fetch Giropay payment type', async () => {
+    const giropay: Giropay = await heidelpay.createPaymentType(getGiropay()) as Giropay
+    const fetchGiropay: Giropay = await heidelpay.fetchPaymentType(giropay.getId()) as Giropay
 
-    const paymentGiropay: Giropay = await heidelpay.createPaymentType(giropay)
-
-    expect(paymentGiropay.getId()).toEqual('s-gro-llany1bnku9e')
-  })
-
-  it('Test Fetch GiroPay payment', async () => {
-    let giropay: Giropay = new Giropay()
-
-    const paymentGiropay: Giropay = await heidelpay.createPaymentType(giropay)
-    const fetchedGiropay: Giropay = await heidelpay.fetchPaymentType(paymentGiropay.getId())
-
-    expect(fetchedGiropay.getId()).toEqual(paymentGiropay.getId())
+    expect(fetchGiropay.getId()).toEqual(giropay.getId())
   })
 })

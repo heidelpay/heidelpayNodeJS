@@ -1,9 +1,11 @@
 import Heidelpay from '../../Heidelpay'
 import Resources from '../Resources'
+import Payment from './Payment';
 
 export default abstract class AbstractPayment {
   private _id: string
   private _heidelpay: Heidelpay
+  private _payment: Payment
 
   /**
    * Creates an instance of AbstractPayment.
@@ -12,6 +14,24 @@ export default abstract class AbstractPayment {
   constructor(heidelpay: Heidelpay) {
     this._heidelpay = heidelpay
     this._id = ''
+  }
+
+  /**
+   * Set a payment object
+   *
+   * @param {Payment} payment
+   */
+  public setPayment(payment: Payment) {
+    this._payment = payment
+  }
+
+  /**
+   * Get payment object
+   *
+   * @returns {Payment}
+   */
+  public getPayment(): Payment {
+    return this._payment
   }
 
   /**
