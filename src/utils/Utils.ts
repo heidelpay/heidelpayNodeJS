@@ -12,6 +12,13 @@ import SepaDirectDebit from '../payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuaranteed'
 import Sofort from '../payments/types/Sofort'
 
+/**
+ * Replace URL with parameters: {paymentId} => s-pay-1781
+ *
+ * @param {string} url
+ * @param {*} args
+ * @returns
+ */
 export const replaceUrl = (url: string, args: any) => {
   const regex = /{([a-zA-Z]+)}/gm
 
@@ -39,6 +46,14 @@ export const getRefundIdOfCancel = (url: string) => {
   return matches ? matches[1] : ''
 }
 
+/**
+ * Get payment type from typeId
+ * Ex:
+ * crd => Card()
+ * gro => GrioPay()
+ * @param {string} typeId
+ * @returns {AbstractPaymentType}
+ */
 export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType => {
   if (typeId.length < 5) {
     throw new Error(`Type ${typeId} is currently not supported by the SDK`)
@@ -75,6 +90,12 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
   }
 }
 
+/**
+ * Map response with propery payment Type
+ *
+ * @param {*} response
+ * @returns {AbstractPaymentType}
+ */
 export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
   switch (response.method) {
     case 'card':

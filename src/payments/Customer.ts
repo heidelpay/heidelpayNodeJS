@@ -9,11 +9,6 @@ class Customer {
   private _mobile: string
   private _address: Address
 
-  /**
-   * Creates an instance of Customer.
-   * @param {string} [firstName=""]
-   * @param {string} [lastName=""]
-   */
   constructor(firstName: string = '', lastName: string = '') {
     this._firstName = firstName
     this._lastName = lastName

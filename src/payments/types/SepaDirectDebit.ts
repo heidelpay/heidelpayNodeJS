@@ -7,10 +7,6 @@ export default class SepaDirectDebit extends AbstractPaymentType implements Paym
   private _bic: string
   private _holder: string
 
-  /**
-   * Creates an instance of SepaDirectDebit.
-   * @param {string} iban
-   */
   constructor(iban: string) {
     super()
     this._iban = iban

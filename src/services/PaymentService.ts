@@ -20,15 +20,13 @@ import ChargeAuthorization from './ChargeAuthorization'
 import CancelAuthorization from './CancelAuthorization'
 import CancelCharge from './CancelCharge'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
+import UpdateCustomer from './UpdateCustomer';
+import DeleteCustomer from './DeleteCustomer';
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
   private heidelpay: Heidelpay
 
-  /**
-   * Creates an instance of PaymentService.
-   * @param {Heidelpay} heidelpay
-   */
   constructor(heidelpay: Heidelpay) {
     this.heidelpay = heidelpay
     this.requestAdapter = new FetchAdapter()
@@ -100,6 +98,27 @@ export default class PaymentService {
    */
   public fetchCustomer(customerId: string): Promise<Customer> {
     return FetchCustomer(customerId, this)
+  }
+
+  /**
+   * Update data customer
+   *
+   * @param {string} customerId
+   * @param {Customer} customer
+   * @returns {Promise<Customer>}
+   */
+  public updateCustomer(customerId: string, customer: Customer): Promise<Customer> {
+    return UpdateCustomer(customerId, customer, this)
+  }
+
+  /**
+   * Delete a customer
+   *
+   * @param {string} customerId
+   * @returns {Promise<boolean>}
+   */
+  public deleteCustomer(customerId: string): Promise<boolean> {
+    return DeleteCustomer(customerId, this)
   }
 
   /**

@@ -3,6 +3,7 @@ import Authorization from '../../../src/payments/business/Authorization'
 import Card from '../../../src/payments/types/Card'
 import { Customer } from '../../../src/payments/Customer'
 import * as TestHelper from '../../helpers/TestHelper'
+import Payment from '../../../src/payments/business/Payment';
 
 describe('Authorize test', () => {
   let heidelpay: Heidelpay
@@ -28,6 +29,9 @@ describe('Authorize test', () => {
     const card = await createPaymentTypeCard(true)
 
     const authorize: Authorization = await heidelpay.authorize(getAuthorization(card))
+    const payment: Payment = await heidelpay.fetchPayment(authorize.getResources().getPaymentId()) as Payment
+
+    expect(payment.getResources()).toBeDefined()
     expect(authorize).toBeInstanceOf(Authorization)
     expect(authorize.getId()).toBeDefined()
   })

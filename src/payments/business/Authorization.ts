@@ -10,10 +10,6 @@ export default class Authorization extends AbstractPayment {
   private amount: string
   private resources: Resources
 
-  /**
-   * Creates an instance of Authorization.
-   * @param {Heidelpay} heidelpay
-   */
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)

@@ -16,8 +16,10 @@ describe('Payment Type Card Test', () => {
   })
 
   it('Test Create card with merchant NOT PCI DSS Compliant', async () => {
-    const card = await createPaymentTypeCard()
-
+    let card: Card = new Card('4711100000000000', '01/2022')
+    card.setCVC('123')
+    card = await heidelpay.createPaymentType(card) as Card
+    
     expect(card.getId()).toBeDefined()
   })
 

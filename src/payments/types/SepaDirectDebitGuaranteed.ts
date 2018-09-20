@@ -7,10 +7,6 @@ export default class SepaDirectDebitGGuaranteed extends AbstractPaymentType impl
   private _bic: string
   private _holder: string
 
-  /**
-   * Creates an instance of SepaDirectDebitGGuaranteed.
-   * @param {string} iban
-   */
   constructor(iban: string) {
     super()
     this._iban = iban
@@ -82,7 +78,7 @@ export default class SepaDirectDebitGGuaranteed extends AbstractPaymentType impl
    * @returns {string}
    */
   public getTypeUrl(): string {
-    return apiURL.URL_TYPE_SEPA_DIRECT_DEBIT
+    return apiURL.URL_TYPE_SEPA_DIRECT_DEBIT_GUARANTEED
   }
 
   /**

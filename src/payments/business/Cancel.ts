@@ -7,10 +7,6 @@ export default class Cancel extends AbstractPayment {
   private resources: Resources
   private refundId: string
 
-  /**
-   * Creates an instance of Cancel.
-   * @param {Heidelpay} heidelpay
-   */
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)
