@@ -60,7 +60,21 @@ describe('Cancel after authorize test', () => {
       paymentId: authorize.getResources().getPaymentId()
     })
 
-    const cancel: Cancel = await heidelpay.fetchCancel(authorize.getResources().getPaymentId(), authorize.getId(), cancelAuthorize.getId());
+    const cancel: Cancel = await heidelpay.fetchCancel(authorize.getResources().getPaymentId(), cancelAuthorize.getId());
     expect(cancel.getId()).toBeDefined()
-  }, 15000)
+  })
+
+  it('Test fetch cancel by refund Id with Heidelpay', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+
+    const cancelAuthorize: Cancel = await heidelpay.cancelAuthorization({
+      amount: 50,
+      authorizationId: authorize.getId(),
+      paymentId: authorize.getResources().getPaymentId()
+    })
+
+    const cancel: Cancel = await heidelpay.fetchCancel(authorize.getResources().getPaymentId(), cancelAuthorize.getId(), authorize.getId());
+    expect(cancel.getId()).toBeDefined()
+  })
 })

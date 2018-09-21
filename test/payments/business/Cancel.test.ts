@@ -20,7 +20,7 @@ describe('Cancel test', () => {
     const card: Card = await createPaymentTypeCard()
     const authorization: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
     const cancelAuthorize: Cancel = await authorization.cancel()
-    const cancel: Cancel = await heidelpay.fetchCancel(authorization.getResources().getPaymentId(), authorization.getId(), cancelAuthorize.getId());
+    const cancel: Cancel = await heidelpay.fetchCancel(authorization.getResources().getPaymentId(), cancelAuthorize.getId(), authorization.getId());
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toEqual(cancelAuthorize.getId())
@@ -39,7 +39,7 @@ describe('Cancel test', () => {
     const card = await createPaymentTypeCard()
     const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
     const cancelCharge: Cancel = await charge.cancel()
-    const cancel: Cancel = await heidelpay.fetchCancel(cancelCharge.getResources().getPaymentId(), charge.getId(), cancelCharge.getId());
+    const cancel: Cancel = await heidelpay.fetchCancel(cancelCharge.getResources().getPaymentId(), cancelCharge.getId(), charge.getId());
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toEqual(cancelCharge.getId())
