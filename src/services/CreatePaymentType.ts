@@ -1,11 +1,13 @@
 import PaymentType from '../payments/types/PaymentType'
 import PaymentService from './PaymentService'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
+import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
 
 export default (paymentType: AbstractPaymentType, paymentService: PaymentService): Promise<PaymentType> => {
-  return new Promise(async resolve => {
-    // Call api end point to get response
-    const response: any = await paymentService
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Call api end point to get response
+      const response: any = await paymentService
       .getRequestAdapter()
       .post(
         paymentType.getTypeUrl(),
@@ -13,13 +15,22 @@ export default (paymentType: AbstractPaymentType, paymentService: PaymentService
         paymentService.getHeidelpay().getPrivateKey()
       )
 
-    // Set Heidelpay instance
-    paymentType.setHeidelpay(paymentService.getHeidelpay())
+      // Handle errors response    
+      if(response.errors) {
+        return reject(ResponseErrorsMapper(response))
+      }
 
-    // Set Payment Id
-    paymentType.setId(response.id)
+      // Set Heidelpay instance
+      paymentType.setHeidelpay(paymentService.getHeidelpay())
 
-    // Resolve final result
-    resolve(paymentType)
+      // Set Payment Id
+      paymentType.setId(response.id)
+
+      // Resolve final result
+      resolve(paymentType)      
+    } catch (error) {
+      // Reject with error object
+      return reject(error) 
+    }
   })
 }

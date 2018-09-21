@@ -38,12 +38,7 @@ export class FetchAdapter {
    * @param  {string} url
    * @param  {object} body
    */
-  public post(
-    url: string,
-    body: object,
-    privateKey: string,
-    isRawUrl: Boolean = false
-  ): Promise<Response> {
+  public post(url: string, body: object, privateKey: string, isRawUrl: Boolean = false): Promise<Response> {
     return this._fetch(
       url,
       {
@@ -85,28 +80,25 @@ export class FetchAdapter {
     )
   }
 
-  private _fetch(
-    url: string,
-    options = {},
-    privateKey: string,
-    isRawUrl: Boolean = false
-  ): Promise<Response> {
-    const password = ''
-    const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
-    const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
-
-    return fetch(requestUrl, {
-      headers: {
-        Authorization: `Basic ${basicAuthValue}`,
-        'Content-Type': 'application/json'
-      },
-      ...options
+  private _fetch(url: string, options = {}, privateKey: string, isRawUrl: Boolean = false): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      const password = ''
+      const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
+      const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
+  
+      fetch(requestUrl, {
+        headers: {
+          Authorization: `Basic ${basicAuthValue}`,
+          'Content-Type': 'application/json'
+        },
+        ...options
+      })
+        .then(response => {
+          resolve(response.json())
+        })
+        .catch(error => {
+          reject(error)
+        })   
     })
-      .then(response => {
-        return response.json()
-      })
-      .catch(error => {
-        return error
-      })
   }
 }

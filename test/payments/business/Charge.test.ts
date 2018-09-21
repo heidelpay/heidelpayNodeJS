@@ -38,7 +38,7 @@ describe('Charge test', () => {
     expect(charge.getResources().getCustomerId()).toBeDefined()
     expect(charge.getResources().getMetadataId()).toBeDefined()
     expect(charge.getResources().getPaymentId()).toBeDefined()
-    expect(charge.getResources().getRiskId()).toBeDefined()
+    // expect(charge.getResources().getRiskId()).toBeDefined()
     expect(charge.getResources().getTypeId()).toBeDefined()
   })
 
