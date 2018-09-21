@@ -144,11 +144,19 @@ export default class Heidelpay {
    * @param {string} cancelId
    * @returns {Promise<Cancel>}
    */
-  public fetchCancel(paymentId: string, refundId: string, cancelId: string): Promise<Cancel> {
+  public fetchCancel(paymentId: string, cancelId: string, refundId?: string): Promise<Cancel> {
     return new Promise(async (resolve, reject) => {
       try {
+        // Fetch a payment with payment Id
         const payment = await this.paymentService.fetchPayment(paymentId)
-        resolve(payment.getCancel(cancelId, refundId))  
+        
+        if(refundId) {
+          // Get cancel from payment with cancel Id and refund Id
+          resolve(payment.getCancel(cancelId, refundId))  
+        } else {
+          // Get cancel from payment with only cancel Id
+          resolve(payment.getCancel(cancelId))  
+        }
       } catch (error) {
         reject(error)
       }

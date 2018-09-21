@@ -117,10 +117,16 @@ export default class Payment extends AbstractPayment {
    * @param {string} cancelId
    * @returns {Cancel}
    */
-  public getCancel(cancelId: string, refundId: string = 's-aut-1'): Cancel {
-    const cancelItem = this.getCancelList().find(
-      (item: Cancel) => item.getId() === cancelId && item.getRefundId() === refundId
-    ) as Cancel
+  public getCancel(cancelId: string, refundId?: string): Cancel {
+    let cancelItem
+
+    if(refundId) {
+      // Find item in list of cancel with cancel Id and refund Id
+      cancelItem = this.getCancelList().find((item: Cancel) => item.getId() === cancelId && item.getRefundId() === refundId)
+    } else {
+      // Find item in list of cancel with only cancel Id
+      cancelItem = this.getCancelList().find((item: Cancel) => item.getId() === cancelId)
+    }
 
     if (cancelItem && cancelItem.getId()) {
       return cancelItem
