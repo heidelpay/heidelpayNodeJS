@@ -8,39 +8,45 @@ import Charge from '../payments/business/Charge'
 import Cancel from '../payments/business/Cancel'
 import FetchCharge from './FetchCharge'
 import FetchAuthorization from './FetchAuthorization';
+import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
 
 export default (paymentId: string, paymentService: PaymentService): Promise<Payment> => {
   return new Promise(async (resolve, reject) => {
-    // Call api end point to get response
-    const response: any = await paymentService
-      .getRequestAdapter()
-      .get(`${apiURL.URL_PAYMENT}/${paymentId}`, paymentService.getHeidelpay().getPrivateKey())
+    try {
+      // Call api end point to get response
+      const response: any = await paymentService
+        .getRequestAdapter()
+        .get(`${apiURL.URL_PAYMENT}/${paymentId}`, paymentService.getHeidelpay().getPrivateKey())
 
-    // Handle error responses
-    if (response.errors) {
-      return reject(response.errors)
+      // Handle errors response
+      if (response.errors) {
+        return reject(ResponseErrorsMapper(response))
+      }
+
+      // New Payment with Hedeipay instance
+      let payment = new Payment(paymentService.getHeidelpay())
+
+      // Set payment Id
+      payment.setId(response.id)
+
+      // Set resources
+      payment.setResources(response.resources)
+
+      // Fetch authorization transaction and set to payment object
+      payment.setAuthorization(await _fetchAuthorization(response.transactions, paymentService))
+
+      // Fetch cancel list transaction and set to payment object
+      payment.setCancelList(await _fetchCancelList(payment, response.transactions, paymentService))
+
+      // Fetch charge list transaction and set to payment object
+      payment.setChargeList(await _fetchChargeList(payment, response.transactions, paymentService))
+
+      // Resolve final result
+      resolve(payment)  
+    } catch (error) {
+      // Reject with error object
+      reject(error)
     }
-
-    // New Payment with Hedeipay instance
-    let payment = new Payment(paymentService.getHeidelpay())
-
-    // Set payment Id
-    payment.setId(response.id)
-
-    // Set resources
-    payment.setResources(response.resources)
-
-    // Fetch authorization transaction and set to payment object
-    payment.setAuthorization(await _fetchAuthorization(response.transactions, paymentService))
-
-    // Fetch cancel list transaction and set to payment object
-    payment.setCancelList(await _fetchCancelList(payment, response.transactions, paymentService))
-
-    // Fetch charge list transaction and set to payment object
-    payment.setChargeList(await _fetchChargeList(payment, response.transactions, paymentService))
-
-    // Resolve final result
-    resolve(payment)
   })
 }
 

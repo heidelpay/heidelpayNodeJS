@@ -1,9 +1,7 @@
 import { Customer } from './payments/Customer'
 import PaymentType from './payments/types/PaymentType'
-import Authorization, {
-  authorizeObject,
-  chargeAuthorizeObject
-} from './payments/business/Authorization'
+import * as ErrorMessage from './configs/ErrorMessage'
+import Authorization, { authorizeObject, chargeAuthorizeObject } from './payments/business/Authorization'
 import Charge, { chargeObject } from './payments/business/Charge'
 import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
@@ -15,6 +13,10 @@ export default class Heidelpay {
   private privateKey: string
 
   constructor(privateKey: string) {
+    if(!privateKey) {
+      throw new Error(ErrorMessage.ERROR_MISSING_PRIVATE_KEY)
+    }
+
     this.privateKey = privateKey
     this.paymentService = new PaymentService(this)
   }
@@ -106,9 +108,13 @@ export default class Heidelpay {
    * @returns {Promise<Authorization>}
    */
   public fetchAuthorization(paymentId: string): Promise<Authorization> {
-    return new Promise(async (resolve) => {
-      const payment = await this.paymentService.fetchPayment(paymentId) as Payment
-      resolve(payment.getAuthorization())
+    return new Promise(async (resolve, reject) => {
+      try {
+        const payment = await this.paymentService.fetchPayment(paymentId)
+        resolve(payment.getAuthorization())
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 
@@ -120,9 +126,13 @@ export default class Heidelpay {
    * @returns {Promise<Charge>}
    */
   public fetchCharge(paymentId: string, chargeId: string): Promise<Charge> {
-    return new Promise(async (resolve) => {
-      const payment = await this.paymentService.fetchPayment(paymentId) as Payment
-      resolve(payment.getCharge(chargeId))
+    return new Promise(async (resolve, reject) => {
+      try {
+        const payment = await this.paymentService.fetchPayment(paymentId)
+        resolve(payment.getCharge(chargeId))
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 
@@ -135,9 +145,13 @@ export default class Heidelpay {
    * @returns {Promise<Cancel>}
    */
   public fetchCancel(paymentId: string, refundId: string, cancelId: string): Promise<Cancel> {
-    return new Promise(async (resolve) => {
-      const payment = await this.paymentService.fetchPayment(paymentId) as Payment
-      resolve(payment.getCancel(cancelId, refundId))
+    return new Promise(async (resolve, reject) => {
+      try {
+        const payment = await this.paymentService.fetchPayment(paymentId)
+        resolve(payment.getCancel(cancelId, refundId))  
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 
