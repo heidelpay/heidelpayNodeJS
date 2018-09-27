@@ -23,6 +23,8 @@ describe('Authorize test', () => {
 
     expect(authorize).toBeInstanceOf(Authorization)
     expect(authorize.getId()).toBeDefined()
+    expect(authorize.getProcessing().getShortId()).toBeDefined()
+    expect(authorize.getProcessing().getUniqueId()).toBeDefined()
   })
 
   it('Test authorize with payment type Card', async () => {
@@ -34,6 +36,7 @@ describe('Authorize test', () => {
     expect(payment.getResources()).toBeDefined()
     expect(authorize).toBeInstanceOf(Authorization)
     expect(authorize.getId()).toBeDefined()
+    expect(authorize.getResources()).toBeDefined()
   })
 
   it('Test authorize with customer', async () => {
@@ -43,7 +46,7 @@ describe('Authorize test', () => {
     const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId(), customer))
     expect(authorize.getId()).toBeDefined()
   })
-  it('Test authorize with custome Idr', async () => {
+  it('Test authorize with customer Id', async () => {
     const customer = await createCustomer() as Customer
     const card = await createPaymentTypeCard() as Card
 

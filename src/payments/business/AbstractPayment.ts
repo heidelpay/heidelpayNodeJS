@@ -1,5 +1,5 @@
 import Heidelpay from '../../Heidelpay'
-import Resources from '../Resources'
+import Resources from './Resources'
 import Payment from './Payment';
 
 export default abstract class AbstractPayment {

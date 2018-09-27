@@ -42,6 +42,9 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
       // Set resources
       cancel.setResources(response.resources)
 
+      // Set Processing
+      cancel.setProcessing(response.processing)
+
       // Set payment object
       cancel.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
 

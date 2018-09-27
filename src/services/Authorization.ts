@@ -47,6 +47,9 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       // Set resources
       authorization.setResources(response.resources)
 
+      // Set Processing
+      authorization.setProcessing(response.processing)
+
       // Set payment object
       authorization.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
       

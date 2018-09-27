@@ -2,17 +2,29 @@ import Heidelpay from '../../Heidelpay'
 import AbstractPayment from './AbstractPayment'
 import { Customer } from '../Customer'
 import Charge from './Charge'
-import Resources from '../Resources'
+import Resources from './Resources'
 import Cancel, { cancelAuthorizeObject } from './Cancel'
 import PaymentType from '../types/PaymentType'
+import Processing from './Processing';
 
 export default class Authorization extends AbstractPayment {
   private amount: string
   private resources: Resources
+  private processing: Processing
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
     this.resources = new Resources(heidelpay)
+    this.processing = new Processing()
+  }
+
+  /**
+   * Get Amount
+   *
+   * @returns {string}
+   */
+  public getAmount(): string {
+    return this.amount
   }
 
   /**
@@ -25,12 +37,46 @@ export default class Authorization extends AbstractPayment {
   }
 
   /**
-   * Get Amount
+   * Get resources
    *
-   * @returns {string}
+   * @returns {Resources}
    */
-  public getAmount(): string {
-    return this.amount
+  public getResources(): Resources {
+    return this.resources
+  }
+
+  /**
+   * Set resources
+   *
+   * @param {*} resources
+   */
+  public setResources(resources: any) {
+    this.resources
+    .setCustomerId(resources.customerId)
+    .setMetadataId(resources.metadataId)
+    .setPaymentId(resources.paymentId)
+    .setTypeId(resources.typeId)
+    .setRiskId(resources.riskId)
+  }
+
+  /**
+   * Get Processing
+   *
+   * @returns {Processing}
+   */
+  public getProcessing(): Processing {
+    return this.processing
+  }
+
+  /**
+   * Set Processing
+   *
+   * @param {*} processing
+   */
+  public setProcessing(processing: any) {
+    this.processing
+    .setUniqueId(processing.uniqueId)
+    .setShortId(processing.shortId)
   }
 
   /**
@@ -68,29 +114,6 @@ export default class Authorization extends AbstractPayment {
     }
 
     return this.getHeidelpay().cancelAuthorization(cancelAuthorizePayload)
-  }
-
-  /**
-   * Get resources
-   *
-   * @returns {Resources}
-   */
-  public getResources(): Resources {
-    return this.resources
-  }
-
-  /**
-   * Set resources
-   *
-   * @param {*} resources
-   */
-  public setResources(resources: any) {
-    this.resources
-    .setCustomerId(resources.customerId)
-    .setMetadataId(resources.metadataId)
-    .setPaymentId(resources.paymentId)
-    .setTypeId(resources.typeId)
-    .setRiskId(resources.riskId)
   }
 }
 

@@ -1,5 +1,5 @@
-import Heidelpay from '..'
-import { Customer } from './Customer'
+import Heidelpay from '../..'
+import { Customer } from '../Customer'
 
 export default class Resources {
   private typeId: string
@@ -120,14 +120,5 @@ export default class Resources {
   public setRiskId(riskId: string): Resources {
     this.riskId = riskId
     return this
-  }
-
-  /**
-   * Fetch a customer via heidelpay
-   *
-   * @returns {Customer}
-   */
-  fetchCustomer(): Promise<Customer> {
-    return this.getHeidelpay().fetchCustomer(this.getCustomerId())
   }
 }

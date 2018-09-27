@@ -6,7 +6,7 @@ describe('Payment Type Ideal Test', () => {
   let heidelpay: Heidelpay
 
   const getIdeal = () => {
-    return new Ideal().setBankName("RABONL2U")
+    return new Ideal().setBic("RABONL2U")
   }
 
   beforeAll(() => {

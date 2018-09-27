@@ -1,6 +1,6 @@
 import AbstractPayment from './AbstractPayment'
 import Heidelpay from '../../Heidelpay'
-import Resources from '../Resources'
+import Resources from './Resources'
 import Authorization from './Authorization'
 import Charge from './Charge'
 import Cancel from './Cancel'

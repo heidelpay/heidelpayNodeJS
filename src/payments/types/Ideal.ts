@@ -3,16 +3,16 @@ import AbstractPaymentType from './AbstractPaymentType'
 import PaymentType from './PaymentType'
 
 export default class Ideal extends AbstractPaymentType implements PaymentType {
-  private _bankName: string
+  private _bic: string
 
   /**
    * Set Bank name
    *
-   * @param {string} bankName
+   * @param {string} bic
    * @returns {Ideal}
    */
-  public setBankName(bankName: string): Ideal {
-    this._bankName = bankName
+  public setBic(bic: string): Ideal {
+    this._bic = bic
     return this
   }
 
@@ -21,8 +21,8 @@ export default class Ideal extends AbstractPaymentType implements PaymentType {
    *
    * @returns {string}
    */
-  public getBankName(): string {
-    return this._bankName
+  public getBic(): string {
+    return this._bic
   }
 
   /**
@@ -41,7 +41,7 @@ export default class Ideal extends AbstractPaymentType implements PaymentType {
    */
   public getPayload() {
     return {
-      bankName: this.getBankName()
+      bic: this.getBic()
     }
   }
 }

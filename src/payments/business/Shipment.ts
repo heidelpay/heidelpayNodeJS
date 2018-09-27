@@ -1,12 +1,11 @@
-import AbstractPayment from './AbstractPayment'
-import Heidelpay from '../../Heidelpay'
-import Resources from './Resources'
-import Processing from './Processing';
+import AbstractPayment from "./AbstractPayment";
+import Resources from "./Resources";
+import Heidelpay from "../../Heidelpay";
+import Processing from "./Processing";
 
-export default class Cancel extends AbstractPayment {
+export default class Shipment extends AbstractPayment {
   private amount: string
   private resources: Resources
-  private refundId: string
   private processing: Processing
 
   constructor(heidelpay: Heidelpay) {
@@ -34,24 +33,6 @@ export default class Cancel extends AbstractPayment {
   }
 
   /**
-   * Get refund Id
-   *
-   * @returns {string}
-   */
-  public getRefundId(): string {
-    return this.refundId
-  }
-
-  /**
-   * Set refund Id
-   *
-   * @param {string} refund Id
-   */
-  public setRefundId(refundId: string) {
-    this.refundId = refundId
-  }
-
-  /**
    * Get resources
    *
    * @returns {Resources}
@@ -59,7 +40,7 @@ export default class Cancel extends AbstractPayment {
   public getResources(): Resources {
     return this.resources
   }
-  
+
   /**
    * Set resources
    *
@@ -93,16 +74,4 @@ export default class Cancel extends AbstractPayment {
     .setUniqueId(processing.uniqueId)
     .setShortId(processing.shortId)
   }
-}
-
-export type cancelAuthorizeObject = {
-  paymentId: string
-  authorizationId: string
-  amount?: number
-}
-
-export type cancelChargeObject = {
-  paymentId: string
-  chargeId: string
-  amount?: number
 }

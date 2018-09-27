@@ -7,6 +7,7 @@ import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
+import Shipment from './payments/business/Shipment';
 
 export default class Heidelpay {
   private paymentService: PaymentService
@@ -245,5 +246,9 @@ export default class Heidelpay {
    */
   public cancelCharge(args: cancelChargeObject): Promise<Cancel> {
     return this.paymentService.cancelCharge(args)
+  }
+
+  public shipment(paymentId: string): Promise<Shipment> {
+    return this.paymentService.shipment(paymentId)
   }
 }

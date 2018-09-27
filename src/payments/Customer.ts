@@ -7,7 +7,7 @@ class Customer {
   private _email: string
   private _phone: string
   private _mobile: string
-  private _address: Address
+  private _billingAddress: Address
 
   constructor(firstName: string = '', lastName: string = '') {
     this._firstName = firstName
@@ -23,7 +23,7 @@ class Customer {
       email: this.getEmail(),
       phone: this.getPhone(),
       mobile: this.getMobile(),
-      address: this.getAddress()
+      billingAddress: this.getBillingAddress()
     }
   }
 
@@ -193,8 +193,8 @@ class Customer {
    * @param {Address} value
    * @returns {Customer}
    */
-  public setAddress(value: Address): Customer {
-    this._address = value
+  public setBillingAddress(value: Address): Customer {
+    this._billingAddress = value
     return this
   }
 
@@ -203,8 +203,8 @@ class Customer {
    *
    * @type {Address}
    */
-  public getAddress(): Address {
-    return this._address
+  public getBillingAddress(): Address {
+    return this._billingAddress
   }
 }
 
