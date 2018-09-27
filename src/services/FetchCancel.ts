@@ -26,6 +26,9 @@ export default (args: string, paymentService: PaymentService): Promise<Cancel> =
   
       // Set resources
       cancel.setResources(response.resources)
+
+      // Set Processing
+      cancel.setProcessing(response.processing)
   
       // Resolve final result
       resolve(cancel)

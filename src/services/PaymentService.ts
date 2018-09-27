@@ -2,10 +2,7 @@ import { FetchAdapter } from '../adapters/FetchAdapter'
 import Heidelpay from '../Heidelpay'
 import PaymentType from '../payments/types/PaymentType'
 import { Customer } from '../payments/Customer'
-import Authorization, {
-  authorizeObject,
-  chargeAuthorizeObject
-} from '../payments/business/Authorization'
+import Authorization, { authorizeObject, chargeAuthorizeObject } from '../payments/business/Authorization'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from '../payments/business/Cancel'
 import Charge, { chargeObject } from '../payments/business/Charge'
 import Payment from '../payments/business/Payment'
@@ -22,6 +19,8 @@ import CancelCharge from './CancelCharge'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
 import UpdateCustomer from './UpdateCustomer';
 import DeleteCustomer from './DeleteCustomer';
+import Shipment from '../payments/business/Shipment';
+import ShipmentService from './Shipment';
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -169,5 +168,9 @@ export default class PaymentService {
    */
   public cancelCharge(args: cancelChargeObject): Promise<Cancel> {
     return CancelCharge(args, this)
+  }
+
+  public shipment(paymentId: string): Promise<Shipment> {
+    return ShipmentService(paymentId, this)
   }
 }

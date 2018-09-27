@@ -40,6 +40,9 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
       // Set resources
       charge.setResources(response.resources)
 
+      // Set Processing
+      charge.setProcessing(response.processing)
+
       // Set payment object
       charge.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
 

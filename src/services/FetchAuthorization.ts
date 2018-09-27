@@ -20,6 +20,9 @@ export default (args: string, paymentService: PaymentService): Promise<Authoriza
     // Set resources
     authorization.setResources(response.resources)
 
+    // Set Processing
+    authorization.setProcessing(response.processing)
+
     // Resolve final result
     resolve(authorization)
   })

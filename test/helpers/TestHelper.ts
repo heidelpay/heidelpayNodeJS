@@ -26,7 +26,7 @@ export const createMiniumCustomer = () => {
 }
 
 export const createFullCustomer = () => {
-  const address: Address = {
+  const billingAddress: Address = {
     name: 'Peter Universum',
     street: 'Hugo-Junkers-Str. 5',
     state: 'DE-BO',
@@ -36,20 +36,20 @@ export const createFullCustomer = () => {
   }
 
   let customer: Customer = new Customer()
-    .setFirstName('John')
-    .setLastName('Doe')
+    .setFirstName('Rene')
+    .setLastName('Felder')
     .setSalutation(Salutation.mr)
     .setBirthDate('1972-12-24')
-    .setEmail('John.Doe@heidelpay.com')
-    .setPhone('+49 6221 64 71 100')
-    .setMobile('+49 172 123 456')
-    .setAddress(address)
+    .setEmail('Rene.Felder@heidelpay.com')
+    .setPhone('+49 6221 64 71 101')
+    .setMobile('+49 172 123 457')
+    .setBillingAddress(billingAddress)
 
   return customer
 }
 
 export const createCustomer = (heidelpay) => async (builder: boolean = false) => {
-  const address: Address = {
+  const billingAddress: Address = {
     name: 'Peter Universum',
     street: 'Hugo-Junkers-Str. 5',
     state: 'DE-BO',
@@ -59,14 +59,14 @@ export const createCustomer = (heidelpay) => async (builder: boolean = false) =>
   }
 
   let customer: Customer = new Customer()
-    .setFirstName('John')
-    .setLastName('Doe')
+    .setFirstName('Rene')
+    .setLastName('Felder')
     .setSalutation(Salutation.mr)
     .setBirthDate('1972-12-24')
-    .setEmail('John.Doe@heidelpay.com')
-    .setPhone('+49 6221 64 71 100')
-    .setMobile('+49 172 123 456')
-    .setAddress(address)
+    .setEmail('Rene.Felder@heidelpay.com')
+    .setPhone('+49 6221 64 71 101')
+    .setMobile('+49 172 123 457')
+    .setBillingAddress(billingAddress)
 
   if(builder === true) {
     return customer

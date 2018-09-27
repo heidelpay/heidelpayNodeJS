@@ -20,6 +20,9 @@ export default (args: string, paymentService: PaymentService): Promise<Charge> =
     // Set resources
     charge.setResources(response.resources)
 
+    // Set Processing
+    charge.setProcessing(response.processing)
+
     // Resolve final result
     resolve(charge)
   })

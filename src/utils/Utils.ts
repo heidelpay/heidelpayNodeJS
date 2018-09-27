@@ -1,11 +1,9 @@
 import Card from '../payments/types/Card'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
-import Eps from '../payments/types/Eps'
 import Giropay from '../payments/types/Giropay'
 import Ideal from '../payments/types/Ideal'
 import Invoice from '../payments/types/Invoice'
 import InvoiceGuaranteed from '../payments/types/InvoiceGuaranteed'
-import Paypal from '../payments/types/Paypal'
 import Prepayment from '../payments/types/Prepayment'
 import Przelewy24 from '../payments/types/Przelewy24'
 import SepaDirectDebit from '../payments/types/SepaDirectDebit'
@@ -63,8 +61,6 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
   switch (paymentType) {
     case 'crd':
       return new Card()
-    case 'eps':
-      return new Eps()
     case 'gro':
       return new Giropay()
     case 'idl':
@@ -73,8 +69,6 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new Invoice()
     case 'ivg':
       return new InvoiceGuaranteed()
-    case 'ppl':
-      return new Paypal()
     case 'ppy':
       return new Prepayment()
     case 'p24':
@@ -107,12 +101,6 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       card.setId(response.id)
       return card
 
-    case 'eps':
-      const eps: Eps = new Eps().setBankName(response.bankName)
-
-      eps.setId(response.id)
-      return eps
-
     case 'giropay':
       const giropay: Giropay = new Giropay()
 
@@ -120,7 +108,7 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       return giropay
 
     case 'ideal':
-      const ideal: Ideal = new Ideal().setBankName(response.bankName)
+      const ideal: Ideal = new Ideal().setBic(response.bic)
 
       ideal.setId(response.id)
       return ideal
@@ -136,12 +124,6 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
       invoiceGuaranteed.setId(response.id)
       return invoiceGuaranteed
-
-    case 'paypal':
-      const paypal: Paypal = new Paypal()
-
-      paypal.setId(response.id)
-      return paypal
 
     case 'przelewy24':
       const przelewy24: Przelewy24 = new Przelewy24()

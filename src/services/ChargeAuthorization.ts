@@ -24,7 +24,7 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
         paymentService.getHeidelpay().getPrivateKey()
       )
 
-      // Handle errors response        
+      // Handle errors response
       if(response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
@@ -37,6 +37,9 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
   
       // Set resources
       charge.setResources(response.resources)
+
+      // Set Processing
+      charge.setProcessing(response.processing)
   
       // Set payment object
       charge.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
