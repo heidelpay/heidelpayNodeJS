@@ -1,8 +1,13 @@
 {
-  "name": "heidelpay-sdk",
-  "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "name": "@heidelpay/nodejs-sdk",
+  "version": "0.0.2",
+  "description": "Heidelpay SDK NodeJS",
+  "keywords": [
+    "heidelpay",
+    "payment processing",
+    "credit cards",
+    "api"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es5.js",
   "typings": "dist/types/index.d.ts",
@@ -13,7 +18,7 @@
     "type": "git",
     "url": ""
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -120,5 +125,11 @@
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2.1",
     "js-base64": "^2.4.9"
-  }
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "homepage": "https://docs.heidelpay.com",
+  "author": "Heidelpay (https://www.heidelpay.com/en/)"
 }
