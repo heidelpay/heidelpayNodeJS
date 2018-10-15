@@ -1,6 +1,6 @@
 import './configs/Path'
 import Heidelpay from './Heidelpay'
-
+import {Customer, Address, Salutation} from './payments/Customer'
 import Card from './payments/types/Card'
 import Giropay from './payments/types/Giropay'
 import Ideal from './payments/types/Ideal'
@@ -14,6 +14,9 @@ import Sofort from './payments/types/Sofort'
 
 export default Heidelpay
 export {
+  Customer,
+  Address,
+  Salutation,
   Card,
   Giropay,
   Ideal,
