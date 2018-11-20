@@ -13,7 +13,7 @@ export default class Payment extends AbstractPayment {
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources(heidelpay)
+    this.resources = new Resources()
   }
 
   /**
@@ -32,11 +32,10 @@ export default class Payment extends AbstractPayment {
    */
   public setResources(resources: any) {
     this.resources
-    .setCustomerId(resources.customerId)
-    .setMetadataId(resources.metadataId)
-    .setPaymentId(resources.paymentId)
-    .setTypeId(resources.typeId)
-    .setRiskId(resources.riskId)
+      .setCustomerId(resources.customerId)
+      .setMetadataId(resources.metadataId)
+      .setPaymentId(resources.paymentId)
+      .setTypeId(resources.typeId)
   }
 
   /**
@@ -120,7 +119,7 @@ export default class Payment extends AbstractPayment {
   public getCancel(cancelId: string, refundId?: string): Cancel {
     let cancelItem
 
-    if(refundId) {
+    if (refundId) {
       // Find item in list of cancel with cancel Id and refund Id
       cancelItem = this.getCancelList().find((item: Cancel) => item.getId() === cancelId && item.getRefundId() === refundId)
     } else {

@@ -8,12 +8,12 @@ export default (customerId: string, customer: Customer, paymentService: PaymentS
     try {
       // Call api end point to get response
       const response: any = await paymentService
-      .getRequestAdapter()
-      .put(
-        `${apiURL.URL_CUSTOMER}/${customerId}`, 
-        customer.getRequestPayload(),
-        paymentService.getHeidelpay().getPrivateKey()
-      )
+        .getRequestAdapter()
+        .put(
+          `${apiURL.URL_CUSTOMER}/${customerId}`,
+          customer.getRequestPayload(),
+          paymentService.getHeidelpay().getPrivateKey()
+        )
 
       // Mapper customer
       const newCustomer = ResponseCustomerMapper(response, customer)
@@ -22,7 +22,7 @@ export default (customerId: string, customer: Customer, paymentService: PaymentS
       resolve(newCustomer)
     } catch (error) {
       // Reject with error object
-      reject(error) 
+      reject(error)
     }
   })
 }

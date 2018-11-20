@@ -18,14 +18,23 @@ export default (args: string, paymentService: PaymentService): Promise<Authoriza
       // Set amount of authorization
       authorization.setAmount(response.amount)
 
+      // Set currency
+      authorization.setCurrency(response.currency)
+
+      // Set return URL
+      authorization.setReturnUrl(response.returnUrl)
+
       // Set resources
       authorization.setResources(response.resources)
 
       // Set Processing
       authorization.setProcessing(response.processing)
 
+      // Set payload
+      authorization.setPayload(response)
+
       // Resolve final result
-      resolve(authorization)  
+      resolve(authorization)
     } catch (error) {
       // Reject with error object
       reject(error)

@@ -8,11 +8,11 @@ import Payment from '../../../src/payments/business/Payment';
 describe('Authorize test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard, createCustomer
-  const {getAuthorization} = TestHelper
+  const { getAuthorization } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
     createCustomer = TestHelper.createCustomer(heidelpay)
   })
@@ -23,8 +23,13 @@ describe('Authorize test', () => {
 
     expect(authorize).toBeInstanceOf(Authorization)
     expect(authorize.getId()).toBeDefined()
+    expect(authorize.getAmount()).toBeDefined()
+    expect(authorize.getCurrency()).toBeDefined()
+    expect(authorize.getReturnUrl()).toBeDefined()
     expect(authorize.getProcessing().getShortId()).toBeDefined()
     expect(authorize.getProcessing().getUniqueId()).toBeDefined()
+    expect(authorize.getResources()).toBeDefined()
+    expect(authorize.getPayload()).toBeDefined()
   })
 
   it('Test authorize with payment type Card', async () => {
@@ -37,6 +42,7 @@ describe('Authorize test', () => {
     expect(authorize).toBeInstanceOf(Authorization)
     expect(authorize.getId()).toBeDefined()
     expect(authorize.getResources()).toBeDefined()
+    expect(authorize.getPayload()).toBeDefined()
   })
 
   it('Test authorize with customer', async () => {
@@ -45,6 +51,7 @@ describe('Authorize test', () => {
 
     const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId(), customer))
     expect(authorize.getId()).toBeDefined()
+    expect(authorize.getPayload()).toBeDefined()
   })
   it('Test authorize with customer Id', async () => {
     const customer = await createCustomer() as Customer
@@ -52,5 +59,6 @@ describe('Authorize test', () => {
 
     const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId(), customer.getCustomerId()))
     expect(authorize.getId()).toBeDefined()
+    expect(authorize.getPayload()).toBeDefined()
   })
 })

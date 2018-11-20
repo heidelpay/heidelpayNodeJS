@@ -9,27 +9,30 @@ export default (args: string, paymentService: PaymentService): Promise<Cancel> =
       const response: any = await paymentService
         .getRequestAdapter()
         .get(args, paymentService.getHeidelpay().getPrivateKey(), true)
-        
+
       // Handle errors response
       if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
-  
+
       // New Cancel with Hedeipay instance
       let cancel = new Cancel(paymentService.getHeidelpay())
-  
+
       // Set cancel Id
       cancel.setId(response.id)
-  
+
       // Set amount of cancel
       cancel.setAmount(response.amount)
-  
+
       // Set resources
       cancel.setResources(response.resources)
 
       // Set Processing
       cancel.setProcessing(response.processing)
-  
+
+      // Set Payload
+      cancel.setPayload(response)
+
       // Resolve final result
       resolve(cancel)
     } catch (error) {

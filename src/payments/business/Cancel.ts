@@ -5,13 +5,13 @@ import Processing from './Processing';
 
 export default class Cancel extends AbstractPayment {
   private amount: string
-  private resources: Resources
   private refundId: string
+  private resources: Resources
   private processing: Processing
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources(heidelpay)
+    this.resources = new Resources()
     this.processing = new Processing()
   }
 
@@ -59,7 +59,7 @@ export default class Cancel extends AbstractPayment {
   public getResources(): Resources {
     return this.resources
   }
-  
+
   /**
    * Set resources
    *
@@ -67,11 +67,10 @@ export default class Cancel extends AbstractPayment {
    */
   public setResources(resources: any) {
     this.resources
-    .setCustomerId(resources.customerId)
-    .setMetadataId(resources.metadataId)
-    .setPaymentId(resources.paymentId)
-    .setTypeId(resources.typeId)
-    .setRiskId(resources.riskId)
+      .setCustomerId(resources.customerId)
+      .setMetadataId(resources.metadataId)
+      .setPaymentId(resources.paymentId)
+      .setTypeId(resources.typeId)
   }
 
   /**
@@ -90,8 +89,8 @@ export default class Cancel extends AbstractPayment {
    */
   public setProcessing(processing: any) {
     this.processing
-    .setUniqueId(processing.uniqueId)
-    .setShortId(processing.shortId)
+      .setUniqueId(processing.uniqueId)
+      .setShortId(processing.shortId)
   }
 }
 

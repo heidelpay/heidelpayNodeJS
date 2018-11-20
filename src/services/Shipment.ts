@@ -12,11 +12,11 @@ export default (paymentId: string, paymentService: PaymentService): Promise<Ship
         Utils.replaceUrl(apiURL.URL_PAYMENT_SHIPMENT, {
           paymentId: paymentId,
         }),
-        {}, 
+        {},
         paymentService.getHeidelpay().getPrivateKey()
       )
 
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
 
@@ -34,6 +34,9 @@ export default (paymentId: string, paymentService: PaymentService): Promise<Ship
 
       // Set Processing
       shipment.setProcessing(response.processing)
+
+      // Set Payload
+      shipment.setPayload(response)
 
       // Resolve final result
       resolve(shipment)

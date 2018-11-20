@@ -6,11 +6,11 @@ import * as TestHelper from '../../helpers/TestHelper'
 describe('Cancel after charge test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard
-  const {getCharge, getCancelCharge} = TestHelper
+  const { getCharge, getCancelCharge } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
@@ -30,6 +30,7 @@ describe('Cancel after charge test', () => {
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toBeDefined()
+    expect(cancel.getPayload()).toBeDefined()
   })
 
   it('Test full refund with charge', async () => {
@@ -40,6 +41,7 @@ describe('Cancel after charge test', () => {
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toBeDefined()
+    expect(cancel.getPayload()).toBeDefined()
   })
 
   it('Test partial refund with Id', async () => {
@@ -49,6 +51,7 @@ describe('Cancel after charge test', () => {
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toBeDefined()
+    expect(cancel.getPayload()).toBeDefined()
   })
 
   it('Test partial refund with charge', async () => {
@@ -59,5 +62,6 @@ describe('Cancel after charge test', () => {
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toBeDefined()
+    expect(cancel.getPayload()).toBeDefined()
   })
 })

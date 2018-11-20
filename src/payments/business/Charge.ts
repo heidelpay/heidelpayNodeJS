@@ -8,14 +8,24 @@ import Processing from './Processing';
 
 export default class Charge extends AbstractPayment {
   private amount: string
+  private currency: string;
+  private returnUrl: string
   private resources: Resources
   private cancelList: Array<Cancel>
   private processing: Processing
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources(heidelpay)
+    this.resources = new Resources()
     this.processing = new Processing()
+  }
+  /**
+   * Set amount
+   *
+   * @param {string} amount
+   */
+  public setAmount(amount: string) {
+    this.amount = amount
   }
 
   /**
@@ -28,12 +38,37 @@ export default class Charge extends AbstractPayment {
   }
 
   /**
-   * Set amount
+   * Set currency
    *
-   * @param {string} amount
+   * @param {string} currency
    */
-  public setAmount(amount: string) {
-    this.amount = amount
+  public setCurrency(currency: string) {
+    this.currency = currency
+  }
+
+  /**
+   * Get currency
+   *
+   * @returns
+   */
+  public getCurrency() {
+    return this.currency
+  }
+
+  /**
+   * Set return url
+   *
+   * @param {string} returnUrl
+   */
+  public setReturnUrl(returnUrl: string) {
+    this.returnUrl = returnUrl
+  }
+
+  /**
+   * Get return url
+   */
+  public getReturnUrl() {
+    return this.returnUrl
   }
 
   /**
@@ -52,11 +87,10 @@ export default class Charge extends AbstractPayment {
    */
   public setResources(resources: any) {
     this.resources
-    .setCustomerId(resources.customerId)
-    .setMetadataId(resources.metadataId)
-    .setPaymentId(resources.paymentId)
-    .setTypeId(resources.typeId)
-    .setRiskId(resources.riskId)
+      .setCustomerId(resources.customerId)
+      .setMetadataId(resources.metadataId)
+      .setPaymentId(resources.paymentId)
+      .setTypeId(resources.typeId)
   }
 
   /**
@@ -75,8 +109,8 @@ export default class Charge extends AbstractPayment {
    */
   public setProcessing(processing: any) {
     this.processing
-    .setUniqueId(processing.uniqueId)
-    .setShortId(processing.shortId)
+      .setUniqueId(processing.uniqueId)
+      .setShortId(processing.shortId)
   }
 
   /**

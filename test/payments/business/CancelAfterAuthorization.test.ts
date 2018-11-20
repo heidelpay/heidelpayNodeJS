@@ -6,11 +6,11 @@ import * as TestHelper from '../../helpers/TestHelper'
 describe('Cancel after authorize test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard
-  const {getAuthorization, getCancelAuthorization} = TestHelper
+  const { getAuthorization, getCancelAuthorization } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
@@ -29,6 +29,7 @@ describe('Cancel after authorize test', () => {
 
     expect(cancelAuthorize).toBeInstanceOf(Cancel)
     expect(cancelAuthorize.getId()).toBeDefined()
+    expect(cancelAuthorize.getPayload()).toBeDefined()
   })
 
   it('Test reversal partial after authorize', async () => {

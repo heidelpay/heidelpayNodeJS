@@ -8,11 +8,11 @@ import Authorization from '../../../src/payments/business/Authorization';
 describe('Cancel test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard
-  const {getCharge, getAuthorization} = TestHelper
+  const { getCharge, getAuthorization } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
@@ -23,7 +23,12 @@ describe('Cancel test', () => {
     const cancel: Cancel = await heidelpay.fetchCancel(authorization.getResources().getPaymentId(), cancelAuthorize.getId(), authorization.getId());
 
     expect(cancel).toBeInstanceOf(Cancel)
+    expect(cancel.getAmount()).toEqual("100.0000")
     expect(cancel.getId()).toEqual(cancelAuthorize.getId())
+    expect(cancel.getProcessing().getShortId()).toBeDefined()
+    expect(cancel.getProcessing().getUniqueId()).toBeDefined()
+    expect(cancel.getResources()).toBeDefined()
+    expect(cancel.getPayload()).toBeDefined()
   })
 
   it('Test fetch cancel authorize with Payment', async () => {
@@ -43,6 +48,7 @@ describe('Cancel test', () => {
 
     expect(cancel).toBeInstanceOf(Cancel)
     expect(cancel.getId()).toEqual(cancelCharge.getId())
+    expect(cancel.getPayload()).toBeDefined()
   })
 
   it('Test fetch cancel charge with Payment', async () => {
