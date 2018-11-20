@@ -10,7 +10,7 @@ export default class Shipment extends AbstractPayment {
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources(heidelpay)
+    this.resources = new Resources()
     this.processing = new Processing()
   }
 
@@ -48,11 +48,10 @@ export default class Shipment extends AbstractPayment {
    */
   public setResources(resources: any) {
     this.resources
-    .setCustomerId(resources.customerId)
-    .setMetadataId(resources.metadataId)
-    .setPaymentId(resources.paymentId)
-    .setTypeId(resources.typeId)
-    .setRiskId(resources.riskId)
+      .setCustomerId(resources.customerId)
+      .setMetadataId(resources.metadataId)
+      .setPaymentId(resources.paymentId)
+      .setTypeId(resources.typeId)
   }
 
   /**
@@ -71,7 +70,7 @@ export default class Shipment extends AbstractPayment {
    */
   public setProcessing(processing: any) {
     this.processing
-    .setUniqueId(processing.uniqueId)
-    .setShortId(processing.shortId)
+      .setUniqueId(processing.uniqueId)
+      .setShortId(processing.shortId)
   }
 }

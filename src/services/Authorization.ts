@@ -26,12 +26,12 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       const response: any = await paymentService
         .getRequestAdapter()
         .post(
-          apiURL.URL_PAYMENT_AUTHORIZE, 
-          payload, 
+          apiURL.URL_PAYMENT_AUTHORIZE,
+          payload,
           paymentService.getHeidelpay().getPrivateKey()
         )
 
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
 
@@ -43,7 +43,13 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
 
       // Set amount
       authorization.setAmount(response.amount)
-      
+
+      // Set currency
+      authorization.setCurrency(response.currency)
+
+      // Set return URL
+      authorization.setReturnUrl(response.returnUrl)
+
       // Set resources
       authorization.setResources(response.resources)
 
@@ -52,7 +58,10 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
 
       // Set payment object
       authorization.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
-      
+
+      // Set Payload
+      authorization.setPayload(response)
+
       // Resolve final result
       resolve(authorization)
     } catch (error) {

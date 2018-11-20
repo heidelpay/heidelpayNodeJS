@@ -6,11 +6,11 @@ import * as TestHelper from '../../helpers/TestHelper'
 describe('Charge after authorize test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard
-  const {getChargeAuthorization, getAuthorization} = TestHelper
+  const { getChargeAuthorization, getAuthorization } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
@@ -29,6 +29,7 @@ describe('Charge after authorize test', () => {
 
     expect(charge).toBeInstanceOf(Charge)
     expect(charge.getId()).toBeDefined()
+    expect(charge.getPayload()).toBeDefined()
   })
 
   it('Test partial charge after authorization', async () => {
@@ -38,6 +39,7 @@ describe('Charge after authorize test', () => {
 
     expect(charge).toBeInstanceOf(Charge)
     expect(charge.getId()).toBeDefined()
+    expect(charge.getPayload()).toBeDefined()
   })
 
   it('Test full charge after authorization with Heidelpay', async () => {
@@ -47,6 +49,7 @@ describe('Charge after authorize test', () => {
 
     expect(charge).toBeInstanceOf(Charge)
     expect(charge.getId()).toBeDefined()
+    expect(charge.getPayload()).toBeDefined()
   })
 
   it('Test partial charge after authorization with Heidelpay', async () => {
@@ -56,5 +59,6 @@ describe('Charge after authorize test', () => {
 
     expect(charge).toBeInstanceOf(Charge)
     expect(charge.getId()).toBeDefined()
+    expect(charge.getPayload()).toBeDefined()
   })
 })

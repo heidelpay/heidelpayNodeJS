@@ -7,9 +7,9 @@ export default class SepaDirectDebitGGuaranteed extends AbstractPaymentType impl
   private _bic: string
   private _holder: string
 
-  constructor(iban: string) {
+  constructor(iban?: string) {
     super()
-    this._iban = iban
+    this._iban = iban || ''
   }
 
   /**

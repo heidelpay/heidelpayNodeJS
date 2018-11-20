@@ -1,3 +1,4 @@
+import Heidelpay from '../../src/Heidelpay'
 import Card from "../../src/payments/types/Card"
 import { authorizeObject, chargeAuthorizeObject } from "../../src/payments/business/Authorization"
 import PaymentType from "../../src/payments/types/PaymentType"
@@ -7,13 +8,16 @@ import { cancelChargeObject, cancelAuthorizeObject } from "../../src/payments/bu
 
 export const getTimeout = () => 30000
 
+// export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a10ehAb66CT6wXy43gJVqMvvOjGY5Gt')
+export const createHeidelpayInstance = () => new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+
 export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
   let card: Card = new Card()
     .setPanNumber('4711100000000000')
     .setCVC('123')
     .setExpiryDate('01/2022')
 
-  if(builder) {
+  if (builder) {
     return card
   }
 
@@ -68,7 +72,7 @@ export const createCustomer = (heidelpay) => async (builder: boolean = false) =>
     .setMobile('+49 172 123 457')
     .setBillingAddress(billingAddress)
 
-  if(builder === true) {
+  if (builder === true) {
     return customer
   }
 
@@ -84,7 +88,7 @@ export const getAuthorization = (typeId: string | PaymentType, customerId?: stri
     returnUrl: 'https://www.google.at'
   }
 
-  if(customerId !== undefined) {
+  if (customerId !== undefined) {
     authorizePayload.customerId = customerId
   }
 
@@ -109,7 +113,7 @@ export const getCharge = (typeId: string | PaymentType, customerId?: string | Cu
     typeId: typeId
   }
 
-  if(customerId !== undefined) {
+  if (customerId !== undefined) {
     chargePayload.customerId = customerId
   }
 
@@ -121,7 +125,7 @@ export const getChargeAuthorization = (paymentId: string, amount?: number) => {
     paymentId: paymentId,
   }
 
-  if(amount !== undefined) {
+  if (amount !== undefined) {
     chargeAuthorizePayload.amount = amount
   }
 
@@ -134,7 +138,7 @@ export const getCancelCharge = (paymentId: string, chargeId: string, amount?: nu
     chargeId: chargeId,
   }
 
-  if(amount !== undefined) {
+  if (amount !== undefined) {
     cancelCharge.amount = amount
   }
 

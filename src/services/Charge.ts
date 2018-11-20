@@ -3,6 +3,7 @@ import PaymentService from './PaymentService'
 import Charge, { chargeObject } from '../payments/business/Charge'
 import FetchPayment from './FetchPayment';
 import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
+import { CLIENT_RENEG_WINDOW } from 'tls';
 
 export default (args: chargeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async (resolve, reject) => {
@@ -24,7 +25,7 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
         .post(apiURL.URL_PAYMENT_CHARGE, payload, paymentService.getHeidelpay().getPrivateKey())
 
       // Handle errors response        
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
 
@@ -37,6 +38,12 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
       // Set amount
       charge.setAmount(response.amount)
 
+      // Set currency
+      charge.setCurrency(response.currency)
+
+      // Set return URL
+      charge.setReturnUrl(response.returnUrl)
+
       // Set resources
       charge.setResources(response.resources)
 
@@ -45,6 +52,9 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
 
       // Set payment object
       charge.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
+
+      // Set Payload
+      charge.setPayload(response)
 
       // Resolve final result
       resolve(charge)

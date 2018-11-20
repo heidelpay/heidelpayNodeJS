@@ -10,11 +10,11 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
   return new Promise(async (resolve, reject) => {
     try {
       let payload: any = {}
-  
+
       if (args.amount) {
         payload.amount = args.amount
       }
-  
+
       // Call api end point to get response
       const response: any = await paymentService.getRequestAdapter().post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_CHARGE_AUTHORIZE, {
@@ -25,25 +25,28 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
       )
 
       // Handle errors response
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
-  
+
       // New Charge with Hedeipay instance
       let charge = new Charge(paymentService.getHeidelpay())
-  
+
       // Set charge Id
       charge.setId(response.id)
-  
+
       // Set resources
       charge.setResources(response.resources)
 
       // Set Processing
       charge.setProcessing(response.processing)
-  
+
       // Set payment object
       charge.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
-  
+
+      // Set payload
+      charge.setPayload(response)
+
       // Resolve final result
       resolve(charge)
     } catch (error) {

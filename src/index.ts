@@ -1,6 +1,6 @@
 import './configs/Path'
 import Heidelpay from './Heidelpay'
-import {Customer, Address, Salutation} from './payments/Customer'
+import { Customer, Address, Salutation } from './payments/Customer'
 import Card from './payments/types/Card'
 import Giropay from './payments/types/Giropay'
 import Ideal from './payments/types/Ideal'
@@ -11,6 +11,7 @@ import Przelewy24 from './payments/types/Przelewy24'
 import SepaDirectDebit from './payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from './payments/types/SepaDirectDebitGuaranteed'
 import Sofort from './payments/types/Sofort'
+import Pis from './payments/types/Pis'
 
 export default Heidelpay
 export {
@@ -26,5 +27,6 @@ export {
   Przelewy24,
   SepaDirectDebit,
   SepaDirectDebitGuaranteed,
-  Sofort
+  Sofort,
+  Pis
 }

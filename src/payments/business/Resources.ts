@@ -6,21 +6,6 @@ export default class Resources {
   private customerId: string
   private metadataId: string
   private paymentId: string
-  private riskId: string
-  private _heidelpay: Heidelpay
-
-  constructor(heidelpay: Heidelpay) {
-    this._heidelpay = heidelpay
-  }
-
-  /**
-   * Get Heidelpay
-   *
-   * @returns
-   */
-  public getHeidelpay(): Heidelpay {
-    return this._heidelpay
-  }
 
   /**
    * Get type Id
@@ -99,26 +84,6 @@ export default class Resources {
    */
   public setPaymentId(paymentId: string): Resources {
     this.paymentId = paymentId
-    return this
-  }
-
-  /**
-   * Get risk Id
-   *
-   * @returns {string}
-   */
-  public getRiskId(): string {
-    return this.riskId
-  }
-
-  /**
-   * Set risk Id
-   *
-   * @param {string} riskId
-   * @returns {Resources}
-   */
-  public setRiskId(riskId: string): Resources {
-    this.riskId = riskId
     return this
   }
 }

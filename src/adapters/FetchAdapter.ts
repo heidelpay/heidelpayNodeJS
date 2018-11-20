@@ -85,7 +85,7 @@ export class FetchAdapter {
       const password = ''
       const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
       const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
-  
+
       fetch(requestUrl, {
         headers: {
           Authorization: `Basic ${basicAuthValue}`,
@@ -98,7 +98,7 @@ export class FetchAdapter {
         })
         .catch(error => {
           reject(error)
-        })   
+        })
     })
   }
 }

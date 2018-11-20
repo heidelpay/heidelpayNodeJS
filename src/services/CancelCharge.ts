@@ -9,12 +9,12 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
   return new Promise(async (resolve, reject) => {
     try {
       let payload: any = {}
-  
+
       // Add amount into payload if its passed
       if (args.amount) {
         payload.amount = args.amount
       }
-  
+
       // Call api end point to get response
       const response: any = await paymentService.getRequestAdapter().post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_CHARGE_CANCEL, {
@@ -26,28 +26,31 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
       )
 
       // Handle errors response        
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
-  
+
       // New Cancel with Hedeipay instance
       let cancel = new Cancel(paymentService.getHeidelpay())
-  
+
       // Set cancel Id
       cancel.setId(response.id)
-  
+
       // Set amount of cancel
       cancel.setAmount(response.amount)
-  
+
       // Set resources
       cancel.setResources(response.resources)
 
       // Set Processing
       cancel.setProcessing(response.processing)
-  
+
       // Set payment object
       cancel.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
-  
+
+      // Set payload
+      cancel.setPayload(response)
+
       // Resolve final result
       resolve(cancel)
     } catch (error) {

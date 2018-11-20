@@ -9,12 +9,14 @@ import Processing from './Processing';
 
 export default class Authorization extends AbstractPayment {
   private amount: string
+  private currency: string;
+  private returnUrl: string
   private resources: Resources
   private processing: Processing
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
-    this.resources = new Resources(heidelpay)
+    this.resources = new Resources()
     this.processing = new Processing()
   }
 
@@ -37,6 +39,40 @@ export default class Authorization extends AbstractPayment {
   }
 
   /**
+   * Set currency
+   *
+   * @param {string} currency
+   */
+  public setCurrency(currency: string) {
+    this.currency = currency
+  }
+
+  /**
+   * Get currency
+   *
+   * @returns
+   */
+  public getCurrency() {
+    return this.currency
+  }
+
+  /**
+   * Set return url
+   *
+   * @param {string} returnUrl
+   */
+  public setReturnUrl(returnUrl: string) {
+    this.returnUrl = returnUrl
+  }
+
+  /**
+   * Get return url
+   */
+  public getReturnUrl() {
+    return this.returnUrl
+  }
+
+  /**
    * Get resources
    *
    * @returns {Resources}
@@ -52,11 +88,10 @@ export default class Authorization extends AbstractPayment {
    */
   public setResources(resources: any) {
     this.resources
-    .setCustomerId(resources.customerId)
-    .setMetadataId(resources.metadataId)
-    .setPaymentId(resources.paymentId)
-    .setTypeId(resources.typeId)
-    .setRiskId(resources.riskId)
+      .setCustomerId(resources.customerId)
+      .setMetadataId(resources.metadataId)
+      .setPaymentId(resources.paymentId)
+      .setTypeId(resources.typeId)
   }
 
   /**
@@ -75,8 +110,8 @@ export default class Authorization extends AbstractPayment {
    */
   public setProcessing(processing: any) {
     this.processing
-    .setUniqueId(processing.uniqueId)
-    .setShortId(processing.shortId)
+      .setUniqueId(processing.uniqueId)
+      .setShortId(processing.shortId)
   }
 
   /**

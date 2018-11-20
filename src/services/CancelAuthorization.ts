@@ -26,7 +26,7 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
       )
 
       // Handle errors response        
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
 
@@ -47,6 +47,9 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
 
       // Set payment object
       cancel.setPayment(await FetchPayment(response.resources.paymentId, paymentService))
+
+      // Set payload
+      cancel.setPayload(response)
 
       // Resolve final result
       resolve(cancel)

@@ -9,6 +9,7 @@ import Przelewy24 from '../payments/types/Przelewy24'
 import SepaDirectDebit from '../payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuaranteed'
 import Sofort from '../payments/types/Sofort'
+import Pis from '../payments/types/Pis'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -79,6 +80,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new SepaDirectDebitGuaranteed("")
     case 'sft':
       return new Sofort()
+    case 'pis':
+      return new Pis()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -147,8 +150,8 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
     case 'sepa-direct-debit-guaranteed':
       const ddg: SepaDirectDebitGuaranteed = new SepaDirectDebitGuaranteed(response.iban)
-      .setBic(response.bic)
-      .setHolder(response.holder)
+        .setBic(response.bic)
+        .setHolder(response.holder)
 
       ddg.setId(response.id)
       return ddg
@@ -158,6 +161,12 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
       sofort.setId(response.id)
       return sofort
+
+    case 'PIS':
+      const pis: Pis = new Pis()
+
+      pis.setId(response.id)
+      return pis
     default:
       throw new Error(`Type ${response.method} is currently not supported by the SDK`)
   }

@@ -7,21 +7,28 @@ import { Customer } from '../../../src/payments/Customer';
 
 describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
   let heidelpay: Heidelpay
-  const {getCharge, createFullCustomer} = TestHelper
+  const { getCharge, createFullCustomer } = TestHelper
+
+  const getSSDConstructor = () => {
+    return new SepaDirectDebitGuaranteed("DE89370400440532013000")
+      .setBic("COBADEFFXXX")
+      .setHolder("Rene Felder")
+  }
 
   const getSSD = () => {
-    return new SepaDirectDebitGuaranteed("DE89370400440532013000")
-    .setBic("COBADEFFXXX")
-    .setHolder("Rene Felder")
+    return new SepaDirectDebitGuaranteed()
+      .setIban("DE89370400440532013000")
+      .setBic("COBADEFFXXX")
+      .setHolder("Rene Felder")
   }
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
   })
 
   it('Test Create SepaDirectDebitGuaranteed payment type', async () => {
-    const ssd: SepaDirectDebitGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGuaranteed
+    const ssd: SepaDirectDebitGuaranteed = await heidelpay.createPaymentType(getSSDConstructor()) as SepaDirectDebitGuaranteed
 
     expect(ssd.getId()).toBeDefined()
   })
@@ -45,5 +52,6 @@ describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
     expect(shipment.getAmount()).toBeDefined()
     expect(shipment.getProcessing()).toBeDefined()
     expect(shipment.getResources()).toBeDefined()
+    expect(shipment.getPayload()).toBeDefined()
   })
 })

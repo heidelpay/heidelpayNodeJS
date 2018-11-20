@@ -4,16 +4,16 @@ import * as TestHelper from '../../helpers/TestHelper'
 
 describe('Customer test', () => {
   let heidelpay: Heidelpay
-  const {createMiniumCustomer, createFullCustomer} = TestHelper
+  const { createMiniumCustomer, createFullCustomer } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
   })
 
   it('Test create minium customer', async () => {
     const customer: Customer = await heidelpay.createCustomer(createMiniumCustomer())
-    
+
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getFirstName()).toEqual(createMiniumCustomer().getFirstName())
     expect(customer.getLastName()).toEqual(createMiniumCustomer().getLastName())
@@ -21,7 +21,7 @@ describe('Customer test', () => {
 
   it('Test create full customer', async () => {
     const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
-    
+
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getCustomerId()).toBeDefined()
   })
@@ -29,7 +29,7 @@ describe('Customer test', () => {
   it('Test fetch minium customer', async () => {
     const customer: Customer = await heidelpay.createCustomer(createMiniumCustomer())
     const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
-    
+
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getCustomerId()).toEqual(fetchCustomer.getCustomerId())
   })
@@ -37,7 +37,7 @@ describe('Customer test', () => {
   it('Test fetch full customer', async () => {
     const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
     const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
-    
+
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getCustomerId()).toEqual(fetchCustomer.getCustomerId())
   })

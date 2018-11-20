@@ -1,3 +1,3 @@
 export default (response: any) => {
-  throw new Error(response.errors[0].merchantMessage)
+  throw new Error(JSON.stringify(response.errors))
 }
