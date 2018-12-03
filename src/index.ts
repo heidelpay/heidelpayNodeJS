@@ -11,7 +11,7 @@ import Przelewy24 from './payments/types/Przelewy24'
 import SepaDirectDebit from './payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from './payments/types/SepaDirectDebitGuaranteed'
 import Sofort from './payments/types/Sofort'
-import Pis from './payments/types/Pis'
+import PIS from './payments/types/Pis'
 
 export default Heidelpay
 export {
@@ -28,5 +28,5 @@ export {
   SepaDirectDebit,
   SepaDirectDebitGuaranteed,
   Sofort,
-  Pis
+  PIS
 }
