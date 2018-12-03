@@ -13,7 +13,7 @@ export class FetchAdapter {
   constructor() {
     const config = {
       apiProtocol: process.env.API_PROTOCOL || 'https',
-      apiHost: process.env.API_HOST || 'dev-api.heidelpay.com',
+      apiHost: process.env.API_HOST || 'api.heidelpay.com',
       apiVersion: process.env.API_VERSION || 'v1'
     }
 
@@ -82,9 +82,11 @@ export class FetchAdapter {
 
   private _fetch(url: string, options = {}, privateKey: string, isRawUrl: Boolean = false): Promise<Response> {
     return new Promise((resolve, reject) => {
+
       const password = ''
       const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
       const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
+
 
       fetch(requestUrl, {
         headers: {
