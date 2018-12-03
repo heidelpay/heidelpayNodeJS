@@ -1,6 +1,7 @@
 import Card from '../payments/types/Card'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
 import Giropay from '../payments/types/Giropay'
+import Paypal from '../payments/types/Paypal'
 import Ideal from '../payments/types/Ideal'
 import Invoice from '../payments/types/Invoice'
 import InvoiceGuaranteed from '../payments/types/InvoiceGuaranteed'
@@ -9,7 +10,7 @@ import Przelewy24 from '../payments/types/Przelewy24'
 import SepaDirectDebit from '../payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuaranteed'
 import Sofort from '../payments/types/Sofort'
-import Pis from '../payments/types/Pis'
+import PIS from '../payments/types/Pis'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -64,6 +65,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new Card()
     case 'gro':
       return new Giropay()
+    case 'ppl':
+      return new Paypal()
     case 'idl':
       return new Ideal()
     case 'ivc':
@@ -81,7 +84,7 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
     case 'sft':
       return new Sofort()
     case 'pis':
-      return new Pis()
+      return new PIS()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -109,6 +112,12 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
       giropay.setId(response.id)
       return giropay
+    
+    case 'paypal':
+      const paypal: Paypal = new Paypal()
+
+      paypal.setId(response.id)
+      return paypal
 
     case 'ideal':
       const ideal: Ideal = new Ideal().setBic(response.bic)
@@ -163,7 +172,7 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       return sofort
 
     case 'PIS':
-      const pis: Pis = new Pis()
+      const pis: PIS = new PIS()
 
       pis.setId(response.id)
       return pis
