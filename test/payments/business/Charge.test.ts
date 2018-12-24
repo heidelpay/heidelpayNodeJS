@@ -29,6 +29,21 @@ describe('Charge test', () => {
     expect(charge.getProcessing().getUniqueId()).toBeDefined()
   })
 
+  it('Test charge with typeId and Order Id', async () => {
+    const card = await createPaymentTypeCard()
+    const chargeObject = getCharge(card.getId())
+    const charge: Charge = await heidelpay.charge(chargeObject)
+
+    expect(chargeObject.orderId).toEqual(charge.getOrderId())
+    expect(charge.getId()).toBeDefined()
+    expect(charge.getAmount()).toBeDefined()
+    expect(charge.getCurrency()).toBeDefined()
+    expect(charge.getReturnUrl()).toBeDefined()
+    expect(charge.getPayload()).toBeDefined()
+    expect(charge.getProcessing().getShortId()).toBeDefined()
+    expect(charge.getProcessing().getUniqueId()).toBeDefined()
+  })
+
   it('Test charge with payment type', async () => {
     const card = await createPaymentTypeCard()
     const charge: Charge = await heidelpay.charge(getCharge(card))

@@ -25,7 +25,8 @@ describe('Payment Type Card Test', () => {
       const errorHeidelpay = new Heidelpay('6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
       await errorHeidelpay.authorize(getAuthorization(""))
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -33,7 +34,8 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.charge(getCharge(""))
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -41,7 +43,8 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.chargeAuthorization(TestHelper.getChargeAuthorization(""))
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -49,7 +52,8 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.cancelAuthorization(getCancelAuthorization("", "", 50))
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -57,7 +61,8 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.cancelCharge(getCancelCharge("", ""))
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -66,7 +71,8 @@ describe('Payment Type Card Test', () => {
       const card: Card = new Card()
       await heidelpay.createPaymentType(card)
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -74,7 +80,8 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.fetchPayment("")
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 
@@ -83,7 +90,8 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.fetchCancel("", "", "")
     } catch (error) {
-      expect(error.message).toBeDefined()
+      const errorData = JSON.parse(error.message)
+      expect(errorData[0].code).toBeDefined()
     }
   })
 })

@@ -11,6 +11,7 @@ const excuteScript = async () => {
     const paymentCard = await heidelpay.createPaymentType(card)
     const authorize = await paymentCard.authorize({
       amount: 100,
+      orderId: 'order-157891-1234',
       currency: 'EUR',
       typeId: paymentCard.getId(),
       returnUrl: 'https://www.google.at'

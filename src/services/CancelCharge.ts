@@ -39,6 +39,11 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
       // Set amount of cancel
       cancel.setAmount(response.amount)
 
+      // Set order Id
+      if(response.orderId) {
+        cancel.setOrderId(response.orderId)
+      }
+
       // Set resources
       cancel.setResources(response.resources)
 

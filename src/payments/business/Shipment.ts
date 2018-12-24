@@ -5,6 +5,7 @@ import Processing from "./Processing";
 
 export default class Shipment extends AbstractPayment {
   private amount: string
+  private orderId: string
   private resources: Resources
   private processing: Processing
 
@@ -30,6 +31,24 @@ export default class Shipment extends AbstractPayment {
    */
   public setAmount(amount: string) {
     this.amount = amount
+  }
+
+  /**
+   * Get Order OId
+   *
+   * @returns {string}
+   */
+  public getOrderId(): string {
+    return this.orderId
+  }
+
+  /**
+   * Set Amount
+   *
+   * @param {string} amount
+   */
+  public setOrderId(orderId: string) {
+    this.orderId = orderId
   }
 
   /**

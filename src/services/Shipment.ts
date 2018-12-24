@@ -29,6 +29,11 @@ export default (paymentId: string, paymentService: PaymentService): Promise<Ship
       // Set amount of charge
       shipment.setAmount(response.amount)
 
+      // Set order Id
+      if(response.orderId) {
+        shipment.setOrderId(response.orderId)
+      }
+
       // Set resources
       shipment.setResources(response.resources)
 

@@ -12,9 +12,9 @@ export class FetchAdapter {
 
   constructor() {
     const config = {
-      apiProtocol: process.env.API_PROTOCOL || 'https',
-      apiHost: process.env.API_HOST || 'api.heidelpay.com',
-      apiVersion: process.env.API_VERSION || 'v1'
+      apiProtocol: 'https',
+      apiHost: 'api.heidelpay.com',
+      apiVersion: 'v1'
     }
 
     this.api = `${config.apiProtocol}://${config.apiHost}/${config.apiVersion}`

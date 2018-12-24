@@ -5,7 +5,9 @@ const Customer = require('@heidelpay/nodejs-sdk').Customer
 const excuteScript = function() {
   const heidelpay = new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n')
 
-  const card = new Card('4711100000000000', '01/2022').setCVC('123')
+  const card = new Card('4711100000000000', '01/2022')
+  card.setCVC('123')
+
   const customer = new Customer('Rene', 'Fred')
 
   heidelpay.createCustomer(customer).then(function(newCustomer) {
@@ -17,12 +19,15 @@ const excuteScript = function() {
 
     return paymentCard.authorize({
       amount: 100,
+      orderId: Math.floor(Date.now() / 1000).toString(),
       currency: 'EUR',
       typeId: paymentCard.getId(),
       returnUrl: 'https://www.google.at'
     })
   }).then(function(authorize) {
     console.log('authorize', authorize.getId())
+    console.log('authorize', authorize.getOrderId())
+    
     // Authorize successful with payment Card
   }).catch(function (error) {
     console.log('error', error)

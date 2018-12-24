@@ -3,10 +3,10 @@ import Card from "../../src/payments/types/Card"
 import { authorizeObject, chargeAuthorizeObject } from "../../src/payments/business/Authorization"
 import PaymentType from "../../src/payments/types/PaymentType"
 import { Customer, Address, Salutation } from "../../src/payments/Customer"
-import { chargeObject } from "../../src/payments/business/Charge";
-import { cancelChargeObject, cancelAuthorizeObject } from "../../src/payments/business/Cancel";
+import { chargeObject } from "../../src/payments/business/Charge"
+import { cancelChargeObject, cancelAuthorizeObject } from "../../src/payments/business/Cancel"
 
-export const getTimeout = () => 30000
+export const getTimeout = () => 60000
 
 export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n')
 
@@ -94,6 +94,22 @@ export const getAuthorization = (typeId: string | PaymentType, customerId?: stri
   return authorizePayload
 }
 
+export const getAuthorizationWithOrderId = (typeId: string | PaymentType, customerId?: string | Customer) => {
+  const authorizePayload: authorizeObject = {
+    amount: 100,
+    orderId: Math.floor(Date.now() / 1000).toString(),
+    currency: 'EUR',
+    typeId: typeId,
+    returnUrl: 'https://www.google.at'
+  }
+
+  if (customerId !== undefined) {
+    authorizePayload.customerId = customerId
+  }
+
+  return authorizePayload
+}
+
 export const getCancelAuthorization = (paymentId: string, authorizeId: string, amount: number) => {
   const authorizePayload: cancelAuthorizeObject = {
     amount: amount,
@@ -107,6 +123,22 @@ export const getCancelAuthorization = (paymentId: string, authorizeId: string, a
 export const getCharge = (typeId: string | PaymentType, customerId?: string | Customer) => {
   const chargePayload: chargeObject = {
     amount: 50,
+    currency: 'EUR',
+    returnUrl: 'https://www.google.at',
+    typeId: typeId
+  }
+
+  if (customerId !== undefined) {
+    chargePayload.customerId = customerId
+  }
+
+  return chargePayload
+}
+
+export const getChargeWithOrderId = (typeId: string | PaymentType, customerId?: string | Customer) => {
+  const chargePayload: chargeObject = {
+    amount: 50,
+    orderId: Math.floor(Date.now() / 1000).toString(),
     currency: 'EUR',
     returnUrl: 'https://www.google.at',
     typeId: typeId

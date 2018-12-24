@@ -16,7 +16,9 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
       }
 
       // Call api end point to get response
-      const response: any = await paymentService.getRequestAdapter().post(
+      const response: any = await paymentService
+      .getRequestAdapter()
+      .post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_CHARGE_AUTHORIZE, {
           paymentId: args.paymentId
         }),
@@ -34,6 +36,14 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
 
       // Set charge Id
       charge.setId(response.id)
+
+      // Set amount
+      charge.setAmount(response.amount)
+
+      // Set order Id
+      if(response.orderId) {
+        charge.setOrderId(response.orderId)
+      }
 
       // Set resources
       charge.setResources(response.resources)

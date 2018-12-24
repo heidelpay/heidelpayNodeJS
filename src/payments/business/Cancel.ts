@@ -5,6 +5,7 @@ import Processing from './Processing';
 
 export default class Cancel extends AbstractPayment {
   private amount: string
+  private orderId: string
   private refundId: string
   private resources: Resources
   private processing: Processing
@@ -31,6 +32,24 @@ export default class Cancel extends AbstractPayment {
    */
   public setAmount(amount: string) {
     this.amount = amount
+  }
+
+  /**
+   * Get Order OId
+   *
+   * @returns {string}
+   */
+  public getOrderId(): string {
+    return this.orderId
+  }
+
+  /**
+   * Set Amount
+   *
+   * @param {string} amount
+   */
+  public setOrderId(orderId: string) {
+    this.orderId = orderId
   }
 
   /**
