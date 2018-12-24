@@ -8,15 +8,24 @@ import { CLIENT_RENEG_WINDOW } from 'tls';
 export default (args: chargeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { amount, currency, returnUrl, customerId, typeId } = args
+      const { amount, orderId, currency, returnUrl, customerId, typeId } = args
       const payload: any = {
         amount: amount,
         currency: currency,
         returnUrl: returnUrl,
         resources: {
-          customerId: customerId,
           typeId: typeId
         }
+      }
+
+      // Add order Id into payload if its passed
+      if (orderId) {
+        payload.orderId = orderId
+      }
+
+      // Add customer Id into payload if its passed
+      if (customerId) {
+        payload.resources.customerId = customerId
       }
 
       // Call api end point to get response
@@ -37,6 +46,11 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
 
       // Set amount
       charge.setAmount(response.amount)
+
+      // Set order Id
+      if(response.orderId) {
+        charge.setOrderId(response.orderId)
+      }
 
       // Set currency
       charge.setCurrency(response.currency)

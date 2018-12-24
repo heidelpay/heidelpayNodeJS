@@ -18,7 +18,7 @@ describe('Payment Type Card Test', () => {
 
       const errorMessage = JSON.parse(error.message)
       expect(errorMessage[0].code).toEqual("API.310.100.003")
-      expect(errorMessage[0].merchantMessage).toEqual("Payment not found with key s-pay-578901239")
+      expect(errorMessage[0].merchantMessage).toBeDefined()
     }
   })
 
@@ -30,7 +30,7 @@ describe('Payment Type Card Test', () => {
 
       const errorMessage = JSON.parse(error.message)
       expect(errorMessage[0].code).toEqual("API.310.100.003")
-      expect(errorMessage[0].merchantMessage).toEqual("Payment not found with key s-pay-578901239")
+      expect(errorMessage[0].merchantMessage).toBeDefined()
     }
   })
 
@@ -67,6 +67,7 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.fetchCancel('s-pay-57', 's-cnl-1')
     } catch (error) {
+      expect(error.message).toBeDefined()
       expect(error.message).toEqual("Cancel Id is not found in list of transaction")
     }
   })
@@ -75,6 +76,7 @@ describe('Payment Type Card Test', () => {
     try {
       await heidelpay.fetchCancel('s-pay-57', 's-cnl-1', 's-chg-1')
     } catch (error) {
+      expect(error.message).toBeDefined()
       expect(error.message).toEqual("Cancel Id is not found in list of transaction")
     }
   })

@@ -11,7 +11,7 @@ describe('Payment Type Prepayment Test', () => {
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+    heidelpay = TestHelper.createHeidelpayInstance()
   })
 
   it('Test Create Prepayment payment type', async () => {

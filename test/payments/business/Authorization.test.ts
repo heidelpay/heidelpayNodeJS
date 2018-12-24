@@ -3,12 +3,12 @@ import Authorization from '../../../src/payments/business/Authorization'
 import Card from '../../../src/payments/types/Card'
 import { Customer } from '../../../src/payments/Customer'
 import * as TestHelper from '../../helpers/TestHelper'
-import Payment from '../../../src/payments/business/Payment';
+import Payment from '../../../src/payments/business/Payment'
 
 describe('Authorize test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard, createCustomer
-  const { getAuthorization } = TestHelper
+  const { getAuthorization, getAuthorizationWithOrderId } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
@@ -28,6 +28,20 @@ describe('Authorize test', () => {
     expect(authorize.getReturnUrl()).toBeDefined()
     expect(authorize.getProcessing().getShortId()).toBeDefined()
     expect(authorize.getProcessing().getUniqueId()).toBeDefined()
+    expect(authorize.getResources()).toBeDefined()
+    expect(authorize.getPayload()).toBeDefined()
+  })
+
+  it('Test authorize with payment type Card and Order Id', async () => {
+    const card = await createPaymentTypeCard(true)
+    const authorizeObject = getAuthorizationWithOrderId(card)
+    const authorize: Authorization = await heidelpay.authorize(authorizeObject)
+    const payment: Payment = await heidelpay.fetchPayment(authorize.getResources().getPaymentId()) as Payment
+
+    expect(authorize.getOrderId()).toEqual(authorizeObject.orderId)
+    expect(payment.getResources()).toBeDefined()
+    expect(authorize).toBeInstanceOf(Authorization)
+    expect(authorize.getId()).toBeDefined()
     expect(authorize.getResources()).toBeDefined()
     expect(authorize.getPayload()).toBeDefined()
   })

@@ -4,11 +4,12 @@ import { Customer } from '../Customer'
 import Resources from './Resources'
 import PaymentType from '../types/PaymentType'
 import Cancel, { cancelChargeObject } from './Cancel'
-import Processing from './Processing';
+import Processing from './Processing'
 
 export default class Charge extends AbstractPayment {
   private amount: string
-  private currency: string;
+  private orderId: string
+  private currency: string
   private returnUrl: string
   private resources: Resources
   private cancelList: Array<Cancel>
@@ -35,6 +36,24 @@ export default class Charge extends AbstractPayment {
    */
   public getAmount(): string {
     return this.amount
+  }
+
+  /**
+   * Get Order OId
+   *
+   * @returns {string}
+   */
+  public getOrderId(): string {
+    return this.orderId
+  }
+
+  /**
+   * Set Amount
+   *
+   * @param {string} amount
+   */
+  public setOrderId(orderId: string) {
+    this.orderId = orderId
   }
 
   /**
@@ -169,6 +188,7 @@ export default class Charge extends AbstractPayment {
 
 export type chargeObject = {
   amount: number
+  orderId?: string
   currency: string
   returnUrl: string
   typeId: string | PaymentType

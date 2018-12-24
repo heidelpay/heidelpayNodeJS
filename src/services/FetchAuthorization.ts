@@ -15,6 +15,11 @@ export default (args: string, paymentService: PaymentService): Promise<Authoriza
       // Set authorization Id
       authorization.setId(response.id)
 
+      // Set order Id
+      if(response.orderId) {
+        authorization.setOrderId(response.orderId)
+      }
+
       // Set amount of authorization
       authorization.setAmount(response.amount)
 

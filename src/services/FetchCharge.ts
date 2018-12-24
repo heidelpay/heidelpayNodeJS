@@ -18,6 +18,11 @@ export default (args: string, paymentService: PaymentService): Promise<Charge> =
       // Set amount of charge
       charge.setAmount(response.amount)
 
+      // Set order Id
+      if(response.orderId) {
+        charge.setOrderId(response.orderId)
+      }
+
       // Set currency
       charge.setCurrency(response.currency)
 

@@ -11,7 +11,7 @@ describe('Payment Type PIS Test', () => {
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
-    heidelpay = new Heidelpay('s-priv-2a10ehAb66CT6wXy43gJVqMvvOjGY5Gt')
+    heidelpay = TestHelper.createHeidelpayInstance()
   })
 
   it('Test Create PIS payment type', async () => {
