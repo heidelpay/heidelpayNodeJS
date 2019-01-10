@@ -2,16 +2,16 @@ import * as apiURL from '../../configs/ApiUrls'
 import AbstractPaymentType from './AbstractPaymentType'
 import PaymentType from './PaymentType'
 
-export default class Ideal extends AbstractPaymentType implements PaymentType {
+export default class Eps extends AbstractPaymentType implements PaymentType {
   private _bic: string
 
   /**
    * Set BIC
    *
    * @param {string} bic
-   * @returns {Ideal}
+   * @returns {Eps}
    */
-  public setBic(bic: string): Ideal {
+  public setBic(bic: string): Eps {
     this._bic = bic
     return this
   }
@@ -31,7 +31,7 @@ export default class Ideal extends AbstractPaymentType implements PaymentType {
    * @returns {string}
    */
   public getTypeUrl(): string {
-    return apiURL.URL_TYPE_IDEAL
+    return apiURL.URL_TYPE_EPS
   }
 
   /**
@@ -40,6 +40,10 @@ export default class Ideal extends AbstractPaymentType implements PaymentType {
    * @returns
    */
   public getPayload() {
+    if(typeof this.getBic() === 'undefined') {
+        return {}
+    }
+
     return {
       bic: this.getBic()
     }

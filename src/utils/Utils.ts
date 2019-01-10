@@ -1,5 +1,6 @@
 import Card from '../payments/types/Card'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
+import EPS from '../payments/types/Eps'
 import Giropay from '../payments/types/Giropay'
 import Paypal from '../payments/types/Paypal'
 import Ideal from '../payments/types/Ideal'
@@ -63,6 +64,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
   switch (paymentType) {
     case 'crd':
       return new Card()
+    case 'eps':
+      return new EPS()
     case 'gro':
       return new Giropay()
     case 'ppl':
@@ -107,6 +110,12 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       card.setId(response.id)
       return card
 
+    case 'EPS':
+      const eps: EPS = new EPS().setBic(response.bic)
+
+      eps.setId(response.id)
+      return eps
+      
     case 'giropay':
       const giropay: Giropay = new Giropay()
 
