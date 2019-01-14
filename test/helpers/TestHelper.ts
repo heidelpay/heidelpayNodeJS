@@ -38,6 +38,15 @@ export const createFullCustomer = () => {
     country: 'DE'
   }
 
+  const shippingAddress: Address = {
+    name: 'Peter Universum',
+    street: 'Hugo-Junkers-Str. 5',
+    state: 'DE-BO',
+    zip: '60386',
+    city: 'Frankfurt am Main',
+    country: 'DE'
+  }
+
   let customer: Customer = new Customer()
     .setFirstName('Rene')
     .setLastName('Felder')
@@ -47,6 +56,7 @@ export const createFullCustomer = () => {
     .setPhone('+49 6221 64 71 101')
     .setMobile('+49 172 123 457')
     .setBillingAddress(billingAddress)
+    .setShippingAddress(shippingAddress)
 
   return customer
 }

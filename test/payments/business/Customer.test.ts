@@ -20,10 +20,13 @@ describe('Customer test', () => {
   })
 
   it('Test create full customer', async () => {
-    const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
+    const fullCustomer = createFullCustomer()
+    const customer: Customer = await heidelpay.createCustomer(fullCustomer)
 
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getCustomerId()).toBeDefined()
+    expect(customer.getBillingAddress()).toEqual(fullCustomer.getBillingAddress())
+    expect(customer.getShippingAddress()).toEqual(fullCustomer.getShippingAddress())
   })
 
   it('Test fetch minium customer', async () => {
@@ -40,6 +43,8 @@ describe('Customer test', () => {
 
     expect(customer).toBeInstanceOf(Customer)
     expect(customer.getCustomerId()).toEqual(fetchCustomer.getCustomerId())
+    expect(customer.getBillingAddress()).toEqual(fetchCustomer.getBillingAddress())
+    expect(customer.getShippingAddress()).toEqual(fetchCustomer.getShippingAddress())
   })
 
   it('Test update customer', async () => {

@@ -1,6 +1,7 @@
 import { Customer } from '../../payments/Customer'
 
 export default (response: any, customer: Customer | undefined = undefined): Customer => {
+  // For create new customer
   if (customer) {
     const newCustomer = new Customer()
       .setCustomerId(response.id)
@@ -11,10 +12,13 @@ export default (response: any, customer: Customer | undefined = undefined): Cust
       .setEmail(customer.getEmail())
       .setPhone(customer.getPhone())
       .setMobile(customer.getMobile())
+      .setBillingAddress(customer.getBillingAddress())
+      .setShippingAddress(customer.getShippingAddress())
 
     return newCustomer
   }
 
+  // For fetch or update customer
   const newCustomer = new Customer()
     .setCustomerId(response.id)
     .setFirstName(response.firstname)
@@ -24,6 +28,8 @@ export default (response: any, customer: Customer | undefined = undefined): Cust
     .setEmail(response.email)
     .setPhone(response.phone)
     .setMobile(response.mobile)
+    .setBillingAddress(response.billingAddress)
+    .setShippingAddress(response.shippingAddress)
 
   return newCustomer
 }
