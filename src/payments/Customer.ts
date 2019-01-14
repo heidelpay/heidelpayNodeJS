@@ -8,6 +8,7 @@ class Customer {
   private _phone: string
   private _mobile: string
   private _billingAddress: Address
+  private _shippingAddress: Address
 
   constructor(firstName: string = '', lastName: string = '') {
     this._firstName = firstName
@@ -23,7 +24,8 @@ class Customer {
       email: this.getEmail(),
       phone: this.getPhone(),
       mobile: this.getMobile(),
-      billingAddress: this.getBillingAddress()
+      billingAddress: this.getBillingAddress(),
+      shippingAddress: this.getShippingAddress()
     }
   }
 
@@ -205,6 +207,23 @@ class Customer {
    */
   public getBillingAddress(): Address {
     return this._billingAddress
+  }
+
+  /**
+   * Set Shipping Address
+   * @param value 
+   */
+  public setShippingAddress(value: Address): Customer {
+    this._shippingAddress = value
+    return this
+  }
+
+  /**
+   * Set Shipping Address
+   * @param value 
+   */
+  public getShippingAddress(): Address {
+    return this._shippingAddress
   }
 }
 
