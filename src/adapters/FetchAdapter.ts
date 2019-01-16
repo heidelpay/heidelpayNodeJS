@@ -10,11 +10,11 @@ require('isomorphic-fetch')
 export class FetchAdapter {
   private api: string
 
-  constructor() {
+  constructor(argsConfig?: any) {
     const config = {
-      apiProtocol: 'https',
-      apiHost: 'api.heidelpay.com',
-      apiVersion: 'v1'
+      apiProtocol: argsConfig ? argsConfig.apiProtocol : 'https',
+      apiHost: argsConfig ? argsConfig.apiHost : 'api.heidelpay.com',
+      apiVersion: argsConfig ? argsConfig.apiVersion : 'v1'
     }
 
     this.api = `${config.apiProtocol}://${config.apiHost}/${config.apiVersion}`
@@ -86,6 +86,8 @@ export class FetchAdapter {
       const password = ''
       const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
       const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
+
+      console.log('requestUrl', requestUrl)
 
 
       fetch(requestUrl, {
