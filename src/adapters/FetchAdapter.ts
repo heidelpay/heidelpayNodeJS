@@ -1,6 +1,7 @@
 const Base64 = require('js-base64').Base64
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
+import Environment from '../configs/Environment'
 /**
  * Fetch Adapter
  *
@@ -10,11 +11,24 @@ require('isomorphic-fetch')
 export class FetchAdapter {
   private api: string
 
-  constructor(argsConfig?: any) {
+  constructor(env?: string) {
+    let argsConfig
+
+    switch(env) {
+      case 'development':
+        argsConfig = Environment['development']
+        break
+      case 'staging':
+        argsConfig = Environment['staging']
+        break
+      default:
+        argsConfig = Environment['production']
+    }
+
     const config = {
-      apiProtocol: argsConfig ? argsConfig.apiProtocol : 'https',
-      apiHost: argsConfig ? argsConfig.apiHost : 'api.heidelpay.com',
-      apiVersion: argsConfig ? argsConfig.apiVersion : 'v1'
+      apiProtocol: argsConfig.apiProtocol,
+      apiHost: argsConfig.apiHost,
+      apiVersion: argsConfig.apiVersion,
     }
 
     this.api = `${config.apiProtocol}://${config.apiHost}/${config.apiVersion}`
@@ -86,9 +100,6 @@ export class FetchAdapter {
       const password = ''
       const basicAuthValue = Base64.encode(`${privateKey}:${password}`)
       const requestUrl = isRawUrl === true ? url : `${this.api}${url}`
-
-      console.log('requestUrl', requestUrl)
-
 
       fetch(requestUrl, {
         headers: {

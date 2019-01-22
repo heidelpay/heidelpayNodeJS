@@ -3,7 +3,7 @@ const Card = require('@heidelpay/nodejs-sdk').Card
 const Customer = require('@heidelpay/nodejs-sdk').Customer
 
 const excuteScript = function() {
-  const heidelpay = new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n')
+  const heidelpay = new Heidelpay('s-priv-2a10BF2Cq2YvAo6ALSGHc3X7F42oWAIp')
 
   const card = new Card('4711100000000000', '01/2022')
   card.setCVC('123')
