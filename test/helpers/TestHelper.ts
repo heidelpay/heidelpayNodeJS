@@ -9,7 +9,6 @@ import { cancelChargeObject, cancelAuthorizeObject } from "../../src/payments/bu
 export const getTimeout = () => 60000
 
 export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n')
-export const createHeidelpayConfigInstance = (key, config) => new Heidelpay(key, config)
 
 export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
   let card: Card = new Card()

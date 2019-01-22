@@ -26,9 +26,9 @@ export default class PaymentService {
   private requestAdapter: FetchAdapter
   private heidelpay: Heidelpay
 
-  constructor(heidelpay: Heidelpay, config?: any) {
+  constructor(heidelpay: Heidelpay, env?: string) {
     this.heidelpay = heidelpay
-    this.requestAdapter = new FetchAdapter(config)
+    this.requestAdapter = new FetchAdapter(env)
   }
 
   /**
