@@ -7,6 +7,7 @@ export const URL_PAYMENT_CHARGE_CANCEL = `${URL_PAYMENT}/{paymentId}/charges/{ch
 export const URL_PAYMENT_SHIPMENT = `${URL_PAYMENT}/{paymentId}/shipments`
 
 export const URL_CUSTOMER = '/customers'
+export const URL_METADATA = '/metadata'
 export const URL_TYPE_CARD = '/types/card'
 export const URL_TYPE_EPS = '/types/eps'
 export const URL_TYPE_GIROPAY = '/types/giropay'

@@ -3,6 +3,7 @@ import Card from "../../src/payments/types/Card"
 import { authorizeObject, chargeAuthorizeObject } from "../../src/payments/business/Authorization"
 import PaymentType from "../../src/payments/types/PaymentType"
 import { Customer, Address, Salutation } from "../../src/payments/Customer"
+import Metadata from "../../src/payments/Metadata"
 import { chargeObject } from "../../src/payments/business/Charge"
 import { cancelChargeObject, cancelAuthorizeObject } from "../../src/payments/business/Cancel"
 
@@ -120,6 +121,19 @@ export const getAuthorizationWithOrderId = (typeId: string | PaymentType, custom
   return authorizePayload
 }
 
+export const getAuthorizationWithMetadataId = (typeId: string | PaymentType, metadataId: string) => {
+  const authorizePayload: authorizeObject = {
+    amount: 100,
+    orderId: Math.floor(Date.now() / 1000).toString(),
+    currency: 'EUR',
+    typeId: typeId,
+    returnUrl: 'https://www.google.at',
+    metadataId: metadataId
+  }
+
+  return authorizePayload
+}
+
 export const getCancelAuthorization = (paymentId: string, authorizeId: string, amount: number) => {
   const authorizePayload: cancelAuthorizeObject = {
     amount: amount,
@@ -140,6 +154,18 @@ export const getCharge = (typeId: string | PaymentType, customerId?: string | Cu
 
   if (customerId !== undefined) {
     chargePayload.customerId = customerId
+  }
+
+  return chargePayload
+}
+
+export const getChargeWithMetadataId = (typeId: string | PaymentType, metadataId?: string) => {
+  const chargePayload: chargeObject = {
+    amount: 50,
+    currency: 'EUR',
+    returnUrl: 'https://www.google.at',
+    typeId: typeId,
+    metadataId: metadataId
   }
 
   return chargePayload
@@ -184,4 +210,16 @@ export const getCancelCharge = (paymentId: string, chargeId: string, amount?: nu
   }
 
   return cancelCharge
+}
+
+export const createMetadataValue = () => {
+  const metadata = new Metadata()
+  const objValue = {
+    shopId: Math.floor(Date.now() / 1000).toString(),
+    shopCode: 'COD.3456',
+    invoiceNumber: Math.floor(Date.now() / 1000).toString(),
+  }
+  metadata.setValue(objValue)
+
+  return metadata
 }

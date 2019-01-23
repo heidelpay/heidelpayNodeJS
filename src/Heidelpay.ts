@@ -1,4 +1,5 @@
 import { Customer } from './payments/Customer'
+import Metadata from './payments/Metadata'
 import PaymentType from './payments/types/PaymentType'
 import * as ErrorMessage from './configs/ErrorMessage'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from './payments/business/Authorization'
@@ -80,6 +81,24 @@ export default class Heidelpay {
    */
   public deleteCustomer(customerId: string): Promise<boolean> {
     return this.paymentService.deleteCustomer(customerId)
+  }
+
+  /**
+   * Create metadata
+   * 
+   * @param {Metadata} metadata 
+   */
+  public createMetadata(metadata: Metadata): Promise<Metadata> {
+    return this.paymentService.createMetadata(metadata)
+  }
+
+  /**
+   * Fetch metadata information
+   * 
+   * @param metadataId 
+   */
+  public fetchMetadata(metadataId: string): Promise<Metadata> {
+    return this.paymentService.fetchMetadata(metadataId)
   }
 
   /**
@@ -248,6 +267,11 @@ export default class Heidelpay {
     return this.paymentService.cancelCharge(args)
   }
 
+  /**
+   * Shipment 
+   * 
+   * @param paymentId 
+   */
   public shipment(paymentId: string): Promise<Shipment> {
     return this.paymentService.shipment(paymentId)
   }

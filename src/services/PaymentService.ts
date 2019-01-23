@@ -2,6 +2,7 @@ import { FetchAdapter } from '../adapters/FetchAdapter'
 import Heidelpay from '../Heidelpay'
 import PaymentType from '../payments/types/PaymentType'
 import { Customer } from '../payments/Customer'
+import Metadata from '../payments/Metadata'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from '../payments/business/Authorization'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from '../payments/business/Cancel'
 import Charge, { chargeObject } from '../payments/business/Charge'
@@ -10,17 +11,19 @@ import CreatePaymentType from './CreatePaymentType'
 import FetchPayment from './FetchPayment'
 import FetchPaymentType from './FetchPaymentType'
 import CreateCustomer from './CreateCustomer'
+import UpdateCustomer from './UpdateCustomer'
+import DeleteCustomer from './DeleteCustomer'
 import FetchCustomer from './FetchCustomer'
+import CreateMetadata from './CreateMetadata'
+import FetchMetadata from './FetchMetadata'
 import AuthorizationService from './Authorization'
 import ChargeService from './Charge'
 import ChargeAuthorization from './ChargeAuthorization'
 import CancelAuthorization from './CancelAuthorization'
 import CancelCharge from './CancelCharge'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
-import UpdateCustomer from './UpdateCustomer';
-import DeleteCustomer from './DeleteCustomer';
-import Shipment from '../payments/business/Shipment';
-import ShipmentService from './Shipment';
+import Shipment from '../payments/business/Shipment'
+import ShipmentService from './Shipment'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -50,7 +53,7 @@ export default class PaymentService {
   }
 
   /**
-   * Call API to create payment type
+   * Create payment type
    *
    * @param {PaymentType} paymentType
    * @returns {Promise<PaymentType>}
@@ -80,7 +83,7 @@ export default class PaymentService {
   }
 
   /**
-   * Call API to create customer
+   * Create customer
    *
    * @param {Customer} customer
    * @returns {Promise<Customer>}
@@ -118,6 +121,26 @@ export default class PaymentService {
    */
   public deleteCustomer(customerId: string): Promise<boolean> {
     return DeleteCustomer(customerId, this)
+  }
+
+  /**
+   * Create metadata
+   *
+   * @param {Metadata} metadata
+   * @returns {Promise<Metadata>}
+   */
+  public createMetadata(metadata: Metadata): Promise<Metadata> {
+    return CreateMetadata(metadata, this)
+  }
+
+  /**
+   * Fetch metadata
+   *
+   * @param {Metadata} metadata
+   * @returns {Promise<Metadata>}
+   */
+  public fetchMetadata(metadataId: string): Promise<Metadata> {
+    return FetchMetadata(metadataId, this)
   }
 
   /**

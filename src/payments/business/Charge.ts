@@ -193,4 +193,5 @@ export type chargeObject = {
   returnUrl: string
   typeId: string | PaymentType
   customerId?: string | Customer
+  metadataId?: string
 }
