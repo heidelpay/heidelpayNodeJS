@@ -178,6 +178,7 @@ export type authorizeObject = {
   typeId: string | PaymentType
   returnUrl: string
   customerId?: string | Customer
+  metadataId?: string
 }
 
 export type chargeAuthorizeObject = {

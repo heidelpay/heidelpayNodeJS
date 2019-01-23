@@ -15,6 +15,9 @@ class Customer {
     this._lastName = lastName
   }
 
+  /**
+   * Get Request Payload
+   */
   public getRequestPayload() {
     return {
       lastname: this.getLastName(),

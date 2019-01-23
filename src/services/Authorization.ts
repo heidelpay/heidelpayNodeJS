@@ -7,7 +7,7 @@ import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
 export default (args: authorizeObject, paymentService: PaymentService): Promise<Authorization> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { amount, orderId, currency, typeId, customerId, returnUrl } = args
+      const { amount, orderId, currency, typeId, customerId, returnUrl, metadataId } = args
       let payload: any = {
         amount: amount,
         currency: currency,
@@ -25,6 +25,11 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       // Add customer Id into payload if its passed
       if (customerId) {
         payload.resources.customerId = customerId
+      }
+
+      // Add metadta Id into payload if its passed
+      if (metadataId) {
+        payload.resources.metadataId = metadataId
       }
 
       // Call api end point to get response

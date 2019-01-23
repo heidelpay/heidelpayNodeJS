@@ -1,6 +1,6 @@
-import { Customer, Salutation, Address } from '../../../src/payments/Customer'
-import Heidelpay from '../../../src/Heidelpay'
-import * as TestHelper from '../../helpers/TestHelper'
+import { Customer, Salutation, Address } from '../../src/payments/Customer'
+import Heidelpay from '../../src/Heidelpay'
+import * as TestHelper from '../helpers/TestHelper'
 
 describe('Customer test', () => {
   let heidelpay: Heidelpay
