@@ -3,6 +3,7 @@ import Heidelpay from '../Heidelpay'
 import PaymentType from '../payments/types/PaymentType'
 import { Customer } from '../payments/Customer'
 import Metadata from '../payments/Metadata'
+import Basket from '../payments/Basket'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from '../payments/business/Authorization'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from '../payments/business/Cancel'
 import Charge, { chargeObject } from '../payments/business/Charge'
@@ -16,6 +17,9 @@ import DeleteCustomer from './DeleteCustomer'
 import FetchCustomer from './FetchCustomer'
 import CreateMetadata from './CreateMetadata'
 import FetchMetadata from './FetchMetadata'
+import CreateBasket from './CreateBasket'
+import FetchBasket from './FetchBasket'
+import UpdateBasket from './UpdateBasket'
 import AuthorizationService from './Authorization'
 import ChargeService from './Charge'
 import ChargeAuthorization from './ChargeAuthorization'
@@ -141,6 +145,36 @@ export default class PaymentService {
    */
   public fetchMetadata(metadataId: string): Promise<Metadata> {
     return FetchMetadata(metadataId, this)
+  }
+
+  /**
+   * Create basket
+   *
+   * @param {Basket} baskset
+   * @returns {Promise<Basket>}
+   */
+  public createBasket(basket: Basket): Promise<Basket> {
+    return CreateBasket(basket, this)
+  }
+
+  /**
+   * Fetch basket
+   *
+   * @param {Basket} baskset
+   * @returns {Promise<Basket>}
+   */
+  public fetchBasket(basketId: string): Promise<Basket> {
+    return FetchBasket(basketId, this)
+  }
+
+  /**
+   * Fetch basket
+   *
+   * @param {Basket} baskset
+   * @returns {Promise<Basket>}
+   */
+  public updateBasket(basketId: string, basket: Basket): Promise<Basket> {
+    return UpdateBasket(basketId, basket, this)
   }
 
   /**
