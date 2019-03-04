@@ -1,11 +1,12 @@
 import Heidelpay from '../../src/Heidelpay'
-import Card from "../../src/payments/types/Card"
-import { authorizeObject, chargeAuthorizeObject } from "../../src/payments/business/Authorization"
-import PaymentType from "../../src/payments/types/PaymentType"
-import { Customer, Address, Salutation } from "../../src/payments/Customer"
-import Metadata from "../../src/payments/Metadata"
-import { chargeObject } from "../../src/payments/business/Charge"
-import { cancelChargeObject, cancelAuthorizeObject } from "../../src/payments/business/Cancel"
+import Card from '../../src/payments/types/Card'
+import { authorizeObject, chargeAuthorizeObject } from '../../src/payments/business/Authorization'
+import PaymentType from '../../src/payments/types/PaymentType'
+import { Customer, Address, Salutation } from '../../src/payments/Customer'
+import Metadata from '../../src/payments/Metadata'
+import Basket, {basketItemObject} from '../../src/payments/Basket'
+import { chargeObject } from '../../src/payments/business/Charge'
+import { cancelChargeObject, cancelAuthorizeObject } from '../../src/payments/business/Cancel'
 
 export const getTimeout = () => 60000
 
@@ -26,7 +27,7 @@ export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = fa
 }
 
 export const createMiniumCustomer = () => {
-  return new Customer("Rene", "Felder")
+  return new Customer('Rene', 'Felder')
 }
 
 export const createFullCustomer = () => {
@@ -222,4 +223,100 @@ export const createMetadataValue = () => {
   metadata.setValue(objValue)
 
   return metadata
+}
+
+export const createBasket = () => {
+  const basket = new Basket()
+  const orderId = (Math.random() * 1000000).toString()
+
+  basket.setAmountTotal("100.00")
+  basket.setAmountTotalDiscount("0.00")
+  basket.setCurrencyCode("EUR")
+  basket.setOrderId(orderId)
+  basket.setNote("136d24be")
+
+  const basketItem: basketItemObject = {
+    title: "Macbook Pro",
+    basketItemReferenceId: "12345",
+    unit: "Pc.",
+    quantity: 1,
+    amountDiscount: "100.00",
+    vat: "0",
+    amountGross: "100.00",
+    amountVat: "0",
+    amountPerUnit: "100.00",
+    amountNet: "100.00",
+  }
+
+  basket.addItem(basketItem)
+
+  return basket
+}
+
+export const createBasketWithOneItemsForUpdate = (orderId) => {
+  const basket = new Basket()
+
+  basket.setAmountTotal("80.00")
+  basket.setAmountTotalDiscount("0.00")
+  basket.setCurrencyCode("EUR")
+  basket.setOrderId(orderId)
+  basket.setNote("New note update for 1 item")
+
+  const basketItem: basketItemObject = {
+    title: "Macbook Air",
+    basketItemReferenceId: "2456",
+    unit: "Pc.",
+    quantity: 1,
+    amountDiscount: "80.00",
+    vat: "0",
+    amountGross: "80.00",
+    amountVat: "0",
+    amountPerUnit: "80.00",
+    amountNet: "80.00",
+  }
+
+  basket.addItem(basketItem)
+
+  return basket
+}
+
+export const createBasketWithTwoItemsForUpdate = (orderId) => {
+  const basket = new Basket()
+
+  basket.setAmountTotal("180.00")
+  basket.setAmountTotalDiscount("0.00")
+  basket.setCurrencyCode("EUR")
+  basket.setOrderId(orderId)
+  basket.setNote("New note update for 2 items")
+
+  const basketItem: basketItemObject = {
+    title: "Macbook Pro",
+    basketItemReferenceId: "12345",
+    unit: "Pc.",
+    quantity: 1,
+    amountDiscount: "100.00",
+    vat: "0",
+    amountGross: "100.00",
+    amountVat: "0",
+    amountPerUnit: "100.00",
+    amountNet: "100.00",
+  }
+
+  const basketNextItem: basketItemObject = {
+    title: "Macbook Air",
+    basketItemReferenceId: "2456",
+    unit: "Pc.",
+    quantity: 1,
+    amountDiscount: "80.00",
+    vat: "0",
+    amountGross: "80.00",
+    amountVat: "0",
+    amountPerUnit: "80.00",
+    amountNet: "80.00",
+  }
+
+  basket.addItem(basketItem)
+  basket.addItem(basketNextItem)
+
+  return basket
 }

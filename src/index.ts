@@ -2,6 +2,7 @@ import './configs/Path'
 import Heidelpay from './Heidelpay'
 import { Customer, Address, Salutation } from './payments/Customer'
 import Metadata from './payments/Metadata'
+import Basket from './payments/Basket'
 import Card from './payments/types/Card'
 import EPS from './payments/types/Eps'
 import Giropay from './payments/types/Giropay'
@@ -19,6 +20,7 @@ export default Heidelpay
 export {
   Customer,
   Metadata,
+  Basket,
   Address,
   Salutation,
   Card,

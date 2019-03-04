@@ -1,5 +1,6 @@
 import { Customer } from './payments/Customer'
 import Metadata from './payments/Metadata'
+import Basket from './payments/Basket'
 import PaymentType from './payments/types/PaymentType'
 import * as ErrorMessage from './configs/ErrorMessage'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from './payments/business/Authorization'
@@ -8,7 +9,7 @@ import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
-import Shipment from './payments/business/Shipment';
+import Shipment from './payments/business/Shipment'
 
 export default class Heidelpay {
   private paymentService: PaymentService
@@ -99,6 +100,36 @@ export default class Heidelpay {
    */
   public fetchMetadata(metadataId: string): Promise<Metadata> {
     return this.paymentService.fetchMetadata(metadataId)
+  }
+
+  /**
+   * Create a basket
+   *
+   * @param {Basket} basket
+   * @returns {Basket}
+   */
+  public createBasket(basket: Basket): Promise<Basket> {
+    return this.paymentService.createBasket(basket)
+  }
+
+  /**
+   * Fetch a basket
+   *
+   * @param {Basket} basket
+   * @returns {Basket}
+   */
+  public fetchBasket(basketId: string): Promise<Basket> {
+    return this.paymentService.fetchBasket(basketId)
+  }
+
+  /**
+   * Fetch a basket
+   *
+   * @param {Basket} basket
+   * @returns {Basket}
+   */
+  public updateBasket(basketId: string, basket: Basket): Promise<Basket> {
+    return this.paymentService.updateBasket(basketId, basket)
   }
 
   /**

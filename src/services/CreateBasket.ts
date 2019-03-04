@@ -1,27 +1,27 @@
 import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
-import Metadata from '../payments/Metadata'
+import Basket from '../payments/Basket'
 
-export default (metadataId: string, paymentService: PaymentService): Promise<Metadata> => {
+export default (basket: Basket, paymentService: PaymentService): Promise<Basket> => {
   return new Promise(async (resolve, reject) => {
     try {
       // Call api end point to get response
       const response: any = await paymentService
         .getRequestAdapter()
-        .get(
-          `${apiURL.URL_METADATA}/${metadataId}`, 
+        .post(
+          apiURL.URL_BASKET,
+          basket.getRequestPayload(),
           paymentService.getHeidelpay().getPrivateKey()
         )
 
-      // Mapper metadata value
-      const newMetadata = new Metadata()
-      newMetadata.setValue(response)
+      const newBasket = new Basket()
+      newBasket.setId(response.id)
 
       // Resolve final result
-      resolve(newMetadata)  
+      resolve(newBasket)  
     } catch (error) {
       // Reject with error object
-      reject(error)  
+      reject(error)
     }
   })
 }
