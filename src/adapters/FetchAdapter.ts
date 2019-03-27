@@ -10,8 +10,9 @@ import Environment from '../configs/Environment'
  */
 export class FetchAdapter {
   private api: string
+  private locale?: string
 
-  constructor(env?: string) {
+  constructor(locale?: string, env?: string) {
     let argsConfig
 
     switch(env) {
@@ -31,6 +32,7 @@ export class FetchAdapter {
       apiVersion: argsConfig.apiVersion,
     }
 
+    this.locale = locale
     this.api = `${config.apiProtocol}://${config.apiHost}/${config.apiVersion}`
   }
 
@@ -104,6 +106,7 @@ export class FetchAdapter {
       fetch(requestUrl, {
         headers: {
           Authorization: `Basic ${basicAuthValue}`,
+          'Accept-Language': this.locale || 'en_US',
           'Content-Type': 'application/json'
         },
         ...options

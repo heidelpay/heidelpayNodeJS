@@ -22,7 +22,7 @@ describe('Payment Type Card Test', () => {
 
   it('Test authorize invalid key heidelpay', async () => {
     try {
-      const errorHeidelpay = new Heidelpay('6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf')
+      const errorHeidelpay = new Heidelpay('6S59Dt6Q9mJYj8X5qpcxSpA3XLXUw4Zf', 'de')
       await errorHeidelpay.authorize(getAuthorization(""))
     } catch (error) {
       const errorData = JSON.parse(error.message)
