@@ -15,6 +15,7 @@ import SepaDirectDebit from './payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from './payments/types/SepaDirectDebitGuaranteed'
 import Sofort from './payments/types/Sofort'
 import PIS from './payments/types/Pis'
+import Paypal from './payments/types/Paypal'
 
 export default Heidelpay
 export {
@@ -34,5 +35,6 @@ export {
   SepaDirectDebit,
   SepaDirectDebitGuaranteed,
   Sofort,
-  PIS
+  PIS,
+  Paypal
 }

@@ -15,13 +15,13 @@ export default class Heidelpay {
   private paymentService: PaymentService
   private privateKey: string
 
-  constructor(privateKey: string, env?: string) {
+  constructor(privateKey: string, locale?: string, env?: string) {
     if(!privateKey) {
       throw new Error(ErrorMessage.ERROR_MISSING_PRIVATE_KEY)
     }
 
     this.privateKey = privateKey
-    this.paymentService = new PaymentService(this, env)
+    this.paymentService = new PaymentService(this, locale, env)
   }
 
   /**
