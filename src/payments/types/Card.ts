@@ -6,6 +6,7 @@ export default class Card extends AbstractPaymentType implements PaymentType {
   private _panNumber: string
   private _cvc: string
   private _expiryDate: string
+  private _3ds: boolean
 
   constructor(panNumber: string = '', expiryDate: string = '') {
     super()
@@ -28,11 +29,17 @@ export default class Card extends AbstractPaymentType implements PaymentType {
    * @returns
    */
   public getPayload() {
-    return {
+    const payload: any = {
       number: this.getPanNumber(),
       cvc: this.getCVC(),
       expiryDate: this.getExpiryDate()
     }
+
+    if(this.get3ds() !== undefined) {
+      payload['3ds'] = this.get3ds()
+    }
+
+    return payload
   }
 
   /**
@@ -93,5 +100,25 @@ export default class Card extends AbstractPaymentType implements PaymentType {
    */
   public getExpiryDate(): string {
     return this._expiryDate
+  }
+
+  /**
+   * Set 3ds option
+   *
+   * @param {string} expiryDate
+   * @returns {Card}
+   */
+  public set3ds(secure: boolean): Card {
+    this._3ds = secure
+    return this
+  }
+
+  /**
+   * Get 3ds option
+   *
+   * @returns {string}
+   */
+  public get3ds(): boolean {
+    return this._3ds
   }
 }
