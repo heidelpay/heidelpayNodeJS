@@ -175,6 +175,22 @@ export const getCharge = (typeId: string | PaymentType, customerId?: string | Cu
   return chargePayload
 }
 
+export const getChargeWithCard3ds = (typeId: string | PaymentType, customerId?: string | Customer) => {
+  const chargePayload: chargeObject = {
+    amount: 50,
+    currency: 'EUR',
+    returnUrl: 'https://www.google.at',
+    card3ds: true,
+    typeId: typeId
+  }
+
+  if (customerId !== undefined) {
+    chargePayload.customerId = customerId
+  }
+
+  return chargePayload
+}
+
 export const getChargeWithMetadataId = (typeId: string | PaymentType, metadataId?: string) => {
   const chargePayload: chargeObject = {
     amount: 50,

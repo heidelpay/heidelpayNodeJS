@@ -7,7 +7,7 @@ import * as TestHelper from '../../helpers/TestHelper'
 describe('Payment Type Card Test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard3ds
-  const {getAuthorization, getCharge} = TestHelper
+  const {getAuthorization, getChargeWithCard3ds} = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
@@ -44,7 +44,7 @@ describe('Payment Type Card Test', () => {
 
   it('Test Charge card type', async () => {
     const card: Card = await createPaymentTypeCard3ds()
-    const charge: Charge = await card.charge(getCharge(card.getId()))
+    const charge: Charge = await card.charge(getChargeWithCard3ds(card.getId()))
 
     expect(charge).toBeInstanceOf(Charge)
     expect(charge.getId()).toBeDefined()
