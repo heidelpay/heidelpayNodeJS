@@ -11,6 +11,7 @@ export default class Charge extends AbstractPayment {
   private orderId: string
   private currency: string
   private returnUrl: string
+  private card3ds: boolean
   private resources: Resources
   private cancelList: Array<Cancel>
   private processing: Processing
@@ -88,6 +89,22 @@ export default class Charge extends AbstractPayment {
    */
   public getReturnUrl() {
     return this.returnUrl
+  }
+
+  /**
+   * Set 3ds option
+   *
+   * @param {string} returnUrl
+   */
+  public setCard3ds(card3ds: boolean) {
+    this.card3ds = card3ds
+  }
+
+  /**
+   * Get 3ds option
+   */
+  public getCard3ds() {
+    return this.card3ds
   }
 
   /**
@@ -191,6 +208,7 @@ export type chargeObject = {
   orderId?: string
   currency: string
   returnUrl: string
+  card3ds?: boolean
   typeId: string | PaymentType
   customerId?: string | Customer
   metadataId?: string

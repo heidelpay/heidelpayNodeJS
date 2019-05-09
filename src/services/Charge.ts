@@ -63,6 +63,9 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
       // Set return URL
       charge.setReturnUrl(response.returnUrl)
 
+      // Set 3ds option
+      charge.setCard3ds(response.card3ds)
+
       // Set resources
       charge.setResources(response.resources)
 
