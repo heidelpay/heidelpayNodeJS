@@ -26,6 +26,21 @@ export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = fa
   return card
 }
 
+export const createPaymentTypeCard3ds = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
+  let card: Card = new Card()
+    .setPanNumber('4711100000000000')
+    .setCVC('123')
+    .setExpiryDate('01/2022')
+    .set3ds(true)
+
+  if (builder) {
+    return card
+  }
+
+  card = await heidelpay.createPaymentType(card)
+  return card
+}
+
 export const createMiniumCustomer = () => {
   return new Customer('Rene', 'Felder')
 }
