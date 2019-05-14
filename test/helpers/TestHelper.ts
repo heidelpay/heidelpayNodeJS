@@ -17,6 +17,7 @@ export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = fa
     .setPanNumber('4711100000000000')
     .setCVC('123')
     .setExpiryDate('01/2022')
+    .set3ds(false)
 
   if (builder) {
     return card
