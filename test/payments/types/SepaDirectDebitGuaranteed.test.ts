@@ -39,28 +39,4 @@ describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
 
     expect(fetchSepaDirectDebitGuaranteed.getId()).toEqual(ssd.getId())
   })
-
-  it('Test Shipment SepaDirectDebitGuaranteed', async () => {
-    try {
-      const ssd: SepaDirectDebitGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGuaranteed
-      const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
-  
-      const charge: Charge = await heidelpay.charge(getCharge(ssd.getId(), customer.getCustomerId()))
-      const shipment: Shipment = await heidelpay.shipment(charge.getResources().getPaymentId())
-  
-      expect(shipment).toBeInstanceOf(Shipment)
-      expect(shipment.getId()).toBeDefined()
-      expect(shipment.getAmount()).toBeDefined()
-      expect(shipment.getProcessing()).toBeDefined()
-      expect(shipment.getResources()).toBeDefined()
-      expect(shipment.getPayload()).toBeDefined()  
-    } catch (error) {
-      expect(error.message).toBeDefined()
-
-      const errorMessage = JSON.parse(error.message)
-      expect(errorMessage[0].code).toEqual("COR.400.100.107")
-      expect(errorMessage[0].merchantMessage).toBeDefined()
-    }
-    
-  })
 })
