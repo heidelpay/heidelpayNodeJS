@@ -1,8 +1,8 @@
 const Base64 = require('js-base64').Base64
-const { version } = require('../../package.json')
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 import Environment from '../configs/Environment'
+import {SDK_TYPE, SDK_VERSION} from '../configs/Version'
 /**
  * Fetch Adapter
  *
@@ -106,8 +106,8 @@ export class FetchAdapter {
 
       fetch(requestUrl, {
         headers: {
-          'SDK-TYPE': 'HeidelpayNodeJS',
-          'SDK-VERSION': version,
+          'SDK-TYPE': SDK_TYPE,
+          'SDK-VERSION': SDK_VERSION,
           'Authorization': `Basic ${basicAuthValue}`,
           'Accept-Language': this.locale || 'en_US',
           'Content-Type': 'application/json'

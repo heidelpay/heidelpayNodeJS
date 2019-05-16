@@ -1,3 +1,4 @@
+import { SDK_VERSION } from './configs/Version'
 import { Customer } from './payments/Customer'
 import Metadata from './payments/Metadata'
 import Basket from './payments/Basket'
@@ -22,6 +23,15 @@ export default class Heidelpay {
 
     this.privateKey = privateKey
     this.paymentService = new PaymentService(this, locale, env)
+  }
+
+  /**
+   * Get SDK Version
+   *
+   * @returns {string}
+   */
+  public getVersion(): string {
+      return SDK_VERSION
   }
 
   /**
