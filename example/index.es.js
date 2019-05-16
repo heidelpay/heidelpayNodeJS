@@ -4,9 +4,11 @@ const Customer = require('@heidelpay/nodejs-sdk').Customer
 
 const excuteScript = function() {
   const heidelpay = new Heidelpay('s-priv-2a10BF2Cq2YvAo6ALSGHc3X7F42oWAIp')
+  console.log('SDK_VERSION', heidelpay.getVersion())
 
   const card = new Card('4711100000000000', '01/2022')
   card.setCVC('123')
+  card.set3ds(true)
 
   const customer = new Customer('Rene', 'Fred')
 
@@ -16,6 +18,7 @@ const excuteScript = function() {
     return heidelpay.createPaymentType(card)
   }).then(function(paymentCard) {    
     console.log('paymentCard', paymentCard.getId())
+    console.log('paymentCard', paymentCard.get3ds())
 
     return paymentCard.authorize({
       amount: 100,
@@ -30,7 +33,7 @@ const excuteScript = function() {
     
     // Authorize successful with payment Card
   }).catch(function (error) {
-    console.log('error', error)
+    console.log('error', error.message)
     // Handle error
   });
 }
