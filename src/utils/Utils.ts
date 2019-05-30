@@ -13,6 +13,7 @@ import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuarante
 import Sofort from '../payments/types/Sofort'
 import PIS from '../payments/types/Pis'
 import Alipay from '../payments/types/Alipay'
+import WechatPay from '../payments/types/WechatPay'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -91,6 +92,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new PIS()
     case 'ali':
       return new Alipay()
+    case 'wcp':
+      return new WechatPay()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -194,6 +197,12 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
       alipay.setId(response.id)
       return alipay
+
+    case 'wechatpay':
+      const wechatpay: WechatPay = new WechatPay()
+
+      wechatpay.setId(response.id)
+      return wechatpay
     default:
       throw new Error(`Type ${response.method} is currently not supported by the SDK`)
   }
