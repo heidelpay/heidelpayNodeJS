@@ -23,3 +23,4 @@ export const URL_TYPE_SEPA_DIRECT_DEBIT_GUARANTEED = '/types/sepa-direct-debit-g
 export const URL_TYPE_SOFORT = '/types/sofort'
 export const URL_TYPE_PIS = '/types/pis'
 export const URL_TYPE_ALIPAY = '/types/alipay'
+export const URL_TYPE_WECHATPAY = '/types/wechatpay'

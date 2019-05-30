@@ -17,6 +17,7 @@ import Sofort from './payments/types/Sofort'
 import PIS from './payments/types/Pis'
 import Paypal from './payments/types/Paypal'
 import Alipay from './payments/types/Alipay'
+import WechatPay from './payments/types/WechatPay'
 
 export default Heidelpay
 export {
@@ -38,5 +39,6 @@ export {
   Sofort,
   PIS,
   Paypal,
-  Alipay
+  Alipay,
+  WechatPay
 }
