@@ -12,6 +12,7 @@ import SepaDirectDebit from '../payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuaranteed'
 import Sofort from '../payments/types/Sofort'
 import PIS from '../payments/types/Pis'
+import Alipay from '../payments/types/Alipay'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -88,6 +89,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new Sofort()
     case 'pis':
       return new PIS()
+    case 'ali':
+      return new Alipay()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -185,6 +188,12 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
       pis.setId(response.id)
       return pis
+
+    case 'alipay':
+      const alipay: Alipay = new Alipay()
+
+      alipay.setId(response.id)
+      return alipay
     default:
       throw new Error(`Type ${response.method} is currently not supported by the SDK`)
   }
