@@ -3,7 +3,7 @@ class Customer {
   private _lastName: string
   private _salutation: Salutation
   private _customerId: string
-  private _birthdDate: string
+  private _birthDate: string
   private _email: string
   private _phone: string
   private _mobile: string
@@ -119,7 +119,7 @@ class Customer {
    * @returns {Customer}
    */
   public setBirthDate(value: string): Customer {
-    this._birthdDate = value
+    this._birthDate = value
     return this
   }
 
@@ -129,7 +129,7 @@ class Customer {
    * @type {Date}
    */
   public getBirthDate(): string {
-    return this._birthdDate
+    return this._birthDate
   }
 
   /**
