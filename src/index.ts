@@ -1,4 +1,3 @@
-import './configs/Path'
 import Heidelpay from './Heidelpay'
 import { Customer, Address, Salutation } from './payments/Customer'
 import Metadata from './payments/Metadata'
