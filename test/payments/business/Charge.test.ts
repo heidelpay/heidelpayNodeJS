@@ -58,7 +58,6 @@ describe('Charge test', () => {
     const charge: Charge = await heidelpay.charge(getCharge(card, customer))
     expect(charge.getId()).toBeDefined()
     expect(charge.getResources().getCustomerId()).toBeDefined()
-    expect(charge.getResources().getMetadataId()).toBeDefined()
     expect(charge.getResources().getPaymentId()).toBeDefined()
     expect(charge.getResources().getTypeId()).toBeDefined()
   })

@@ -2,8 +2,7 @@ import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
 import Charge, { chargeObject } from '../payments/business/Charge'
 import FetchPayment from './FetchPayment';
-import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
-import { CLIENT_RENEG_WINDOW } from 'tls';
+import ResponseErrorsMapper from './mappers/ResponseErrorsMapper'
 
 export default (args: chargeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async (resolve, reject) => {
