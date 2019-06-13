@@ -269,6 +269,8 @@ export const createBasket = () => {
 
   const basketItem: basketItemObject = {
     title: "Macbook Pro",
+    subTitle: "This is brand new Mid 2019 version",
+    imageUrl: "https://www.heidelpay.com/typo3conf/ext/heidelpay_site/Resources/Public/Images/Heidelpay-Logo_weiss.svg",
     basketItemReferenceId: "12345",
     unit: "Pc.",
     quantity: 1,
@@ -296,6 +298,8 @@ export const createBasketWithOneItemsForUpdate = (orderId) => {
 
   const basketItem: basketItemObject = {
     title: "Macbook Air",
+    subTitle: "This is brand new Mid 2019 version",
+    imageUrl: "https://www.heidelpay.com/typo3conf/ext/heidelpay_site/Resources/Public/Images/Heidelpay-Logo_weiss.svg",
     basketItemReferenceId: "2456",
     unit: "Pc.",
     quantity: 1,

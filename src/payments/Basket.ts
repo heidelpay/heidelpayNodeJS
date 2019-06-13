@@ -173,11 +173,13 @@ class Basket {
 
 export type basketItemObject = {
   title: string,
+  subTitle?: string,
   basketItemReferenceId: string,
   unit?: string,
   quantity: number,
   amountDiscount?: string,
   vat?: string,
+  imageUrl?: string,
   amountGross?: string,
   amountVat?: string,
   amountPerUnit: string,
