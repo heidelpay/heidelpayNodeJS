@@ -8,6 +8,7 @@ import Authorization, { authorizeObject, chargeAuthorizeObject } from './payment
 import Charge, { chargeObject } from './payments/business/Charge'
 import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
+import Paypage from './payments/paypage/Paypage'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
 import Shipment from './payments/business/Shipment'
@@ -315,5 +316,25 @@ export default class Heidelpay {
    */
   public shipment(paymentId: string): Promise<Shipment> {
     return this.paymentService.shipment(paymentId)
+  }
+
+  /**
+   * Init Paypage with authorize
+   *
+   * @param {Paypage} paypage
+   * @returns {Promise<Paypage>}
+   */
+  public initAuthorizePaypage(paypage: Paypage): Promise<Paypage> {
+    return this.paymentService.initAuthorizePaypage(paypage)
+  }
+
+  /**
+   * Init Paypage with charge
+   *
+   * @param {Paypage} paypage
+   * @returns {Promise<Paypage>}
+   */
+  public initChargePaypage(paypage: Paypage): Promise<Paypage> {
+    return this.paymentService.initChargePaypage(paypage)
   }
 }

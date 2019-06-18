@@ -6,6 +6,7 @@ export default class Resources {
   private customerId: string
   private metadataId: string
   private paymentId: string
+  private basketId: string
 
   /**
    * Get type Id
@@ -84,6 +85,26 @@ export default class Resources {
    */
   public setPaymentId(paymentId: string): Resources {
     this.paymentId = paymentId
+    return this
+  }
+
+  /**
+   * Get Basket Id
+   *
+   * @returns {string}
+   */
+  public getBasketId(): string {
+    return this.basketId
+  }
+
+  /**
+   * Set Basket Id
+   *
+   * @param {string} paymentId
+   * @returns {Resources}
+   */
+  public setBasketId(basketId: string): Resources {
+    this.basketId = basketId
     return this
   }
 }

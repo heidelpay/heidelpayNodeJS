@@ -2,11 +2,13 @@ import Heidelpay from '../../src/Heidelpay'
 import Card from '../../src/payments/types/Card'
 import { authorizeObject, chargeAuthorizeObject } from '../../src/payments/business/Authorization'
 import PaymentType from '../../src/payments/types/PaymentType'
+import Paypage from '../../src/payments/paypage/Paypage'
 import { Customer, Address, Salutation } from '../../src/payments/Customer'
 import Metadata from '../../src/payments/Metadata'
 import Basket, {basketItemObject} from '../../src/payments/Basket'
 import { chargeObject } from '../../src/payments/business/Charge'
 import { cancelChargeObject, cancelAuthorizeObject } from '../../src/payments/business/Cancel'
+import Resources from '../../src/payments/business/Resources';
 
 export const getTimeout = () => 60000
 
@@ -356,3 +358,49 @@ export const createBasketWithTwoItemsForUpdate = (orderId) => {
 
   return basket
 }
+
+export const createMinimumPaypage = () => {
+  const paypage = new Paypage()
+
+  paypage.setAmount(100)
+  .setCurrency('EUR')
+  .setReturnUrl('https://www.heidelpay.com')
+
+  return paypage
+} 
+
+export const createMinimumPaypageWithResources = () => {
+  const paypage = new Paypage()
+  const resources = new Resources()
+
+  resources.setCustomerId('s-cst-cfb84f279366')
+  resources.setMetadataId('s-mtd-h6kvv7x9nalw')
+
+  paypage.setAmount(100)
+  .setCurrency('EUR')
+  .setReturnUrl('https://www.heidelpay.com')
+  .setResources(resources)
+
+  return paypage
+} 
+
+export const createFullPaypage = () => {
+  const paypage = new Paypage()
+
+  paypage.setAmount(100)
+  .setCurrency('EUR')
+  .setReturnUrl('https://www.heidelpay.com')
+  .setLogoImage('http://www.the-alley.vn/images/page/info-img.png')
+  .setBasketImage('https://www.heidelpay.com/fileadmin/content/heidelpay_logos/Heidelpay-Logo_mitUnterzeile-orange.svg')
+  .setFullPageImage('https://i.ytimg.com/vi/v1SabYdIlZI/maxresdefault.jpg')
+  .setShopName('A cool shop in the neighborhood')
+  .setDescriptionMain('Your purchase has never been better')
+  .setDescriptionSmall('Safe payment')
+  .setTermsAndConditionUrl('https://www.heidelpay.com/en/')
+  .setPrivacyPolicyUrl('https://www.heidelpay.com/en/')
+  .setImpressumUrl('https://www.heidelpay.com/en/')
+  .setHelpUrl('https://www.heidelpay.com/en/')
+  .setContactUrl('https://www.heidelpay.com/en/')
+
+  return paypage
+} 

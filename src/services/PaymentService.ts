@@ -7,6 +7,7 @@ import Basket from '../payments/Basket'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from '../payments/business/Authorization'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from '../payments/business/Cancel'
 import Charge, { chargeObject } from '../payments/business/Charge'
+import Paypage from '../payments/paypage/Paypage'
 import Payment from '../payments/business/Payment'
 import CreatePaymentType from './CreatePaymentType'
 import FetchPayment from './FetchPayment'
@@ -28,6 +29,7 @@ import CancelCharge from './CancelCharge'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
 import Shipment from '../payments/business/Shipment'
 import ShipmentService from './Shipment'
+import InitPaypage from './InitPaypage'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -227,7 +229,33 @@ export default class PaymentService {
     return CancelCharge(args, this)
   }
 
+  /**
+   * Shipment
+   *
+   * @param {string} paymentId
+   * @returns {Promise<Shipment>}
+   */
   public shipment(paymentId: string): Promise<Shipment> {
     return ShipmentService(paymentId, this)
+  }
+
+  /**
+   * Init authorize paypage
+   * 
+   * @param {Paypage} paypage
+   * @returns {Promise<Paypage>}
+   */
+  public initAuthorizePaypage(paypage: Paypage): Promise<Paypage> {
+    return InitPaypage(paypage, 'authorize', this)
+  }
+
+  /**
+   * Init charge paypage
+   *
+   * @param {Paypage} paypage
+   * @returns {Promise<Paypage>}
+   */
+  public initChargePaypage(paypage: Paypage): Promise<Paypage> {
+    return InitPaypage(paypage, 'charge', this)
   }
 }
