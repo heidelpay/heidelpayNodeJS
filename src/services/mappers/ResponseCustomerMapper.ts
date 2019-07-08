@@ -14,6 +14,7 @@ export default (response: any, customer: Customer | undefined = undefined): Cust
       .setMobile(customer.getMobile())
       .setBillingAddress(customer.getBillingAddress())
       .setShippingAddress(customer.getShippingAddress())
+      .setCompanyInfo(customer.getCompanyInfo())
 
     return newCustomer
   }
@@ -30,6 +31,7 @@ export default (response: any, customer: Customer | undefined = undefined): Cust
     .setMobile(response.mobile)
     .setBillingAddress(response.billingAddress)
     .setShippingAddress(response.shippingAddress)
+    .setCompanyInfo(response.companyInfo)
 
   return newCustomer
 }

@@ -9,6 +9,7 @@ class Customer {
   private _mobile: string
   private _billingAddress: Address
   private _shippingAddress: Address
+  private _companyInfo: CompanyInfo
 
   constructor(firstName: string = '', lastName: string = '') {
     this._firstName = firstName
@@ -228,6 +229,26 @@ class Customer {
   public getShippingAddress(): Address {
     return this._shippingAddress
   }
+
+  /**
+   * Set Company Information
+   *
+   * @param {CompanyInfo} companyInfo
+   * @returns {Customer}
+   */
+  public setCompanyInfo(companyInfo: CompanyInfo): Customer {
+    this._companyInfo = companyInfo
+    return this
+  }
+
+  /**
+   * Get Company Information
+   *
+   * @type {CompanyInfo}
+   */
+  public getCompanyInfo(): CompanyInfo {
+    return this._companyInfo
+  }
 }
 
 export enum Salutation {
@@ -243,6 +264,13 @@ export type Address = {
   zip: string
   city: string
   country: string
+}
+
+export type CompanyInfo = {
+  registrationType: string
+  commercialRegisterNumber?: string
+  function?: string
+  commercialSector?: string
 }
 
 export { Customer }

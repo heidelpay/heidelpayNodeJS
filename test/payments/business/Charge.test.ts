@@ -2,6 +2,7 @@ import Heidelpay from '../../../src/Heidelpay'
 import Charge from '../../../src/payments/business/Charge'
 import { Customer } from '../../../src/payments/Customer'
 import * as TestHelper from '../../helpers/TestHelper'
+import * as CustomerTestHelper from '../../helpers/CustomerTestHelper'
 
 describe('Charge test', () => {
   let heidelpay: Heidelpay
@@ -13,7 +14,7 @@ describe('Charge test', () => {
     jest.setTimeout(TestHelper.getTimeout())
     heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
-    createCustomer = TestHelper.createCustomer(heidelpay)
+    createCustomer = CustomerTestHelper.createCustomer(heidelpay)
   })
 
   it('Test charge with typeId', async () => {
