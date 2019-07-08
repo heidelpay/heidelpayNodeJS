@@ -1,14 +1,19 @@
 import Heidelpay from '../../src/Heidelpay'
 import * as ErrorMessage from '../../src/configs/ErrorMessage'
 import * as TestHelper from '../helpers/TestHelper'
-import Card from '../../src/payments/types/Card';
-import Authorization from '../../src/payments/business/Authorization';
-import Cancel from '../../src/payments/business/Cancel';
+import Card from '../../src/payments/types/Card'
+import Authorization from '../../src/payments/business/Authorization'
+import Cancel from '../../src/payments/business/Cancel'
+import Prepayment from '../../src/payments/types/Prepayment'
 
 describe('Payment Type Card Test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard
   const { getAuthorization, getCancelAuthorization, getCancelCharge, getCharge } = TestHelper
+
+  const getPrepayment = () => {
+    return new Prepayment()
+  }
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
@@ -16,12 +21,25 @@ describe('Payment Type Card Test', () => {
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
   })
 
+  it('Test Authorize with Prepayment payment type', async () => {
+    try {
+      const prepayment: Prepayment = await heidelpay.createPaymentType(getPrepayment()) as Prepayment
+      await prepayment.authorize(TestHelper.getAuthorization(prepayment.getId()))  
+    } catch (error) {
+      expect(error.message).toBeDefined()
+
+      const errorMessage = JSON.parse(error.message)
+      expect(errorMessage[0].code).toEqual("API.320.000.004")
+      expect(errorMessage[0].merchantMessage).toBeDefined()
+    }
+  })
+
   it('Test cancel authorization error', async () => {
     try {
       const card: Card = await createPaymentTypeCard()
       const authorization: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
 
-      const cancelAuthorize: Cancel = await authorization.cancel(500)
+      await authorization.cancel(500)
     } catch (error) {
       expect(error.message).toBeDefined()
 
