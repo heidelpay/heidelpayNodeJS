@@ -3,7 +3,7 @@ import Card from '../../src/payments/types/Card'
 import { authorizeObject, chargeAuthorizeObject } from '../../src/payments/business/Authorization'
 import PaymentType from '../../src/payments/types/PaymentType'
 import Paypage from '../../src/payments/paypage/Paypage'
-import { Customer, Address, Salutation } from '../../src/payments/Customer'
+import { Customer } from '../../src/payments/Customer'
 import Metadata from '../../src/payments/Metadata'
 import Basket, {basketItemObject} from '../../src/payments/Basket'
 import { chargeObject } from '../../src/payments/business/Charge'
@@ -44,70 +44,7 @@ export const createPaymentTypeCard3ds = (heidelpay) => async (builder: boolean =
   return card
 }
 
-export const createMiniumCustomer = () => {
-  return new Customer('Rene', 'Felder')
-}
 
-export const createFullCustomer = () => {
-  const billingAddress: Address = {
-    name: 'Peter Universum',
-    street: 'Hugo-Junkers-Str. 5',
-    state: 'DE-BO',
-    zip: '60386',
-    city: 'Frankfurt am Main',
-    country: 'DE'
-  }
-
-  const shippingAddress: Address = {
-    name: 'Peter Universum',
-    street: 'Hugo-Junkers-Str. 5',
-    state: 'DE-BO',
-    zip: '60386',
-    city: 'Frankfurt am Main',
-    country: 'DE'
-  }
-
-  let customer: Customer = new Customer()
-    .setFirstName('Rene')
-    .setLastName('Felder')
-    .setSalutation(Salutation.mr)
-    .setBirthDate('1972-12-24')
-    .setEmail('Rene.Felder@heidelpay.com')
-    .setPhone('+49 6221 64 71 101')
-    .setMobile('+49 172 123 457')
-    .setBillingAddress(billingAddress)
-    .setShippingAddress(shippingAddress)
-
-  return customer
-}
-
-export const createCustomer = (heidelpay) => async (builder: boolean = false) => {
-  const billingAddress: Address = {
-    name: 'Peter Universum',
-    street: 'Hugo-Junkers-Str. 5',
-    state: 'DE-BO',
-    zip: '60386',
-    city: 'Frankfurt am Main',
-    country: 'DE'
-  }
-
-  let customer: Customer = new Customer()
-    .setFirstName('Rene')
-    .setLastName('Felder')
-    .setSalutation(Salutation.mr)
-    .setBirthDate('1972-12-24')
-    .setEmail('Rene.Felder@heidelpay.com')
-    .setPhone('+49 6221 64 71 101')
-    .setMobile('+49 172 123 457')
-    .setBillingAddress(billingAddress)
-
-  if (builder === true) {
-    return customer
-  }
-
-  customer = await heidelpay.createCustomer(customer)
-  return customer
-}
 
 export const getAuthorization = (typeId: string | PaymentType, customerId?: string | Customer) => {
   const authorizePayload: authorizeObject = {

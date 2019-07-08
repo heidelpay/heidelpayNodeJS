@@ -3,6 +3,7 @@ import Authorization from '../../../src/payments/business/Authorization'
 import Card from '../../../src/payments/types/Card'
 import { Customer } from '../../../src/payments/Customer'
 import * as TestHelper from '../../helpers/TestHelper'
+import * as CustomerTestHelper from '../../helpers/CustomerTestHelper'
 import Payment from '../../../src/payments/business/Payment'
 
 describe('Authorize test', () => {
@@ -14,7 +15,7 @@ describe('Authorize test', () => {
     jest.setTimeout(TestHelper.getTimeout())
     heidelpay = TestHelper.createHeidelpayInstance()
     createPaymentTypeCard = TestHelper.createPaymentTypeCard(heidelpay)
-    createCustomer = TestHelper.createCustomer(heidelpay)
+    createCustomer = CustomerTestHelper.createCustomer(heidelpay)
   })
 
   it('Test authorize with authorize payload object', async () => {

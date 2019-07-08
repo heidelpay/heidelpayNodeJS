@@ -1,10 +1,11 @@
 import { Customer, Salutation, Address } from '../../src/payments/Customer'
 import Heidelpay from '../../src/Heidelpay'
 import * as TestHelper from '../helpers/TestHelper'
+import * as TestCustomerHelper from '../helpers/CustomerTestHelper'
 
 describe('Customer test', () => {
   let heidelpay: Heidelpay
-  const { createMiniumCustomer, createFullCustomer } = TestHelper
+  const { createMiniumCustomer, createFullCustomer } = TestCustomerHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
