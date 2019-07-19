@@ -1,7 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import sourceMaps from 'rollup-plugin-sourcemaps'
-import camelCase from 'lodash.camelcase'
 import typescript from 'rollup-plugin-typescript2'
 import json from 'rollup-plugin-json'
 
@@ -12,7 +11,7 @@ const libraryName = 'index'
 export default {
   input: `src/${libraryName}.ts`,
   output: [
-    { file: pkg.main, name: camelCase(libraryName), format: 'umd', sourcemap: true, exports: 'named' },
+    { file: pkg.main, name: 'index', format: 'umd', sourcemap: true, exports: 'named' },
     { file: pkg.module, format: 'es', sourcemap: true, exports: 'named' },
   ],
   context: 'this',
