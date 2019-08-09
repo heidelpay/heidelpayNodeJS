@@ -5,6 +5,7 @@ import Basket from './payments/Basket'
 import PaymentType from './payments/types/PaymentType'
 import * as ErrorMessage from './configs/ErrorMessage'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from './payments/business/Authorization'
+import Payout, { payoutObject } from './payments/business/Payout'
 import Charge, { chargeObject } from './payments/business/Charge'
 import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
@@ -228,9 +229,7 @@ export default class Heidelpay {
   /**
    * Heidelpay Authorize
    *
-   * @param {number} amount
-   * @param {string} currency
-   * @param {string} typeId
+   * @param {authorizeObject} args
    * @returns {Authorization}
    */
   public async authorize(args: authorizeObject): Promise<Authorization> {
@@ -336,5 +335,32 @@ export default class Heidelpay {
    */
   public initChargePaypage(paypage: Paypage): Promise<Paypage> {
     return this.paymentService.initChargePaypage(paypage)
+  }
+
+  /**
+   * Heidelpay Payout
+   *
+   * @param {payoutObject} args
+   * @returns {Payout}
+   */
+  public payout(args: payoutObject): Promise<Payout> {
+    return this.paymentService.payout(args)
+  }
+
+  /**
+   * Fetch payout transaction
+   *
+   * @param {string} paymentId
+   * @param {string} payoutId
+   * @returns {Promise<Payout>}
+   */
+  public fetchPayout(paymentId: string, payoutId: string): Promise<Payout> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const payment = await this.paymentService.fetchPayment(paymentId)
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 }
