@@ -9,6 +9,7 @@ import Basket, {basketItemObject} from '../../src/payments/Basket'
 import { chargeObject } from '../../src/payments/business/Charge'
 import { cancelChargeObject, cancelAuthorizeObject } from '../../src/payments/business/Cancel'
 import Resources from '../../src/payments/business/Resources';
+import { payoutObject } from '../../src/payments/business/Payout';
 
 export const getTimeout = () => 60000
 
@@ -182,6 +183,22 @@ export const getCancelCharge = (paymentId: string, chargeId: string, amount?: nu
   }
 
   return cancelCharge
+}
+
+export const getPayout = (typeId: string | PaymentType, customerId?: string | Customer) => {
+  const payoutPayload: payoutObject = {
+    amount: 100,
+    currency: 'EUR',
+    typeId: typeId,
+    returnUrl: 'https://www.google.at',
+    paymentReference: 'Test payout transaction'
+  }
+
+  if (customerId !== undefined) {
+    payoutPayload.customerId = customerId
+  }
+
+  return payoutPayload
 }
 
 export const createMetadataValue = () => {

@@ -1,5 +1,6 @@
 import Heidelpay from '../../../src/Heidelpay'
 import * as TestHelper from '../../helpers/TestHelper'
+import * as CustomerTestHelper from '../../helpers/CustomerTestHelper'
 import SepaDirectDebitGuaranteed from '../../../src/payments/types/SepaDirectDebitGuaranteed'
 import Shipment from '../../../src/payments/business/Shipment';
 import Charge from '../../../src/payments/business/Charge';
@@ -7,7 +8,8 @@ import { Customer } from '../../../src/payments/Customer';
 
 describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
   let heidelpay: Heidelpay
-  const { getCharge, createFullCustomer } = TestHelper
+  const { createFullCustomer } = CustomerTestHelper
+  const { getCharge } = TestHelper
 
   const getSSDConstructor = () => {
     return new SepaDirectDebitGuaranteed("DE89370400440532013000")

@@ -5,6 +5,7 @@ export const URL_PAYMENT_CHARGE = `${URL_PAYMENT}/charges`
 export const URL_PAYMENT_CHARGE_AUTHORIZE = `${URL_PAYMENT}/{paymentId}/charges`
 export const URL_PAYMENT_CHARGE_CANCEL = `${URL_PAYMENT}/{paymentId}/charges/{chargeId}/cancels`
 export const URL_PAYMENT_SHIPMENT = `${URL_PAYMENT}/{paymentId}/shipments`
+export const URL_PAYMENT_PAYOUT = `${URL_PAYMENT}/payouts`
 
 export const URL_CUSTOMER = '/customers'
 export const URL_METADATA = '/metadata'
