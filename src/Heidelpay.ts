@@ -355,12 +355,6 @@ export default class Heidelpay {
    * @returns {Promise<Payout>}
    */
   public fetchPayout(paymentId: string, payoutId: string): Promise<Payout> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const payment = await this.paymentService.fetchPayment(paymentId)
-      } catch (error) {
-        reject(error)
-      }
-    })
+    return this.paymentService.fetchPayout(paymentId, payoutId)
   }
 }

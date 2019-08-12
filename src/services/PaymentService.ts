@@ -32,6 +32,7 @@ import ShipmentService from './Shipment'
 import InitPaypage from './InitPaypage'
 import PayoutService from './Payout'
 import Payout, { payoutObject } from '../payments/business/Payout'
+import FetchPayout from './FetchPayout'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -269,5 +270,16 @@ export default class PaymentService {
    */
   public payout(args: payoutObject): Promise<Payout> {
     return PayoutService(args, this)
+  }
+
+  /**
+   * Fetch a payout object
+   *
+   * @param {string} paymentId
+   * @param {string} payoutId
+   * @returns {Promise<Payment>}
+   */
+  public fetchPayout(paymentId: string, payoutId: string): Promise<Payout> {
+    return FetchPayout(paymentId, payoutId, this)
   }
 }
