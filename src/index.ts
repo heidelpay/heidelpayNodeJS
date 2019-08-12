@@ -17,6 +17,7 @@ import PIS from './payments/types/Pis'
 import Paypal from './payments/types/Paypal'
 import Alipay from './payments/types/Alipay'
 import WechatPay from './payments/types/WechatPay'
+import HirePurchase from './payments/types/HirePurchase'
 
 export default Heidelpay
 export {
@@ -39,5 +40,6 @@ export {
   PIS,
   Paypal,
   Alipay,
-  WechatPay
+  WechatPay,
+  HirePurchase
 }

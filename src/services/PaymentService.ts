@@ -33,6 +33,8 @@ import InitPaypage from './InitPaypage'
 import PayoutService from './Payout'
 import Payout, { payoutObject } from '../payments/business/Payout'
 import FetchPayout from './FetchPayout'
+import HirePurchasePlan from '../payments/types/HirePurchasePlan'
+import FetchHirePurchasePlan from './FetchHirePurchasePlan'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -281,5 +283,18 @@ export default class PaymentService {
    */
   public fetchPayout(paymentId: string, payoutId: string): Promise<Payout> {
     return FetchPayout(paymentId, payoutId, this)
+  }
+
+  /**
+   * Fetch hire purchase plans
+   *
+   * @param {string} amount
+   * @param {string} currency
+   * @param {string} effectiveInterestRate
+   * @param {string} orderDate
+   * @returns {Promise<Payment>}
+   */
+  public fetchHirePurchasePlan(amount: string, currency: string, effectiveInterestRate: string, orderDate: string): Promise<Array<HirePurchasePlan>> {
+    return FetchHirePurchasePlan(amount, currency, effectiveInterestRate, orderDate, this)
   }
 }
