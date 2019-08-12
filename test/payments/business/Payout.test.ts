@@ -92,4 +92,22 @@ describe('Payout test', () => {
     expect(payout.getResources()).toBeDefined()
     expect(payout.getPayload()).toBeDefined()
   })
+
+  it('Test fetch a Payout object', async () => {
+    const card = await createPaymentTypeCard()
+    const payout: Payout = await heidelpay.payout(getPayout(card.getId()))
+
+    const fetchedPayout: Payout = await heidelpay.fetchPayout(payout.getResources().getPaymentId(), payout.getId()) as Payout
+
+    expect(payout).toBeInstanceOf(Payout)
+    expect(fetchedPayout).toBeInstanceOf(Payout)
+    expect(fetchedPayout.getResources()).toBeDefined()
+    expect(fetchedPayout.getId()).toBeDefined()
+    expect(fetchedPayout.getAmount()).toBeDefined()
+    expect(fetchedPayout.getCurrency()).toBeDefined()
+    expect(fetchedPayout.getReturnUrl()).toBeDefined()
+    expect(fetchedPayout.getPaymentReference()).toBeDefined()
+    expect(fetchedPayout.getResources()).toBeDefined()
+    expect(fetchedPayout.getPayload()).toBeDefined()
+  })
 })

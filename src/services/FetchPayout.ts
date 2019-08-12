@@ -1,13 +1,20 @@
+import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
 import Payout from '../payments/business/Payout'
+import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
 
-export default (args: string, paymentService: PaymentService): Promise<Payout> => {
+export default (paymentId: string, payoutId: string, paymentService: PaymentService): Promise<Payout> => {
   return new Promise(async (resolve, reject) => {
     try {
       // Call api end point to get response
       const response: any = await paymentService
         .getRequestAdapter()
-        .get(args, paymentService.getHeidelpay().getPrivateKey(), true)
+        .get(`${apiURL.URL_PAYMENT}/${paymentId}/payouts/${payoutId}`, paymentService.getHeidelpay().getPrivateKey())
+
+      // Handle errors response
+      if (response.errors) {
+        return reject(ResponseErrorsMapper(response))
+      }
 
       // New payout with Hedeipay instance
       let payout = new Payout(paymentService.getHeidelpay())
