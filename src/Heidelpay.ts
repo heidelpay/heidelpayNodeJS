@@ -13,6 +13,7 @@ import Paypage from './payments/paypage/Paypage'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
 import Shipment from './payments/business/Shipment'
+import HirePurchasePlan from './payments/types/HirePurchasePlan'
 
 export default class Heidelpay {
   private paymentService: PaymentService
@@ -356,5 +357,18 @@ export default class Heidelpay {
    */
   public fetchPayout(paymentId: string, payoutId: string): Promise<Payout> {
     return this.paymentService.fetchPayout(paymentId, payoutId)
+  }
+
+  /**
+   * Fetch hire purchase plans
+   *
+   * @param {string} amount
+   * @param {string} currency
+   * @param {string} effectiveInterestRate
+   * @param {string} orderDate
+   * @returns {Promise<Payout>}
+   */
+  public fetchHirePurchasePlan(amount: string, currency: string, effectiveInterestRate: string, orderDate: string): Promise<Array<HirePurchasePlan>> {
+    return this.paymentService.fetchHirePurchasePlan(amount, currency, effectiveInterestRate, orderDate)
   }
 }

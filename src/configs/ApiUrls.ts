@@ -25,6 +25,8 @@ export const URL_TYPE_SOFORT = '/types/sofort'
 export const URL_TYPE_PIS = '/types/pis'
 export const URL_TYPE_ALIPAY = '/types/alipay'
 export const URL_TYPE_WECHATPAY = '/types/wechatpay'
+export const URL_TYPE_HIRE_PURCHASE = '/types/hire-purchase-direct-debit'
+export const URL_TYPE_HIRE_PURCHASE_PLANS = '/types/hire-purchase-direct-debit/plans'
 
 export const URL_PAYPAGE_CHARGE = '/paypage/charge'
 export const URL_PAYPAGE_AUTHORIZE = '/paypage/authorize'
