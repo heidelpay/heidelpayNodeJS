@@ -17,7 +17,7 @@ export default (basketId: string, paymentService: PaymentService): Promise<Baske
       newBasket.setId(response.id)
       
       // Set amount total
-      newBasket.setAmountTotal(response.amountTotal)         
+      newBasket.setAmountTotalGross(response.amountTotalGross)
 
       // Set Amount total discount
       newBasket.setAmountTotalDiscount(response.amountTotalDiscount)
