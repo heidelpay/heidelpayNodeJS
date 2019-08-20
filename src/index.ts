@@ -8,6 +8,7 @@ import Giropay from './payments/types/Giropay'
 import Ideal from './payments/types/Ideal'
 import Invoice from './payments/types/Invoice'
 import InvoiceGuaranteed from './payments/types/InvoiceGuaranteed'
+import InvoiceFactoring from './payments/types/InvoiceFactoring'
 import Prepayment from './payments/types/Prepayment'
 import Przelewy24 from './payments/types/Przelewy24'
 import SepaDirectDebit from './payments/types/SepaDirectDebit'
@@ -32,6 +33,7 @@ export {
   Ideal,
   Invoice,
   InvoiceGuaranteed,
+  InvoiceFactoring,
   Prepayment,
   Przelewy24,
   SepaDirectDebit,
