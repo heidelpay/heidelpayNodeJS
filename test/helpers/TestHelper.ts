@@ -217,7 +217,7 @@ export const createBasket = () => {
   const basket = new Basket()
   const orderId = (Math.random() * 1000000).toString()
 
-  basket.setAmountTotal("100.00")
+  basket.setAmountTotalGross("100.00")
   basket.setAmountTotalDiscount("0.00")
   basket.setCurrencyCode("EUR")
   basket.setOrderId(orderId)
@@ -246,7 +246,7 @@ export const createBasket = () => {
 export const createBasketWithOneItemsForUpdate = (orderId) => {
   const basket = new Basket()
 
-  basket.setAmountTotal("80.00")
+  basket.setAmountTotalGross("80.00")
   basket.setAmountTotalDiscount("0.00")
   basket.setCurrencyCode("EUR")
   basket.setOrderId(orderId)
@@ -275,7 +275,7 @@ export const createBasketWithOneItemsForUpdate = (orderId) => {
 export const createBasketWithTwoItemsForUpdate = (orderId) => {
   const basket = new Basket()
 
-  basket.setAmountTotal("180.00")
+  basket.setAmountTotalGross("180.00")
   basket.setAmountTotalDiscount("0.00")
   basket.setCurrencyCode("EUR")
   basket.setOrderId(orderId)
