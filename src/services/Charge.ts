@@ -7,7 +7,7 @@ import ResponseErrorsMapper from './mappers/ResponseErrorsMapper'
 export default (args: chargeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { amount, orderId, currency, returnUrl, customerId, typeId, metadataId, card3ds } = args
+      const { amount, orderId, currency, returnUrl, paymentReference, customerId, typeId, metadataId, card3ds } = args
       const payload: any = {
         amount: amount,
         currency: currency,
@@ -15,6 +15,11 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
         resources: {
           typeId: typeId
         }
+      }
+
+      // Add payment reference into payload if its passed
+      if(paymentReference) {
+        payload.paymentReference = paymentReference
       }
 
       // Add order Id into payload if its passed

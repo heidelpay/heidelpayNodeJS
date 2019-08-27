@@ -9,17 +9,23 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
   return new Promise(async (resolve, reject) => {
     try {
       let payload: any = {}
+      const {paymentId, chargeId, amount, paymentReference} = args
 
       // Add amount into payload if its passed
-      if (args.amount) {
-        payload.amount = args.amount
+      if (amount) {
+        payload.amount = amount
+      }
+
+      // Add payment reference into payload if its passed
+      if(paymentReference) {
+        payload.paymentReference = paymentReference
       }
 
       // Call api end point to get response
       const response: any = await paymentService.getRequestAdapter().post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_CHARGE_CANCEL, {
-          paymentId: args.paymentId,
-          chargeId: args.chargeId
+          paymentId,
+          chargeId,
         }),
         payload,
         paymentService.getHeidelpay().getPrivateKey()
@@ -42,6 +48,11 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
       // Set order Id
       if(response.orderId) {
         cancel.setOrderId(response.orderId)
+      }
+
+      // Set payment reference
+      if(response.paymentReference) {
+        cancel.setPaymentReference(response.paymentReference)
       }
 
       // Set resources

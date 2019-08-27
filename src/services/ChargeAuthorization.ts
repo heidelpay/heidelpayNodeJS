@@ -10,9 +10,15 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
   return new Promise(async (resolve, reject) => {
     try {
       let payload: any = {}
+      const {paymentId, amount, paymentReference} = args
 
-      if (args.amount) {
-        payload.amount = args.amount
+      if (amount) {
+        payload.amount = amount
+      }
+
+      // Add payment reference into payload if its passed
+      if(paymentReference) {
+        payload.paymentReference = paymentReference
       }
 
       // Call api end point to get response
@@ -20,7 +26,7 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
       .getRequestAdapter()
       .post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_CHARGE_AUTHORIZE, {
-          paymentId: args.paymentId
+          paymentId,
         }),
         payload,
         paymentService.getHeidelpay().getPrivateKey()
@@ -43,6 +49,11 @@ export default (args: chargeAuthorizeObject, paymentService: PaymentService): Pr
       // Set order Id
       if(response.orderId) {
         charge.setOrderId(response.orderId)
+      }
+
+      // Set payment reference
+      if(response.paymentReference) {
+        charge.setPaymentReference(response.paymentReference)
       }
 
       // Set resources

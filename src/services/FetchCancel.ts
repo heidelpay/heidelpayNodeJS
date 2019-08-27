@@ -29,6 +29,11 @@ export default (args: string, paymentService: PaymentService): Promise<Cancel> =
         cancel.setOrderId(response.orderId)
       }
 
+      // Set payment reference
+      if(response.paymentReference) {
+        cancel.setPaymentReference(response.paymentReference)
+      }
+
       // Set resources
       cancel.setResources(response.resources)
 

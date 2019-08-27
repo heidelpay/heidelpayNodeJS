@@ -7,6 +7,7 @@ export default class Cancel extends AbstractPayment {
   private amount: string
   private orderId: string
   private refundId: string
+  private paymentReference: string
   private resources: Resources
   private processing: Processing
 
@@ -71,6 +72,24 @@ export default class Cancel extends AbstractPayment {
   }
 
   /**
+   * Set Payment Reference
+   *
+   * @param {string} paymentReference
+   */
+  public setPaymentReference(paymentReference: string) {
+    this.paymentReference = paymentReference
+  }
+
+  /**
+   * Get Payment Reference
+   *
+   * @returns
+   */
+  public getPaymentReference() {
+    return this.paymentReference
+  }
+
+  /**
    * Get resources
    *
    * @returns {Resources}
@@ -115,12 +134,14 @@ export default class Cancel extends AbstractPayment {
 
 export type cancelAuthorizeObject = {
   paymentId: string
+  paymentReference?: string
   authorizationId: string
   amount?: number
 }
 
 export type cancelChargeObject = {
   paymentId: string
+  paymentReference?: string
   chargeId: string
   amount?: number
 }

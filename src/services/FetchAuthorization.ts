@@ -29,6 +29,9 @@ export default (args: string, paymentService: PaymentService): Promise<Authoriza
       // Set return URL
       authorization.setReturnUrl(response.returnUrl)
 
+      // Set payment Reference
+      authorization.setPaymentReference(response.paymentReference)
+
       // Set resources
       authorization.setResources(response.resources)
 

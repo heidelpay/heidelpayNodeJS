@@ -9,17 +9,23 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
   return new Promise(async (resolve, reject) => {
     try {
       let payload: any = {}
+      const {paymentId, authorizationId, amount, paymentReference} = args
 
       // Add amount into payload if its passed
-      if (args.amount) {
-        payload.amount = args.amount
+      if (amount) {
+        payload.amount = amount
+      }
+
+      // Add payment reference into payload if its passed
+      if(paymentReference) {
+        payload.paymentReference = paymentReference
       }
 
       // Call api end point to get response
       const response: any = await paymentService.getRequestAdapter().post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_AUTHORIZE_CANCEL, {
-          paymentId: args.paymentId,
-          authorizationId: args.authorizationId
+          paymentId,
+          authorizationId,
         }),
         payload,
         paymentService.getHeidelpay().getPrivateKey()
@@ -42,6 +48,11 @@ export default (args: cancelAuthorizeObject, paymentService: PaymentService): Pr
       // Set order Id
       if(response.orderId) {
         cancel.setOrderId(response.orderId)
+      }
+
+      // Set payment reference
+      if(response.paymentReference) {
+        cancel.setPaymentReference(response.paymentReference)
       }
 
       // Set resources

@@ -22,6 +22,11 @@ export default (args: string, paymentService: PaymentService): Promise<Charge> =
       if(response.orderId) {
         charge.setOrderId(response.orderId)
       }
+      
+      // Set payment reference
+      if(response.paymentReference) {
+        charge.setPaymentReference(response.paymentReference)
+      }
 
       // Set currency
       charge.setCurrency(response.currency)

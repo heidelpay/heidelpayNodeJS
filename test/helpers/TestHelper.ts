@@ -52,6 +52,7 @@ export const getAuthorization = (typeId: string | PaymentType, customerId?: stri
     amount: 100,
     currency: 'EUR',
     typeId: typeId,
+    paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at'
   }
 
@@ -68,6 +69,7 @@ export const getAuthorizationWithOrderId = (typeId: string | PaymentType, custom
     orderId: Math.floor(Date.now() / 1000).toString(),
     currency: 'EUR',
     typeId: typeId,
+    paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at'
   }
 
@@ -95,6 +97,7 @@ export const getCancelAuthorization = (paymentId: string, authorizeId: string, a
   const authorizePayload: cancelAuthorizeObject = {
     amount: amount,
     authorizationId: authorizeId,
+    paymentReference: 'Shop says thank you',
     paymentId: paymentId
   }
 
@@ -105,6 +108,7 @@ export const getCharge = (typeId: string | PaymentType, customerId?: string | Cu
   const chargePayload: chargeObject = {
     amount: 50,
     currency: 'EUR',
+    paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at',
     typeId: typeId
   }
@@ -120,6 +124,7 @@ export const getChargeWithCard3ds = (typeId: string | PaymentType, customerId?: 
   const chargePayload: chargeObject = {
     amount: 50,
     currency: 'EUR',
+    paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at',
     card3ds: true,
     typeId: typeId
@@ -136,6 +141,7 @@ export const getChargeWithMetadataId = (typeId: string | PaymentType, metadataId
   const chargePayload: chargeObject = {
     amount: 50,
     currency: 'EUR',
+    paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at',
     typeId: typeId,
     metadataId: metadataId
@@ -149,6 +155,7 @@ export const getChargeWithOrderId = (typeId: string | PaymentType, customerId?: 
     amount: 50,
     orderId: Math.floor(Date.now() / 1000).toString(),
     currency: 'EUR',
+    paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at',
     typeId: typeId
   }
@@ -163,6 +170,7 @@ export const getChargeWithOrderId = (typeId: string | PaymentType, customerId?: 
 export const getChargeAuthorization = (paymentId: string, amount?: number) => {
   const chargeAuthorizePayload: chargeAuthorizeObject = {
     paymentId: paymentId,
+    paymentReference: 'Shop says thank you',
   }
 
   if (amount !== undefined) {
@@ -176,6 +184,7 @@ export const getCancelCharge = (paymentId: string, chargeId: string, amount?: nu
   const cancelCharge: cancelChargeObject = {
     paymentId: paymentId,
     chargeId: chargeId,
+    paymentReference: 'Shop says thank you',
   }
 
   if (amount !== undefined) {

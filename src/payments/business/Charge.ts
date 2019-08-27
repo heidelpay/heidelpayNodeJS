@@ -11,6 +11,7 @@ export default class Charge extends AbstractPayment {
   private orderId: string
   private currency: string
   private returnUrl: string
+  private paymentReference: string
   private card3ds: boolean
   private resources: Resources
   private cancelList: Array<Cancel>
@@ -89,6 +90,24 @@ export default class Charge extends AbstractPayment {
    */
   public getReturnUrl() {
     return this.returnUrl
+  }
+
+  /**
+   * Set Payment Reference
+   *
+   * @param {string} paymentReference
+   */
+  public setPaymentReference(paymentReference: string) {
+    this.paymentReference = paymentReference
+  }
+
+  /**
+   * Get Payment Reference
+   *
+   * @returns
+   */
+  public getPaymentReference() {
+    return this.paymentReference
   }
 
   /**
@@ -208,6 +227,7 @@ export type chargeObject = {
   orderId?: string
   currency: string
   returnUrl: string
+  paymentReference?: string
   card3ds?: boolean
   typeId: string | PaymentType
   customerId?: string | Customer
