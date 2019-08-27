@@ -12,6 +12,7 @@ export default class Authorization extends AbstractPayment {
   private orderId: string
   private currency: string
   private returnUrl: string
+  private paymentReference: string
   private resources: Resources
   private processing: Processing
 
@@ -89,6 +90,24 @@ export default class Authorization extends AbstractPayment {
    */
   public getReturnUrl() {
     return this.returnUrl
+  }
+
+  /**
+   * Set Payment Reference
+   *
+   * @param {string} paymentReference
+   */
+  public setPaymentReference(paymentReference: string) {
+    this.paymentReference = paymentReference
+  }
+
+  /**
+   * Get Payment Reference
+   *
+   * @returns
+   */
+  public getPaymentReference() {
+    return this.paymentReference
   }
 
   /**
@@ -177,11 +196,13 @@ export type authorizeObject = {
   currency: string
   typeId: string | PaymentType
   returnUrl: string
+  paymentReference?: string
   customerId?: string | Customer
   metadataId?: string
 }
 
 export type chargeAuthorizeObject = {
   paymentId: string
+  paymentReference?: string
   amount?: number
 }

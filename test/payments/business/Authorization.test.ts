@@ -30,6 +30,7 @@ describe('Authorize test', () => {
     expect(authorize.getProcessing().getShortId()).toBeDefined()
     expect(authorize.getProcessing().getUniqueId()).toBeDefined()
     expect(authorize.getResources()).toBeDefined()
+    expect(authorize.getPaymentReference()).toBeDefined()
     expect(authorize.getPayload()).toBeDefined()
   })
 
