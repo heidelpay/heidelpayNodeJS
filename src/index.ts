@@ -1,6 +1,8 @@
 import Heidelpay from './Heidelpay'
 import { Customer, Address, Salutation } from './payments/Customer'
 import Metadata from './payments/Metadata'
+import Resources from './payments/business/Resources'
+import Processing from './payments/business/Processing'
 import Basket from './payments/Basket'
 import Card from './payments/types/Card'
 import EPS from './payments/types/Eps'
@@ -24,6 +26,8 @@ export default Heidelpay
 export {
   Customer,
   Metadata,
+  Processing,
+  Resources,
   Basket,
   Address,
   Salutation,
@@ -43,5 +47,5 @@ export {
   Paypal,
   Alipay,
   WechatPay,
-  HirePurchase
+  HirePurchase,
 }
