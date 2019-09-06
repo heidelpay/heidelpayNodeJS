@@ -4,6 +4,7 @@ import Metadata from './payments/Metadata'
 import Resources from './payments/business/Resources'
 import Processing from './payments/business/Processing'
 import Basket from './payments/Basket'
+import Paypage from './payments/paypage/Paypage'
 import Card from './payments/types/Card'
 import EPS from './payments/types/Eps'
 import Giropay from './payments/types/Giropay'
@@ -29,6 +30,7 @@ export {
   Processing,
   Resources,
   Basket,
+  Paypage,
   Address,
   Salutation,
   Card,
