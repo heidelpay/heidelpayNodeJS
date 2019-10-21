@@ -328,6 +328,10 @@ export const createMinimumPaypage = () => {
   paypage.setAmount(100)
   .setCurrency('EUR')
   .setReturnUrl('https://www.heidelpay.com')
+  .setShopDescription('A cool shop in the neighborhood')
+  .setAdditionalAttributes({
+    effectiveInterestRate: 1
+  })
 
   return paypage
 } 
@@ -357,8 +361,6 @@ export const createFullPaypage = () => {
   .setBasketImage('https://www.heidelpay.com/fileadmin/content/heidelpay_logos/Heidelpay-Logo_mitUnterzeile-orange.svg')
   .setFullPageImage('https://i.ytimg.com/vi/v1SabYdIlZI/maxresdefault.jpg')
   .setShopName('A cool shop in the neighborhood')
-  .setDescriptionMain('Your purchase has never been better')
-  .setDescriptionSmall('Safe payment')
   .setTermsAndConditionUrl('https://www.heidelpay.com/en/')
   .setPrivacyPolicyUrl('https://www.heidelpay.com/en/')
   .setImpressumUrl('https://www.heidelpay.com/en/')
