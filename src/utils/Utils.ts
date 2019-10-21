@@ -112,9 +112,19 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
   switch (response.method) {
     case 'card':
       const card: Card = new Card()
-        .setPanNumber(response.number)
+        .setNumber(response.number)
         .setExpiryDate(response.expiryDate)
         .setCVC(response.cvc)
+        .setBrand(response.brand)
+        .setRecurring(response.recurring)
+
+      if (response.cardHolder) {
+        card.setCardHolder(response.cardHolder)
+      }
+
+      if (response.cardDetails) {
+        card.setCardDetails(response.cardDetails)
+      }
 
       card.setId(response.id)
       return card

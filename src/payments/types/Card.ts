@@ -3,15 +3,21 @@ import AbstractPaymentType from './AbstractPaymentType'
 import PaymentType from './PaymentType'
 
 export default class Card extends AbstractPaymentType implements PaymentType {
-  private _panNumber: string
+  private _recurring: boolean
+  private _brand: string
+  private _number: string
   private _cvc: string
   private _expiryDate: string
+  private _cardHolder: string
   private _3ds: boolean
+  private _cardDetails: any
 
-  constructor(panNumber: string = '', expiryDate: string = '') {
+  constructor(number: string = '', expiryDate: string = '') {
     super()
-    this._panNumber = panNumber
+    this._number = number
     this._expiryDate = expiryDate
+    this._cardHolder = ''
+    this._cardDetails = {}
   }
 
   /**
@@ -30,7 +36,7 @@ export default class Card extends AbstractPaymentType implements PaymentType {
    */
   public getPayload() {
     const payload: any = {
-      number: this.getPanNumber(),
+      number: this.getNumber(),
       cvc: this.getCVC(),
       expiryDate: this.getExpiryDate()
     }
@@ -45,11 +51,11 @@ export default class Card extends AbstractPaymentType implements PaymentType {
   /**
    * Set pan number
    *
-   * @param {string} panNumber
+   * @param {string} number
    * @returns {Card}
    */
-  public setPanNumber(panNumber: string): Card {
-    this._panNumber = panNumber
+  public setNumber(number: string): Card {
+    this._number = number
     return this
   }
 
@@ -58,8 +64,8 @@ export default class Card extends AbstractPaymentType implements PaymentType {
    *
    * @returns {string}
    */
-  public getPanNumber(): string {
-    return this._panNumber
+  public getNumber(): string {
+    return this._number
   }
 
   /**
@@ -100,6 +106,86 @@ export default class Card extends AbstractPaymentType implements PaymentType {
    */
   public getExpiryDate(): string {
     return this._expiryDate
+  }
+
+  /**
+   * Set card holder
+   *
+   * @param {string} cardHolder
+   * @returns {Card}
+   */
+  public setCardHolder(cardHolder: string): Card {
+    this._cardHolder = cardHolder
+    return this
+  }
+
+  /**
+   * Get card holder
+   *
+   * @returns {string}
+   */
+  public getCardHolder(): string {
+    return this._cardHolder
+  }
+
+  /**
+   * Set brand name
+   *
+   * @param {string} brand
+   * @returns {Card}
+   */
+  public setBrand(brand: string): Card {
+    this._brand = brand
+    return this
+  }
+
+  /**
+   * Get brand name
+   *
+   * @returns {string}
+   */
+  public getBrand(): string {
+    return this._brand
+  }
+
+  /**
+   * Set recurring option
+   *
+   * @param {string} recurring
+   * @returns {Card}
+   */
+  public setRecurring(recurring: boolean): Card {
+    this._recurring = recurring
+    return this
+  }
+
+  /**
+   * Get recurring option
+   *
+   * @returns {string}
+   */
+  public getRecurring(): boolean {
+    return this._recurring
+  }
+
+  /**
+   * Set card detail
+   *
+   * @param {object} cardDetail
+   * @returns {Card}
+   */
+  public setCardDetails(cardDetails: any): Card {
+    this._cardDetails = cardDetails
+    return this
+  }
+
+  /**
+   * Get card detail
+   *
+   * @returns {object}
+   */
+  public getCardDetails(): any {
+    return this._cardDetails
   }
 
   /**
