@@ -12,7 +12,7 @@ describe('Paypage test', () => {
 
   it('Test init paypage authorize', async () => {
     const paypage: Paypage = await heidelpay.initAuthorizePaypage(TestHelper.createMinimumPaypage())
-    
+
     expect(paypage).toBeInstanceOf(Paypage)
     expect(paypage.getId()).toBeDefined()
     expect(paypage.getRedirectUrl()).toBeDefined()

@@ -1,3 +1,4 @@
+import Heidelpay from '../../Heidelpay'
 import AbstractPaymentType from '../types/AbstractPaymentType'
 import PaymentType from '../types/PaymentType'
 import Resources from '../business/Resources'
@@ -10,8 +11,11 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
   private basketImage: string
   private fullPageImage: string
   private shopName: string
-  private descriptionMain: string
-  private descriptionSmall: string
+  private shopDescription: string
+  private tagline: string
+  private card3ds: boolean
+  private invoiceId: string
+  private additionalAttributes: any
   private termsAndConditionUrl: string
   private privacyPolicyUrl: string
   private impressumUrl: string
@@ -24,6 +28,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
 
   constructor() {
     super()
+    this.additionalAttributes = {}
     this.resources = new Resources()
   }
 
@@ -50,8 +55,10 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
       basketImage: this.getBasketImage(),
       fullPageImage: this.getFullPageImage(),
       shopName: this.getShopName(),
-      descriptionMain: this.getDescriptionMain(),
-      descriptionSmall: this.getDescriptionSmall(),
+      shopDescription: this.getShopDescription(),
+      tagline: this.getTagline(),
+      card3ds: this.getCard3ds(),
+      invoiceId: this.getInvoiceId(),
       termsAndConditionUrl: this.getTermsAndConditionUrl(),
       privacyPolicyUrl: this.getPrivacyPolicyUrl(),
       impressumUrl: this.getImpressumUrl(),
@@ -70,7 +77,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getAmount(): string|number {
-      return this.amount
+    return this.amount
   }
 
   /**
@@ -80,8 +87,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Card}
    */
   public setAmount(amount: string|number): Paypage {
-      this.amount = amount
-      return this
+    this.amount = amount
+    return this
   }
 
   /**
@@ -90,7 +97,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getCurrency(): string {
-      return this.currency
+    return this.currency
   }
 
   /**
@@ -100,8 +107,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setCurrency(currency: string): Paypage {
-      this.currency = currency
-      return this
+    this.currency = currency
+    return this
   }
 
   /**
@@ -110,7 +117,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getReturnUrl(): string {
-      return this.returnUrl
+    return this.returnUrl
   }
 
   /**
@@ -120,8 +127,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setReturnUrl(returnUrl: string): Paypage {
-      this.returnUrl = returnUrl
-      return this
+    this.returnUrl = returnUrl
+    return this
   }
 
   /**
@@ -130,7 +137,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getLogoImage(): string {
-      return this.logoImage
+    return this.logoImage
   }
 
   /**
@@ -140,8 +147,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setLogoImage(logoImage: string): Paypage {
-      this.logoImage = logoImage
-      return this
+    this.logoImage = logoImage
+    return this
   }
 
   /**
@@ -150,7 +157,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getBasketImage(): string {
-      return this.basketImage
+    return this.basketImage
   }
 
   /**
@@ -160,8 +167,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setBasketImage(basketImage: string): Paypage {
-      this.basketImage = basketImage
-      return this
+    this.basketImage = basketImage
+    return this
   }
 
   /**
@@ -170,7 +177,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getFullPageImage(): string {
-      return this.fullPageImage
+    return this.fullPageImage
   }
 
   /**
@@ -180,8 +187,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setFullPageImage(fullPageImage: string): Paypage {
-      this.fullPageImage = fullPageImage
-      return this
+    this.fullPageImage = fullPageImage
+    return this
   }
 
   /**
@@ -190,7 +197,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getShopName(): string {
-      return this.shopName
+    return this.shopName
   }
 
   /**
@@ -200,48 +207,108 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setShopName(shopName: string): Paypage {
-      this.shopName = shopName
-      return this
+    this.shopName = shopName
+    return this
   }
 
   /**
-   * Get main description
+   * Get shop description
    *
    * @returns {string}
    */
-  public getDescriptionMain(): string {
-      return this.descriptionMain
+  public getShopDescription(): string {
+    return this.shopDescription
   }
 
   /**
-   * Set main description
+   * Set shop description
    *
-   * @param {string} descriptionMain
+   * @param {string} shopDescription
    * @returns {Paypage}
    */
-  public setDescriptionMain(descriptionMain: string): Paypage {
-      this.descriptionMain = descriptionMain
-      return this
+  public setShopDescription(shopDescription: string): Paypage {
+    this.shopDescription = shopDescription
+    return this
   }
 
   /**
-   * Get small description
+   * Get tagline
    *
    * @returns {string}
    */
-  public getDescriptionSmall(): string {
-      return this.descriptionSmall
+  public getTagline(): string {
+    return this.tagline
   }
 
   /**
-   * Set main description
+   * Set tagline
    *
-   * @param {string} descriptionSmall
+   * @param {string} tagline
    * @returns {Paypage}
    */
-  public setDescriptionSmall(descriptionSmall: string): Paypage {
-      this.descriptionSmall = descriptionSmall
-      return this
+  public setTagline(tagline: string): Paypage {
+    this.tagline = tagline
+    return this
+  }
+
+  /**
+   * Get card3ds
+   *
+   * @returns {string}
+   */
+  public getCard3ds(): boolean {
+    return this.card3ds
+  }
+
+  /**
+   * Set card3ds
+   *
+   * @param {string} card3ds
+   * @returns {Paypage}
+   */
+  public setCard3ds(card3ds: boolean): Paypage {
+    this.card3ds = card3ds
+    return this
+  }
+
+  /**
+   * Get Invoice Id
+   *
+   * @returns {string}
+   */
+  public getInvoiceId(): string {
+    return this.invoiceId
+  }
+
+  /**
+   * Set Additional attributes
+   *
+   * @param {object} additionalAttributes
+   * @returns {Paypage}
+   */
+  public setAdditionalAttributes(additionalAttributes: object): Paypage {
+    this.additionalAttributes = additionalAttributes
+    return this
+  }
+
+  /**
+   * Get Additional attributes
+   *
+   * @returns {object}
+   */
+  public getAdditionalAttributes(): object {
+    return this.additionalAttributes
+  }
+
+  /**
+   * Set Invoice Id
+   *
+   * @param {string} invoiceId
+   * @returns {Paypage}
+   */
+  public setInvoiceId(invoiceId: string): Paypage {
+    this.invoiceId = invoiceId
+    return this
   }
 
   /**
@@ -250,7 +317,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getTermsAndConditionUrl(): string {
-      return this.termsAndConditionUrl
+    return this.termsAndConditionUrl
   }
 
   /**
@@ -260,8 +327,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setTermsAndConditionUrl(termsAndConditionUrl: string): Paypage {
-      this.termsAndConditionUrl = termsAndConditionUrl
-      return this
+    this.termsAndConditionUrl = termsAndConditionUrl
+    return this
   }
 
   /**
@@ -270,7 +337,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getPrivacyPolicyUrl(): string {
-      return this.privacyPolicyUrl
+    return this.privacyPolicyUrl
   }
 
   /**
@@ -280,8 +347,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setPrivacyPolicyUrl(privacyPolicyUrl: string): Paypage {
-      this.privacyPolicyUrl = privacyPolicyUrl
-      return this
+    this.privacyPolicyUrl = privacyPolicyUrl
+    return this
   }
 
   /**
@@ -290,7 +357,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getImpressumUrl(): string {
-      return this.impressumUrl
+    return this.impressumUrl
   }
 
   /**
@@ -300,8 +367,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setImpressumUrl(impressumUrl: string): Paypage {
-      this.impressumUrl = impressumUrl
-      return this
+    this.impressumUrl = impressumUrl
+    return this
   }
 
   /**
@@ -310,7 +377,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getHelpUrl(): string {
-      return this.helpUrl
+    return this.helpUrl
   }
 
   /**
@@ -320,8 +387,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setHelpUrl(helpUrl: string): Paypage {
-      this.helpUrl = helpUrl
-      return this
+    this.helpUrl = helpUrl
+    return this
   }
 
   /**
@@ -330,7 +397,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getContactUrl(): string {
-      return this.contactUrl
+    return this.contactUrl
   }
 
   /**
@@ -340,8 +407,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setContactUrl(contactUrl: string): Paypage {
-      this.contactUrl = contactUrl
-      return this
+    this.contactUrl = contactUrl
+    return this
   }
 
   /**
@@ -350,7 +417,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {string}
    */
   public getRedirectUrl(): string {
-      return this.redirectUrl
+    return this.redirectUrl
   }
 
 
@@ -361,8 +428,8 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    * @returns {Paypage}
    */
   public setRedirectUrl(redirectUrl: string): Paypage {
-      this.redirectUrl = redirectUrl
-      return this
+    this.redirectUrl = redirectUrl
+    return this
   }
 
   /**
@@ -372,18 +439,18 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    */
   public getAction(): string {
     return this.action
-}
+  }
 
-/**
- * Set redirectUrl
- *
- * @param {string} redirectUrl
- * @returns {Paypage}
- */
-public setAction(action: string): Paypage {
-    this.action = action
-    return this
-}
+  /**
+   * Set redirectUrl
+   *
+   * @param {string} redirectUrl
+   * @returns {Paypage}
+   */
+  public setAction(action: string): Paypage {
+      this.action = action
+      return this
+  }
 
   /**
    * Get resources

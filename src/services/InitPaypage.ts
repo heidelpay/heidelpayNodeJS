@@ -7,12 +7,21 @@ import Resources from '../payments/business/Resources';
 export default (paypage: Paypage, type: string, paymentService: PaymentService): Promise<Paypage> => {
   return new Promise(async (resolve, reject) => {
     try {
+      // Get payload
+      const payload = paypage.getPayload()
+
+      // Get additional attributes
+      const additionalAttributes: any = paypage.getAdditionalAttributes()
+      if(additionalAttributes && additionalAttributes.effectiveInterestRate) {
+        payload['additionalAttributes.effectiveInterestRate'] = additionalAttributes.effectiveInterestRate
+      }
+
       // Call api end point to get response
       const response: any = await paymentService
       .getRequestAdapter()
       .post(
         type === 'authorize' ? apiURL.URL_PAYPAGE_AUTHORIZE : apiURL.URL_PAYPAGE_CHARGE,
-        paypage.getPayload(),
+        payload,
         paymentService.getHeidelpay().getPrivateKey()
       )
 
