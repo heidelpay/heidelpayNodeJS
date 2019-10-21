@@ -55,7 +55,7 @@ describe('Payment Type Card Test', () => {
     const fetchedCard: Card = await heidelpay.fetchPaymentType(card.getId()) as Card
 
     expect(card.getId()).toEqual(fetchedCard.getId())
-    expect(card.getPanNumber()).toBeDefined()
+    expect(card.getNumber()).toBeDefined()
     expect(card.getCVC()).toBeDefined()
     expect(card.getExpiryDate()).toEqual(fetchedCard.getExpiryDate())
   })

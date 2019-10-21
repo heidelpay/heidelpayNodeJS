@@ -1,7 +1,7 @@
 import PaymentType from '../payments/types/PaymentType'
 import PaymentService from './PaymentService'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
-import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
+import ResponseErrorsMapper from './mappers/ResponseErrorsMapper'
 
 export default (paymentType: AbstractPaymentType, paymentService: PaymentService): Promise<PaymentType> => {
   return new Promise(async (resolve, reject) => {

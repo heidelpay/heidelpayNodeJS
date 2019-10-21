@@ -8,8 +8,8 @@ import Metadata from '../../src/payments/Metadata'
 import Basket, {basketItemObject} from '../../src/payments/Basket'
 import { chargeObject } from '../../src/payments/business/Charge'
 import { cancelChargeObject, cancelAuthorizeObject } from '../../src/payments/business/Cancel'
-import Resources from '../../src/payments/business/Resources';
-import { payoutObject } from '../../src/payments/business/Payout';
+import Resources from '../../src/payments/business/Resources'
+import { payoutObject } from '../../src/payments/business/Payout'
 
 export const getTimeout = () => 60000
 
@@ -17,7 +17,7 @@ export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a102ZMq3gV4I
 
 export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
   let card: Card = new Card()
-    .setPanNumber('4711100000000000')
+    .setNumber('4711100000000000')
     .setCVC('123')
     .setExpiryDate('01/2022')
     .set3ds(false)
@@ -32,7 +32,7 @@ export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = fa
 
 export const createPaymentTypeCard3ds = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
   let card: Card = new Card()
-    .setPanNumber('4711100000000000')
+    .setNumber('4711100000000000')
     .setCVC('123')
     .setExpiryDate('01/2022')
     .set3ds(true)
