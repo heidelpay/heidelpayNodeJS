@@ -245,6 +245,7 @@ export const createBasket = () => {
     amountVat: "0",
     amountPerUnit: "100.00",
     amountNet: "100.00",
+    type: "tech"
   }
 
   basket.addItem(basketItem)
@@ -274,6 +275,7 @@ export const createBasketWithOneItemsForUpdate = (orderId) => {
     amountVat: "0",
     amountPerUnit: "80.00",
     amountNet: "80.00",
+    type: "tech"
   }
 
   basket.addItem(basketItem)
@@ -301,6 +303,7 @@ export const createBasketWithTwoItemsForUpdate = (orderId) => {
     amountVat: "0",
     amountPerUnit: "100.00",
     amountNet: "100.00",
+    type: "tech"
   }
 
   const basketNextItem: basketItemObject = {
@@ -314,6 +317,7 @@ export const createBasketWithTwoItemsForUpdate = (orderId) => {
     amountVat: "0",
     amountPerUnit: "80.00",
     amountNet: "80.00",
+    type: "tech"
   }
 
   basket.addItem(basketItem)
