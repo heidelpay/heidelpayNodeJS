@@ -26,4 +26,19 @@ describe('Payment Type InvoiceFactoring Test', () => {
 
     expect(fetchInvoiceFactoring.getId()).toEqual(invoiceFactoring.getId())
   })
+
+  it('should return an invoiceId if invoiceId is set', async () => {
+    const invoiceFactoring: InvoiceFactoring = await heidelpay.createPaymentType(getInvoiceFactoring()) as InvoiceFactoring
+    invoiceFactoring.setInvoiceId('invoice123')
+
+    expect(invoiceFactoring.getInvoiceId()).toBe('invoice123')
+    expect(invoiceFactoring.getPayload()).toHaveProperty('invoiceId', 'invoice123')
+  })
+
+  it('should return an empty object if invoiceId is not set', async () => {
+    const invoiceFactoring: InvoiceFactoring = await heidelpay.createPaymentType(getInvoiceFactoring()) as InvoiceFactoring
+
+    expect(invoiceFactoring.getPayload().invoiceId).toBe(undefined)
+    expect(invoiceFactoring.getPayload()).toEqual({})
+  })
 })

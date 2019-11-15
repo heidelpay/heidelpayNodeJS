@@ -26,4 +26,20 @@ describe('Payment Type InvoiceGuaranteed Test', () => {
 
     expect(fetchInvoiceGuaranteed.getId()).toEqual(invoiceGuaranteed.getId())
   })
+
+  it('should return an invoiceId if invoiceId is set', async () => {
+    const invoiceGuaranteed: InvoiceGuaranteed = await heidelpay.createPaymentType(getInvoiceGuaranteed()) as InvoiceGuaranteed
+    invoiceGuaranteed.setInvoiceId('invoice123')
+
+    expect(invoiceGuaranteed.getInvoiceId()).toBe('invoice123')
+    expect(invoiceGuaranteed.getPayload()).toHaveProperty('invoiceId', 'invoice123')
+  })
+
+
+  it('should return an empty object if invoiceId is not set', async () => {
+    const invoiceGuaranteed: InvoiceGuaranteed = await heidelpay.createPaymentType(getInvoiceGuaranteed()) as InvoiceGuaranteed
+
+    expect(invoiceGuaranteed.getPayload().invoiceId).toBe(undefined)
+    expect(invoiceGuaranteed.getPayload()).toEqual({})
+  })
 })
