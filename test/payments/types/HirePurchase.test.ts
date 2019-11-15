@@ -41,7 +41,7 @@ describe('HirePurchase test', () => {
     .setBic("COBADEFFXXX")
     .setAccountHolder("Rene Felder")
     .setInvoiceDate('2019-08-10')
-    .setInvoiceDueDate('2019-08-30')
+    .setInvoiceDueDate('2020-08-30')
     
     hirePurchase = await heidelpay.createPaymentType(hirePurchase) as HirePurchase
     expect(hirePurchase.getId()).toBeDefined()

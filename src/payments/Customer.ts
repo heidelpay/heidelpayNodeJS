@@ -254,7 +254,7 @@ class Customer {
 export enum Salutation {
   mr = 'mr',
   ms = 'ms',
-  unknown = 'unknow'
+  unknown = 'unknown'
 }
 
 export type Address = {

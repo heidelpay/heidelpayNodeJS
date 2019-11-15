@@ -3,6 +3,7 @@ import AbstractPaymentType from './AbstractPaymentType'
 import PaymentType from './PaymentType'
 
 export default class InvoiceGuaranteed extends AbstractPaymentType implements PaymentType {
+  private _invoiceId: string
   /**
    * Get url end point
    *
@@ -12,12 +13,37 @@ export default class InvoiceGuaranteed extends AbstractPaymentType implements Pa
     return apiURL.URL_TYPE_INVOICE_GUARANTEED
   }
 
+  
+  /**
+   * Set Invoice Id
+   *
+   * @param {string} invoiceId
+   */
+  public setInvoiceId(invoiceId: string): void {
+    this._invoiceId = invoiceId
+  }
+
+  /**
+   * Get Invoice Id
+   *
+   * @returns {string}
+   */
+  public getInvoiceId(): string {
+    return this._invoiceId
+  }
+
   /**
    * Get Payload
    *
    * @returns
    */
   public getPayload() {
-    return {}
+    if (typeof this.getInvoiceId() === 'undefined') {
+      return {}
+    }
+    
+    return {
+      invoiceId: this._invoiceId
+    }
   }
 }
