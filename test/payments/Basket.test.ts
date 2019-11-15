@@ -52,4 +52,20 @@ describe('Basket test', () => {
     expect(fetchedNewBasket.getItems()).toHaveLength(1)
     expect(fetchedUpdateBasket.getItems()).toHaveLength(2)
   })
+
+  it('should return at least 13 keys inside basketItemObject', async () => {
+    const basket: Basket = await heidelpay.createBasket(createBasket())
+    const fetchedNewBasket: Basket = await heidelpay.fetchBasket(basket.getId())
+    const basketPayload: object = fetchedNewBasket.getPayload()
+    const basketItem: [] = basketPayload['basketItems'][0]
+    const basketItemKeys = Object.keys(basketItem)
+    const basketItemKeyArray: Array<string> = [
+      'title', 'subTitle', 'imageUrl', 'basketItemReferenceId', 'unit',
+      'quantity', 'amountDiscount', 'vat', 'amountGross', 'amountVat',
+      'amountPerUnit', 'amountNet', 'type'
+    ]
+
+    expect(basketItemKeys.length).toBeGreaterThanOrEqual(13)
+    expect(basketItemKeys).toEqual(expect.arrayContaining(basketItemKeyArray))
+  })
 })
