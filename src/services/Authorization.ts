@@ -7,7 +7,10 @@ import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
 export default (args: authorizeObject, paymentService: PaymentService): Promise<Authorization> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { amount, orderId, currency, typeId, customerId, returnUrl, paymentReference, metadataId } = args
+      const { 
+        amount, orderId, currency, typeId, customerId, returnUrl,
+        paymentReference, metadataId, basketId, effectiveInterestRate
+      } = args
       let payload: any = {
         amount: amount,
         currency: currency,
@@ -18,13 +21,17 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       }
 
       // Add payment reference into payload if its passed
-      if(paymentReference) {
+      if (paymentReference) {
         payload.paymentReference = paymentReference
       }
 
       // Add order Id into payload if its passed
       if (orderId) {
         payload.orderId = orderId
+      }
+
+      if (effectiveInterestRate) {
+        payload.effectiveInterestRate = effectiveInterestRate
       }
 
       // Add customer Id into payload if its passed
@@ -35,6 +42,10 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       // Add metadta Id into payload if its passed
       if (metadataId) {
         payload.resources.metadataId = metadataId
+      }
+
+      if (basketId) {
+        payload.resources.basketId = basketId
       }
 
       // Call api end point to get response
@@ -60,7 +71,7 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       authorization.setAmount(response.amount)
 
       // Set order Id
-      if(response.orderId) {
+      if (response.orderId) {
         authorization.setOrderId(response.orderId)
       }
 
@@ -71,7 +82,7 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
       authorization.setReturnUrl(response.returnUrl)
 
       // Set payment reference
-      if(response.paymentReference) {
+      if (response.paymentReference) {
         authorization.setPaymentReference(response.paymentReference)
       }
 

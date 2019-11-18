@@ -6,6 +6,7 @@ import Resources from './Resources'
 import Cancel, { cancelAuthorizeObject } from './Cancel'
 import PaymentType from '../types/PaymentType'
 import Processing from './Processing';
+import Basket from '../Basket'
 
 export default class Authorization extends AbstractPayment {
   private amount: string
@@ -199,6 +200,8 @@ export type authorizeObject = {
   paymentReference?: string
   customerId?: string | Customer
   metadataId?: string
+  basketId?: string | Basket,
+  effectiveInterestRate?: number
 }
 
 export type chargeAuthorizeObject = {
