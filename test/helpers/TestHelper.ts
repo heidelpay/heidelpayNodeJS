@@ -13,7 +13,7 @@ import { payoutObject } from '../../src/payments/business/Payout'
 
 export const getTimeout = () => 60000
 
-export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n')
+export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n', 'en')
 
 export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
   let card: Card = new Card()
@@ -58,6 +58,28 @@ export const getAuthorization = (typeId: string | PaymentType, customerId?: stri
 
   if (customerId !== undefined) {
     authorizePayload.customerId = customerId
+  }
+
+  return authorizePayload
+}
+
+export const getAuthorizationWithInterest = (typeId: string | PaymentType, customerId?: string | Customer, basketId?: string | Basket) => {
+  const authorizePayload: authorizeObject = {
+    amount: 100,
+    effectiveInterestRate: 5.99,
+    orderId: Math.floor(Date.now() / 1000).toString(),
+    currency: 'EUR',
+    typeId: typeId,
+    paymentReference: 'Shop says thank you',
+    returnUrl: 'https://www.google.at',
+  }
+
+  if (customerId !== undefined) {
+    authorizePayload.customerId = customerId
+  }
+
+  if (basketId !== undefined) {
+    authorizePayload.basketId = basketId
   }
 
   return authorizePayload
@@ -189,6 +211,19 @@ export const getCancelCharge = (paymentId: string, chargeId: string, amount?: nu
 
   if (amount !== undefined) {
     cancelCharge.amount = amount
+  }
+
+  return cancelCharge
+}
+
+export const getCancelChargeHirePurchase = (paymentId: string, chargeId: string, amountGross: string, amountNet: string, amountVat: string) => {
+  const cancelCharge: cancelChargeObject = {
+    paymentId: paymentId,
+    chargeId: chargeId,
+    amountGross: amountGross,
+    amountNet: amountNet,
+    amountVat: amountVat,
+    paymentReference: 'Shop says thank you',
   }
 
   return cancelCharge

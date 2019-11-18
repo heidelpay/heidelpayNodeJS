@@ -143,5 +143,8 @@ export type cancelChargeObject = {
   paymentId: string
   paymentReference?: string
   chargeId: string
-  amount?: number
+  amount?: number,
+  amountGross?: string,
+  amountNet?: string,
+  amountVat?: string
 }

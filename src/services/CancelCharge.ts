@@ -9,15 +9,30 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
   return new Promise(async (resolve, reject) => {
     try {
       let payload: any = {}
-      const {paymentId, chargeId, amount, paymentReference} = args
+      const {
+        paymentId, chargeId, amount, paymentReference,
+        amountGross, amountNet, amountVat,
+      } = args
 
       // Add amount into payload if its passed
       if (amount) {
         payload.amount = amount
       }
 
+      if (amountGross) {
+        payload.amountGross = amountGross
+      }
+
+      if (amountNet) {
+        payload.amountNet = amountNet
+      }
+
+      if (amountVat) {
+        payload.amountVat = amountVat
+      }
+
       // Add payment reference into payload if its passed
-      if(paymentReference) {
+      if (paymentReference) {
         payload.paymentReference = paymentReference
       }
 
@@ -46,12 +61,12 @@ export default (args: cancelChargeObject, paymentService: PaymentService): Promi
       cancel.setAmount(response.amount)
 
       // Set order Id
-      if(response.orderId) {
+      if (response.orderId) {
         cancel.setOrderId(response.orderId)
       }
 
       // Set payment reference
-      if(response.paymentReference) {
+      if (response.paymentReference) {
         cancel.setPaymentReference(response.paymentReference)
       }
 
