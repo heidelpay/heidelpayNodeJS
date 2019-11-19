@@ -401,3 +401,11 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
     }
   }
 }
+
+export type updateHirePurchaseObject = {
+  iban?: string,
+  bic?: string,
+  accountHolder?: string,
+  invoiceDate?: string,
+  invoiceDueDate?: string,
+}

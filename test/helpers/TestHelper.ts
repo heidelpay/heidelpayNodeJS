@@ -10,6 +10,7 @@ import { chargeObject } from '../../src/payments/business/Charge'
 import { cancelChargeObject, cancelAuthorizeObject } from '../../src/payments/business/Cancel'
 import Resources from '../../src/payments/business/Resources'
 import { payoutObject } from '../../src/payments/business/Payout'
+import { updateHirePurchaseObject } from '../../src/payments/types/HirePurchase'
 
 export const getTimeout = () => 60000
 
@@ -227,6 +228,18 @@ export const getCancelChargeHirePurchase = (paymentId: string, chargeId: string,
   }
 
   return cancelCharge
+}
+
+export const getUpdateHirePurchase = (accountHolder: string, invoiceDueDate: string) => {
+  const updateHirePurchaseObject: updateHirePurchaseObject = {
+    accountHolder: accountHolder,
+    invoiceDueDate: invoiceDueDate,
+    iban: 'DE65500105174522535755',
+    bic: 'AARBDE5W',
+    invoiceDate: '2019-10-10',
+  }
+
+  return updateHirePurchaseObject
 }
 
 export const getPayout = (typeId: string | PaymentType, customerId?: string | Customer) => {

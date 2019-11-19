@@ -34,7 +34,9 @@ import PayoutService from './Payout'
 import Payout, { payoutObject } from '../payments/business/Payout'
 import FetchPayout from './FetchPayout'
 import HirePurchasePlan from '../payments/types/HirePurchasePlan'
+import HirePurchase, { updateHirePurchaseObject } from '../payments/types/HirePurchase'
 import FetchHirePurchasePlan from './FetchHirePurchasePlan'
+import UpdateHirePurchase from './UpdateHirePurchase'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -296,5 +298,16 @@ export default class PaymentService {
    */
   public fetchHirePurchasePlan(amount: string, currency: string, effectiveInterestRate: string, orderDate: string): Promise<Array<HirePurchasePlan>> {
     return FetchHirePurchasePlan(amount, currency, effectiveInterestRate, orderDate, this)
+  }
+
+  /**
+  * Update HirePurchase
+  *
+  * @param {string} hirePurchaseId
+  * @param {updateHirePurchaseObject} hirePurchase
+  * @returns {Promise<HirePurchase>}
+  */
+  public updateHirePurchase(hirePurchaseId: string, hirePurchase: updateHirePurchaseObject): Promise<HirePurchase> {
+    return UpdateHirePurchase(hirePurchaseId, hirePurchase, this) 
   }
 }
