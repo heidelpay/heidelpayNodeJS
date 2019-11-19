@@ -14,6 +14,7 @@ import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
 import Shipment from './payments/business/Shipment'
 import HirePurchasePlan from './payments/types/HirePurchasePlan'
+import HirePurchase, { updateHirePurchaseObject } from './payments/types/HirePurchase'
 
 export default class Heidelpay {
   private paymentService: PaymentService
@@ -370,5 +371,9 @@ export default class Heidelpay {
    */
   public fetchHirePurchasePlan(amount: string, currency: string, effectiveInterestRate: string, orderDate: string): Promise<Array<HirePurchasePlan>> {
     return this.paymentService.fetchHirePurchasePlan(amount, currency, effectiveInterestRate, orderDate)
+  }
+
+  public updateHirePurchase(hirePurchaseId: string, hirePurchase: updateHirePurchaseObject): Promise<HirePurchase> {
+    return this.paymentService.updateHirePurchase(hirePurchaseId, hirePurchase)
   }
 }
