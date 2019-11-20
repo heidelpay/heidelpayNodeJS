@@ -15,6 +15,7 @@ import Sofort from '../payments/types/Sofort'
 import PIS from '../payments/types/Pis'
 import Alipay from '../payments/types/Alipay'
 import WechatPay from '../payments/types/WechatPay'
+import Bancontact from '../payments/types/Bancontact'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -97,6 +98,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new Alipay()
     case 'wcp':
       return new WechatPay()
+    case 'bct':
+      return new Bancontact()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -222,6 +225,17 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
 
       wechatpay.setId(response.id)
       return wechatpay
+
+    case 'bancontact':
+      const bancontact: Bancontact = new Bancontact()
+
+      if (response.holder) {
+        bancontact.setHolder(response.holder)
+      }
+
+      bancontact.setId(response.id)
+      return bancontact
+
     default:
       throw new Error(`Type ${response.method} is currently not supported by the SDK`)
   }
