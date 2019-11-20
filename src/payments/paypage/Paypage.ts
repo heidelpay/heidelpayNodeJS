@@ -25,6 +25,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
   private typeUrl: string
   private redirectUrl: string
   private action: string
+  private excludeTypes: Array<string>
 
   constructor() {
     super()
@@ -65,6 +66,7 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
       helpUrl: this.getHelpUrl(),
       contactUrl: this.getContactUrl(),
       resources: this.getResources(),
+      excludeTypes: this.getExcludeTypes()
     }
 
     return payload
@@ -459,6 +461,26 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    */
   public getResources(): Resources {
     return this.resources
+  }
+
+  /**
+   * Set excludeTypes
+   *
+   * @param {Array<string>} excludeTypes
+   * @returns {Paypage}
+   */
+  public setExcludeTypes(excludeTypes: Array<string>): Paypage {
+    this.excludeTypes = excludeTypes
+    return this
+  }
+
+  /**
+   * Get excludeTypes
+   *
+   * @returns {Array<string>}
+   */
+  public getExcludeTypes(): Array<string> {
+    return this.excludeTypes
   }
 
   /**

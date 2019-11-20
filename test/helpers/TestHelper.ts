@@ -421,3 +421,23 @@ export const createFullPaypage = () => {
 
   return paypage
 } 
+
+export const createFullPaypageWithExcludedTypes = () => {
+  const paypage = new Paypage()
+
+  paypage.setAmount(100)
+    .setCurrency('EUR')
+    .setReturnUrl('https://www.heidelpay.com')
+    .setLogoImage('http://www.the-alley.vn/images/page/info-img.png')
+    .setBasketImage('https://www.heidelpay.com/fileadmin/content/heidelpay_logos/Heidelpay-Logo_mitUnterzeile-orange.svg')
+    .setFullPageImage('https://i.ytimg.com/vi/v1SabYdIlZI/maxresdefault.jpg')
+    .setShopName('A cool shop in the neighborhood')
+    .setTermsAndConditionUrl('https://www.heidelpay.com/en/')
+    .setPrivacyPolicyUrl('https://www.heidelpay.com/en/')
+    .setImpressumUrl('https://www.heidelpay.com/en/')
+    .setHelpUrl('https://www.heidelpay.com/en/')
+    .setContactUrl('https://www.heidelpay.com/en/')
+    .setExcludeTypes(['paypal', 'invoice-factoring'])
+
+  return paypage
+} 
