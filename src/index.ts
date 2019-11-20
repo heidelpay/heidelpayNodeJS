@@ -5,6 +5,7 @@ import Resources from './payments/business/Resources'
 import Processing from './payments/business/Processing'
 import Basket from './payments/Basket'
 import Paypage from './payments/paypage/Paypage'
+import Bancontact from './payments/types/Bancontact'
 import Card from './payments/types/Card'
 import EPS from './payments/types/Eps'
 import Giropay from './payments/types/Giropay'
@@ -50,4 +51,5 @@ export {
   Alipay,
   WechatPay,
   HirePurchase,
+  Bancontact,
 }
