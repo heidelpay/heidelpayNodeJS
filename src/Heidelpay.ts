@@ -12,7 +12,7 @@ import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/bu
 import Paypage from './payments/paypage/Paypage'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
-import Shipment from './payments/business/Shipment'
+import Shipment, { shipmentObject } from './payments/business/Shipment'
 import HirePurchasePlan from './payments/types/HirePurchasePlan'
 import HirePurchase, { updateHirePurchaseObject } from './payments/types/HirePurchase'
 
@@ -21,7 +21,7 @@ export default class Heidelpay {
   private privateKey: string
 
   constructor(privateKey: string, locale?: string, env?: string) {
-    if(!privateKey) {
+    if (!privateKey) {
       throw new Error(ErrorMessage.ERROR_MISSING_PRIVATE_KEY)
     }
 
@@ -315,8 +315,8 @@ export default class Heidelpay {
    * 
    * @param paymentId 
    */
-  public shipment(paymentId: string): Promise<Shipment> {
-    return this.paymentService.shipment(paymentId)
+  public shipment(paymentId: string, args: shipmentObject): Promise<Shipment> {
+    return this.paymentService.shipment(paymentId, args)
   }
 
   /**
