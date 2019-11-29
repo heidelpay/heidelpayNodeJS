@@ -16,6 +16,7 @@ export default class Charge extends AbstractPayment {
   private resources: Resources
   private cancelList: Array<Cancel>
   private processing: Processing
+  private invoiceId: string
 
   constructor(heidelpay: Heidelpay) {
     super(heidelpay)
@@ -41,7 +42,7 @@ export default class Charge extends AbstractPayment {
   }
 
   /**
-   * Get Order OId
+   * Get Order Id
    *
    * @returns {string}
    */
@@ -50,12 +51,30 @@ export default class Charge extends AbstractPayment {
   }
 
   /**
-   * Set Amount
+   * Set Order Id
    *
-   * @param {string} amount
+   * @param {string} orderId
    */
   public setOrderId(orderId: string) {
     this.orderId = orderId
+  }
+
+  /**
+   * Get Invoice Id
+   *
+   * @returns {string}
+   */
+  public getInvoiceId(): string {
+    return this.invoiceId
+  }
+
+  /**
+   * Set Invoice Id
+   *
+   * @param {string} invoiceId
+   */
+  public setInvoiceId(invoiceId: string) {
+    this.invoiceId = invoiceId
   }
 
   /**
@@ -146,6 +165,7 @@ export default class Charge extends AbstractPayment {
       .setMetadataId(resources.metadataId)
       .setPaymentId(resources.paymentId)
       .setTypeId(resources.typeId)
+      .setBasketId(resources.basketId)
   }
 
   /**
@@ -225,6 +245,7 @@ export default class Charge extends AbstractPayment {
 export type chargeObject = {
   amount: number
   orderId?: string
+  invoiceId?: string
   currency: string
   returnUrl: string
   paymentReference?: string
@@ -232,4 +253,5 @@ export type chargeObject = {
   typeId: string | PaymentType
   customerId?: string | Customer
   metadataId?: string
+  basketId?: string
 }

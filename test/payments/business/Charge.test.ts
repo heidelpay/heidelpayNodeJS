@@ -8,7 +8,7 @@ describe('Charge test', () => {
   let heidelpay: Heidelpay
   let createPaymentTypeCard
   let createCustomer
-  const { getCharge } = TestHelper
+  const { getCharge, getChargeWithOrderAndInvoiceId } = TestHelper
 
   beforeAll(() => {
     jest.setTimeout(TestHelper.getTimeout())
@@ -50,6 +50,15 @@ describe('Charge test', () => {
     const charge: Charge = await heidelpay.charge(getCharge(card))
 
     expect(charge.getId()).toBeDefined()
+  })
+
+  it('Test charge with order and invoice Id', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getChargeWithOrderAndInvoiceId(card))
+
+    expect(charge.getId()).toBeDefined()
+    expect(charge.getInvoiceId()).toBeDefined()
+    expect(charge.getOrderId()).toBeDefined()
   })
 
   it('Test charge with customer', async () => {

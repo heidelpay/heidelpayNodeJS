@@ -27,7 +27,7 @@ import ChargeAuthorization from './ChargeAuthorization'
 import CancelAuthorization from './CancelAuthorization'
 import CancelCharge from './CancelCharge'
 import AbstractPaymentType from '../payments/types/AbstractPaymentType'
-import Shipment from '../payments/business/Shipment'
+import Shipment, { shipmentObject } from '../payments/business/Shipment'
 import ShipmentService from './Shipment'
 import InitPaypage from './InitPaypage'
 import PayoutService from './Payout'
@@ -242,8 +242,8 @@ export default class PaymentService {
    * @param {string} paymentId
    * @returns {Promise<Shipment>}
    */
-  public shipment(paymentId: string): Promise<Shipment> {
-    return ShipmentService(paymentId, this)
+  public shipment(paymentId: string, args: shipmentObject): Promise<Shipment> {
+    return ShipmentService(paymentId, args, this)
   }
 
   /**

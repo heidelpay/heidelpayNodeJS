@@ -11,6 +11,7 @@ import { cancelChargeObject, cancelAuthorizeObject } from '../../src/payments/bu
 import Resources from '../../src/payments/business/Resources'
 import { payoutObject } from '../../src/payments/business/Payout'
 import { updateHirePurchaseObject } from '../../src/payments/types/HirePurchase'
+import Shipment from '../../src/payments/business/Shipment'
 
 export const getTimeout = () => 60000
 
@@ -143,6 +144,24 @@ export const getCharge = (typeId: string | PaymentType, customerId?: string | Cu
   return chargePayload
 }
 
+export const getChargeWithOrderAndInvoiceId = (typeId: string | PaymentType, customerId?: string | Customer) => {
+  const chargePayload: chargeObject = {
+    amount: 50,
+    currency: 'EUR',
+    orderId: Math.floor(Date.now() / 1000).toString(),
+    invoiceId: Math.floor(Date.now() / 1000).toString(), 
+    paymentReference: 'Shop says thank you',
+    returnUrl: 'https://www.google.at',
+    typeId: typeId
+  }
+
+  if (customerId !== undefined) {
+    chargePayload.customerId = customerId
+  }
+
+  return chargePayload
+}
+
 export const getChargeWithCard3ds = (typeId: string | PaymentType, customerId?: string | Customer) => {
   const chargePayload: chargeObject = {
     amount: 50,
@@ -177,6 +196,23 @@ export const getChargeWithOrderId = (typeId: string | PaymentType, customerId?: 
   const chargePayload: chargeObject = {
     amount: 50,
     orderId: Math.floor(Date.now() / 1000).toString(),
+    currency: 'EUR',
+    paymentReference: 'Shop says thank you',
+    returnUrl: 'https://www.google.at',
+    typeId: typeId
+  }
+
+  if (customerId !== undefined) {
+    chargePayload.customerId = customerId
+  }
+
+  return chargePayload
+}
+
+export const getChargeWithBasketId = (typeId: string | PaymentType, customerId?: string | Customer, basketId?: string) => {
+  const chargePayload: chargeObject = {
+    amount: 100.0000,
+    basketId: basketId,
     currency: 'EUR',
     paymentReference: 'Shop says thank you',
     returnUrl: 'https://www.google.at',
@@ -440,4 +476,16 @@ export const createFullPaypageWithExcludedTypes = () => {
     .setExcludeTypes(['paypal', 'invoice-factoring'])
 
   return paypage
-} 
+}
+
+export const getShipmentOrderAndInvoiceId = () => {
+  const shipment = new Shipment(createHeidelpayInstance())
+
+  const invoiceId = Math.floor(Date.now() / 1000).toString()
+  const orderId = Math.floor(Date.now() / 1000).toString()
+
+  shipment.setInvoiceId(invoiceId)
+  shipment.setOrderId(orderId)
+
+  return { invoiceId, orderId }
+}

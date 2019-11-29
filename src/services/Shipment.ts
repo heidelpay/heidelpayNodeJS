@@ -1,18 +1,29 @@
 import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
 import ResponseErrorsMapper from './mappers/ResponseErrorsMapper';
-import Shipment from '../payments/business/Shipment';
+import Shipment, { shipmentObject } from '../payments/business/Shipment';
 import * as Utils from '../utils/Utils'
 
-export default (paymentId: string, paymentService: PaymentService): Promise<Shipment> => {
+export default (paymentId: string, args: shipmentObject, paymentService: PaymentService): Promise<Shipment> => {
   return new Promise(async (resolve, reject) => {
     try {
+      const { orderId, invoiceId } = args
+      const payload: any = {}
+
+      if (orderId) {
+        payload.orderId = orderId
+      }
+
+      if (invoiceId) {
+        payload.invoiceId = invoiceId
+      }
+
       // Call api end point to get response
       const response: any = await paymentService.getRequestAdapter().post(
         Utils.replaceUrl(apiURL.URL_PAYMENT_SHIPMENT, {
           paymentId: paymentId,
         }),
-        {},
+        payload,
         paymentService.getHeidelpay().getPrivateKey()
       )
 
@@ -30,8 +41,13 @@ export default (paymentId: string, paymentService: PaymentService): Promise<Ship
       shipment.setAmount(response.amount)
 
       // Set order Id
-      if(response.orderId) {
+      if (response.orderId) {
         shipment.setOrderId(response.orderId)
+      }
+
+      // Set invoice Id
+      if (response.invoiceId) {
+        shipment.setInvoiceId(response.invoiceId)
       }
 
       // Set resources

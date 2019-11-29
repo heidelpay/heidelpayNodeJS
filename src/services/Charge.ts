@@ -7,18 +7,19 @@ import ResponseErrorsMapper from './mappers/ResponseErrorsMapper'
 export default (args: chargeObject, paymentService: PaymentService): Promise<Charge> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { amount, orderId, currency, returnUrl, paymentReference, customerId, typeId, metadataId, card3ds } = args
+      const { amount, orderId, invoiceId, currency, returnUrl, paymentReference, customerId, typeId, metadataId, card3ds, basketId } = args
       const payload: any = {
         amount: amount,
         currency: currency,
         returnUrl: returnUrl,
         resources: {
-          typeId: typeId
+          typeId: typeId,
+          basketId: basketId,
         }
       }
 
       // Add payment reference into payload if its passed
-      if(paymentReference) {
+      if (paymentReference) {
         payload.paymentReference = paymentReference
       }
 
@@ -42,6 +43,14 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
         payload.resources.metadataId = metadataId
       }
 
+      if (orderId) {
+        payload.orderId = orderId
+      }
+
+      if (invoiceId) {
+        payload.invoiceId = invoiceId
+      }
+
       // Call api end point to get response
       const response: any = await paymentService
         .getRequestAdapter()
@@ -62,8 +71,13 @@ export default (args: chargeObject, paymentService: PaymentService): Promise<Cha
       charge.setAmount(response.amount)
 
       // Set order Id
-      if(response.orderId) {
+      if (response.orderId) {
         charge.setOrderId(response.orderId)
+      }
+
+      // Set invoice Id
+      if (response.invoiceId) {
+        charge.setInvoiceId(response.invoiceId)
       }
 
       // Set currency
