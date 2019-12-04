@@ -55,7 +55,7 @@ describe('Paypage test', () => {
     expect(paypage.getAction()).toEqual('CHARGE')
   })
 
-  it('Test init paypage authorize with excluded types ', async () => {
+  it('Test init paypage authorize with excluded types', async () => {
     const paypage: Paypage = await heidelpay.initAuthorizePaypage(TestHelper.createFullPaypageWithExcludedTypes())
     const excludedTypes: Array<string> = ['paypal', 'invoice-factoring']
 
@@ -68,7 +68,7 @@ describe('Paypage test', () => {
     expect(paypage.getExcludeTypes()).toContain('invoice-factoring')
   })
 
-  it('Test init paypage charge with excluded types ', async () => {
+  it('Test init paypage charge with excluded types', async () => {
     const paypage: Paypage = await heidelpay.initChargePaypage(TestHelper.createFullPaypageWithExcludedTypes())
     const excludedTypes: Array<string> = ['paypal', 'invoice-factoring']
 

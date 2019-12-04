@@ -35,3 +35,6 @@ export const URL_PAYPAGE_CHARGE = '/paypage/charge'
 export const URL_PAYPAGE_AUTHORIZE = '/paypage/authorize'
 
 export const URL_WEBHOOK = '/webhooks'
+export const URL_LINKPAY = '/linkpay'
+export const URL_LINKPAY_CHARGE = '/linkpay/charge'
+export const URL_LINKPAY_AUTHORIZE = '/linkpay/authorize'

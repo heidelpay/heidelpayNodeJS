@@ -8,7 +8,6 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
   private currency: string
   private returnUrl: string
   private logoImage: string
-  private basketImage: string
   private fullPageImage: string
   private shopName: string
   private shopDescription: string
@@ -53,7 +52,6 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
       currency: this.getCurrency(),
       returnUrl: this.getReturnUrl(),
       logoImage: this.getLogoImage(),
-      basketImage: this.getBasketImage(),
       fullPageImage: this.getFullPageImage(),
       shopName: this.getShopName(),
       shopDescription: this.getShopDescription(),
@@ -150,26 +148,6 @@ export default class Paypage extends AbstractPaymentType implements PaymentType 
    */
   public setLogoImage(logoImage: string): Paypage {
     this.logoImage = logoImage
-    return this
-  }
-
-  /**
-   * Get basket image
-   *
-   * @returns {string}
-   */
-  public getBasketImage(): string {
-    return this.basketImage
-  }
-
-  /**
-   * Set basket image
-   *
-   * @param {string} basketImage
-   * @returns {Paypage}
-   */
-  public setBasketImage(basketImage: string): Paypage {
-    this.basketImage = basketImage
     return this
   }
 
