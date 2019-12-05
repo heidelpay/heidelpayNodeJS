@@ -26,4 +26,12 @@ describe('Payment Type Prepayment Test', () => {
 
     expect(fetchPrepayment.getId()).toEqual(prepayment.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const prepayment: Prepayment = await heidelpay.createPaymentType(getPrepayment()) as Prepayment
+    const fetchPrepayment: Prepayment = await heidelpay.fetchPaymentType(prepayment.getId()) as Prepayment
+
+    expect(prepayment.getGeoLocation()).toBeDefined()
+    expect(fetchPrepayment.getGeoLocation()).toBeDefined()
+  })
 })

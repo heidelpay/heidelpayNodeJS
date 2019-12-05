@@ -144,4 +144,65 @@ describe('HirePurchase test', () => {
     expect(hirePurchaseOriginal.getIban()).not.toEqual(hirePurchaseUpdated.getIban())
     expect(hirePurchaseOriginal.getBic()).not.toEqual(hirePurchaseUpdated.getBic())
   })
+
+  it('Test fetch hirePurchase', async () => {
+    const hirePurchasePlanList: Array<HirePurchasePlan> = await heidelpay.fetchHirePurchasePlan('100', 'EUR', '5.99', '2019-03-21')
+    let hirePurchase: HirePurchase = new HirePurchase()
+    let hirePurchasePlan: HirePurchasePlan = hirePurchasePlanList[0]
+
+    hirePurchase.setNumberOfRates(hirePurchasePlan.getNumberOfRates())
+      .setDayOfPurchase(hirePurchasePlan.getDayOfPurchase())
+      .setOrderDate(hirePurchasePlan.getOrderDate())
+      .setTotalPurchaseAmount(hirePurchasePlan.getTotalPurchaseAmount())
+      .setTotalInterestAmount(hirePurchasePlan.getTotalInterestAmount())
+      .setTotalAmount(hirePurchasePlan.getTotalAmount())
+      .setEffectiveInterestRate(hirePurchasePlan.getEffectiveInterestRate())
+      .setNominalInterestRate(hirePurchasePlan.getNominalInterestRate())
+      .setFeeFirstRate(hirePurchasePlan.getFeeFirstRate())
+      .setFeePerRate(hirePurchasePlan.getFeePerRate())
+      .setMonthlyRate(hirePurchasePlan.getMonthlyRate())
+      .setLastRate(hirePurchasePlan.getLastRate())
+
+    hirePurchase.setIban("DE46940594210000012345")
+      .setBic("COBADEFFXXX")
+      .setAccountHolder("Rene Felder")
+      .setInvoiceDate('2019-08-10')
+      .setInvoiceDueDate('2020-08-30')
+
+    hirePurchase = await heidelpay.createPaymentType(hirePurchase) as HirePurchase
+    const fetchHirePurchase = await heidelpay.fetchPaymentType(hirePurchase.getId()) as HirePurchase
+
+    expect(hirePurchase.getId()).toEqual(fetchHirePurchase.getId())
+  })
+
+  it('Test geolocation', async () => {
+    const hirePurchasePlanList: Array<HirePurchasePlan> = await heidelpay.fetchHirePurchasePlan('100', 'EUR', '5.99', '2019-03-21')
+    let hirePurchase: HirePurchase = new HirePurchase()
+    let hirePurchasePlan: HirePurchasePlan = hirePurchasePlanList[0]
+
+    hirePurchase.setNumberOfRates(hirePurchasePlan.getNumberOfRates())
+      .setDayOfPurchase(hirePurchasePlan.getDayOfPurchase())
+      .setOrderDate(hirePurchasePlan.getOrderDate())
+      .setTotalPurchaseAmount(hirePurchasePlan.getTotalPurchaseAmount())
+      .setTotalInterestAmount(hirePurchasePlan.getTotalInterestAmount())
+      .setTotalAmount(hirePurchasePlan.getTotalAmount())
+      .setEffectiveInterestRate(hirePurchasePlan.getEffectiveInterestRate())
+      .setNominalInterestRate(hirePurchasePlan.getNominalInterestRate())
+      .setFeeFirstRate(hirePurchasePlan.getFeeFirstRate())
+      .setFeePerRate(hirePurchasePlan.getFeePerRate())
+      .setMonthlyRate(hirePurchasePlan.getMonthlyRate())
+      .setLastRate(hirePurchasePlan.getLastRate())
+
+    hirePurchase.setIban("DE46940594210000012345")
+      .setBic("COBADEFFXXX")
+      .setAccountHolder("Rene Felder")
+      .setInvoiceDate('2019-08-10')
+      .setInvoiceDueDate('2020-08-30')
+
+    hirePurchase = await heidelpay.createPaymentType(hirePurchase) as HirePurchase
+    const fetchHirePurchase = await heidelpay.fetchPaymentType(hirePurchase.getId()) as HirePurchase
+
+    expect(hirePurchase.getGeoLocation()).toBeDefined()
+    expect(fetchHirePurchase.getGeoLocation()).toBeDefined()
+  })
 })

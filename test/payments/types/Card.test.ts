@@ -58,4 +58,12 @@ describe('Payment Type Card Test', () => {
     expect(card.getExpiryDate()).toEqual(fetchedCard.getExpiryDate())
     expect(fetchedCard.getCardDetails()).toBeDefined()
   })
+
+  it('Test geoLocation', async () => {
+    const card: Card = await createPaymentTypeCard()
+    const fetchedCard: Card = await heidelpay.fetchPaymentType(card.getId()) as Card
+
+    expect(card.getGeoLocation()).toBeDefined()
+    expect(fetchedCard.getGeoLocation()).toBeDefined()
+  })
 })

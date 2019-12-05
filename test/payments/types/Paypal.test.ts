@@ -15,15 +15,23 @@ describe('Payment Type Paypal Test', () => {
   })
 
   it('Test Create Paypal payment type', async () => {
-    const Paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
+    const paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
 
-    expect(Paypal.getId()).toBeDefined()
+    expect(paypal.getId()).toBeDefined()
   })
 
   it('Test Fetch Paypal payment type', async () => {
-    const Paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
-    const fetchPaypal: Paypal = await heidelpay.fetchPaymentType(Paypal.getId()) as Paypal
+    const paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
+    const fetchPaypal: Paypal = await heidelpay.fetchPaymentType(paypal.getId()) as Paypal
 
-    expect(fetchPaypal.getId()).toEqual(Paypal.getId())
+    expect(fetchPaypal.getId()).toEqual(paypal.getId())
+  })
+
+  it('Test geoLocation', async () => {
+    const paypal: Paypal = await heidelpay.createPaymentType(getPaypal()) as Paypal
+    const fetchPaypal: Paypal = await heidelpay.fetchPaymentType(paypal.getId()) as Paypal
+
+    expect(paypal.getGeoLocation()).toBeDefined()
+    expect(fetchPaypal.getGeoLocation()).toBeDefined()
   })
 })
