@@ -26,4 +26,12 @@ describe('Payment Type Ideal Test', () => {
 
     expect(fetchIdeal.getId()).toEqual(ideal.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const ideal: Ideal = await heidelpay.createPaymentType(getIdeal()) as Ideal
+    const fetchIdeal: Ideal = await heidelpay.fetchPaymentType(ideal.getId()) as Ideal
+
+    expect(ideal.getGeoLocation()).toBeDefined()
+    expect(fetchIdeal.getGeoLocation()).toBeDefined()
+  })
 })

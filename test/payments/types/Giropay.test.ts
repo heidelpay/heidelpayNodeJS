@@ -26,4 +26,12 @@ describe('Payment Type Giropay Test', () => {
 
     expect(fetchGiropay.getId()).toEqual(giropay.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const giropay: Giropay = await heidelpay.createPaymentType(getGiropay()) as Giropay
+    const fetchGiropay: Giropay = await heidelpay.fetchPaymentType(giropay.getId()) as Giropay
+
+    expect(giropay.getGeoLocation()).toBeDefined()
+    expect(fetchGiropay.getGeoLocation()).toBeDefined()
+  })
 })

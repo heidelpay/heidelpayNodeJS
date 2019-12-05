@@ -26,4 +26,12 @@ describe('Payment Type Sofort Test', () => {
 
     expect(fetchSofort.getId()).toEqual(sofort.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const sofort: Sofort = await heidelpay.createPaymentType(getSofort()) as Sofort
+    const fetchSofort: Sofort = await heidelpay.fetchPaymentType(sofort.getId()) as Sofort
+
+    expect(sofort.getGeoLocation()).toBeDefined()
+    expect(fetchSofort.getGeoLocation()).toBeDefined()
+  })
 })

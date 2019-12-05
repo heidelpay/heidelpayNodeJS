@@ -26,4 +26,12 @@ describe('Payment Type Invoice Test', () => {
 
     expect(fetchInvoice.getId()).toEqual(invoice.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const invoice: Invoice = await heidelpay.createPaymentType(getInvoice()) as Invoice
+    const fetchInvoice: Invoice = await heidelpay.fetchPaymentType(invoice.getId()) as Invoice
+
+    expect(invoice.getGeoLocation()).toBeDefined()
+    expect(fetchInvoice.getGeoLocation()).toBeDefined()
+  })
 })

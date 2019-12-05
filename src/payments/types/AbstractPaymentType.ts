@@ -5,6 +5,7 @@ import Charge, { chargeObject } from '../business/Charge'
 export default abstract class AbstractPaymentType {
   private _id: string
   private _heidelpay: Heidelpay
+  private _geoLocation: any
 
   public abstract getTypeUrl(): string
   public abstract getPayload(): any
@@ -63,5 +64,24 @@ export default abstract class AbstractPaymentType {
    */
   public charge(args: chargeObject): Promise<Charge> {
     return this.getHeidelpay().charge(args)
+  }
+
+  /**
+   * Get geoLocation
+   *
+   * @returns {any}
+   */
+  public getGeoLocation(): any {
+    return this._geoLocation
+  }
+
+  /**
+   * Set geoLocation
+   *
+   * @param {any} geoLocation
+   * @returns {any}
+   */
+  public setGeoLocation(geoLocation: any): any {
+    this._geoLocation = geoLocation
   }
 }

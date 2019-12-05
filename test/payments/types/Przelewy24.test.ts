@@ -26,4 +26,12 @@ describe('Payment Type Przelewy24 Test', () => {
 
     expect(fetchPrzelewy24.getId()).toEqual(przelewy24.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const przelewy24: Przelewy24 = await heidelpay.createPaymentType(getPrzelewy24()) as Przelewy24
+    const fetchPrzelewy24: Przelewy24 = await heidelpay.fetchPaymentType(przelewy24.getId()) as Przelewy24
+
+    expect(przelewy24.getGeoLocation()).toBeDefined()
+    expect(fetchPrzelewy24.getGeoLocation()).toBeDefined()
+  })
 })

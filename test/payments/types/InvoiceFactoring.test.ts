@@ -41,4 +41,12 @@ describe('Payment Type InvoiceFactoring Test', () => {
     expect(invoiceFactoring.getPayload().invoiceId).toBe(undefined)
     expect(invoiceFactoring.getPayload()).toEqual({})
   })
+
+  it('Test geoLocation', async () => {
+    const invoiceFactoring: InvoiceFactoring = await heidelpay.createPaymentType(getInvoiceFactoring()) as InvoiceFactoring
+    const fetchInvoiceFactoring: InvoiceFactoring = await heidelpay.fetchPaymentType(invoiceFactoring.getId()) as InvoiceFactoring
+
+    expect(invoiceFactoring.getGeoLocation()).toBeDefined()
+    expect(fetchInvoiceFactoring.getGeoLocation()).toBeDefined()
+  })
 })

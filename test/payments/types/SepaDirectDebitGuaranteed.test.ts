@@ -2,9 +2,6 @@ import Heidelpay from '../../../src/Heidelpay'
 import * as TestHelper from '../../helpers/TestHelper'
 import * as CustomerTestHelper from '../../helpers/CustomerTestHelper'
 import SepaDirectDebitGuaranteed from '../../../src/payments/types/SepaDirectDebitGuaranteed'
-import Shipment from '../../../src/payments/business/Shipment';
-import Charge from '../../../src/payments/business/Charge';
-import { Customer } from '../../../src/payments/Customer';
 
 describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
   let heidelpay: Heidelpay
@@ -40,5 +37,13 @@ describe('Payment Type SepaDirectDebitGuaranteed Test', () => {
     const fetchSepaDirectDebitGuaranteed: SepaDirectDebitGuaranteed = await heidelpay.fetchPaymentType(ssd.getId()) as SepaDirectDebitGuaranteed
 
     expect(fetchSepaDirectDebitGuaranteed.getId()).toEqual(ssd.getId())
+  })
+
+  it('Test geoLocation', async () => {
+    const ssd: SepaDirectDebitGuaranteed = await heidelpay.createPaymentType(getSSD()) as SepaDirectDebitGuaranteed
+    const fetchSepaDirectDebitGuaranteed: SepaDirectDebitGuaranteed = await heidelpay.fetchPaymentType(ssd.getId()) as SepaDirectDebitGuaranteed
+
+    expect(ssd.getGeoLocation()).toBeDefined()
+    expect(fetchSepaDirectDebitGuaranteed.getGeoLocation()).toBeDefined()
   })
 })

@@ -36,4 +36,12 @@ describe('Payment Type WechatPay Test', () => {
 
     expect(fetchWechatPay.getId()).toEqual(wechatPay.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const wechatPay: WechatPay = await heidelpay.createPaymentType(getWechatPay()) as WechatPay
+    const fetchWechatPay: WechatPay = await heidelpay.fetchPaymentType(wechatPay.getId()) as WechatPay
+
+    expect(wechatPay.getGeoLocation()).toBeDefined()
+    expect(fetchWechatPay.getGeoLocation()).toBeDefined()
+  })
 })

@@ -16,6 +16,7 @@ import PIS from '../payments/types/Pis'
 import Alipay from '../payments/types/Alipay'
 import WechatPay from '../payments/types/WechatPay'
 import Bancontact from '../payments/types/Bancontact'
+import HirePurchase from '../payments/types/HirePurchase'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -100,6 +101,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new WechatPay()
     case 'bct':
       return new Bancontact()
+    case 'hdd':
+      return new HirePurchase()
     default:
       throw new Error(`Type ${typeId} is currently not supported by the SDK`)
   }
@@ -130,60 +133,70 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       }
 
       card.setId(response.id)
+      card.setGeoLocation(response.geoLocation)
       return card
 
     case 'EPS':
       const eps: EPS = new EPS().setBic(response.bic)
 
       eps.setId(response.id)
+      eps.setGeoLocation(response.geoLocation)
       return eps
       
     case 'giropay':
       const giropay: Giropay = new Giropay()
 
       giropay.setId(response.id)
+      giropay.setGeoLocation(response.geoLocation)
       return giropay
     
     case 'paypal':
       const paypal: Paypal = new Paypal()
 
       paypal.setId(response.id)
+      paypal.setGeoLocation(response.geoLocation)
       return paypal
 
     case 'ideal':
       const ideal: Ideal = new Ideal().setBic(response.bic)
 
       ideal.setId(response.id)
+      ideal.setGeoLocation(response.geoLocation)
       return ideal
 
     case 'invoice':
       const invoice: Invoice = new Invoice()
 
       invoice.setId(response.id)
+      invoice.setGeoLocation(response.geoLocation)
       return invoice
 
     case 'invoice-guaranteed':
       const invoiceGuaranteed: InvoiceGuaranteed = new InvoiceGuaranteed()
 
       invoiceGuaranteed.setId(response.id)
+      invoiceGuaranteed.setGeoLocation(response.geoLocation)
       return invoiceGuaranteed
 
     case 'invoice-factoring':
       const invoiceFactoring: InvoiceFactoring = new InvoiceFactoring()
 
       invoiceFactoring.setId(response.id)
+      invoiceFactoring.setGeoLocation(response.geoLocation)
       return invoiceFactoring
 
     case 'przelewy24':
       const przelewy24: Przelewy24 = new Przelewy24()
 
       przelewy24.setId(response.id)
+      przelewy24.setGeoLocation(response.geoLocation)
       return przelewy24
 
     case 'prepayment':
       const prepayment: Prepayment = new Prepayment()
 
       prepayment.setId(response.id)
+      prepayment.setGeoLocation(response.geoLocation)
       return prepayment
 
     case 'sepa-direct-debit':
@@ -192,6 +205,7 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
         .setHolder(response.holder)
 
       sepaDirectDebit.setId(response.id)
+      sepaDirectDebit.setGeoLocation(response.geoLocation)
       return sepaDirectDebit
 
     case 'sepa-direct-debit-guaranteed':
@@ -200,30 +214,35 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
         .setHolder(response.holder)
 
       ddg.setId(response.id)
+      ddg.setGeoLocation(response.geoLocation)
       return ddg
 
     case 'sofort':
       const sofort: Sofort = new Sofort()
 
       sofort.setId(response.id)
+      sofort.setGeoLocation(response.geoLocation)
       return sofort
 
     case 'PIS':
       const pis: PIS = new PIS()
 
       pis.setId(response.id)
+      pis.setGeoLocation(response.geoLocation)
       return pis
 
     case 'alipay':
       const alipay: Alipay = new Alipay()
 
       alipay.setId(response.id)
+      alipay.setGeoLocation(response.geoLocation)
       return alipay
 
     case 'wechatpay':
       const wechatpay: WechatPay = new WechatPay()
 
       wechatpay.setId(response.id)
+      wechatpay.setGeoLocation(response.geoLocation)
       return wechatpay
 
     case 'bancontact':
@@ -234,7 +253,33 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       }
 
       bancontact.setId(response.id)
+      bancontact.setGeoLocation(response.geoLocation)
       return bancontact
+
+    case 'hire-purchase-direct-debit':
+      const hirePurchase: HirePurchase = new HirePurchase()
+
+      hirePurchase
+        .setIban(response.iban)
+        .setBic(response.bic)
+        .setAccountHolder(response.accountHolder)
+        .setOrderDate(response.orderDate)
+        .setNumberOfRates(response.numberOfRates)
+        .setDayOfPurchase(response.dayOfPurchase)
+        .setTotalPurchaseAmount(response.totalPurchaseAmount)
+        .setTotalInterestAmount(response.totalInterestAmount)
+        .setEffectiveInterestRate(response.effectiveInterestRate)
+        .setNominalInterestRate(response.nominalInterestRate)
+        .setFeeFirstRate(response.feeFirstRate)
+        .setFeePerRate(response.feePerRate)
+        .setMonthlyRate(response.monthlyRate)
+        .setLastRate(response.lastRate)
+        .setInvoiceDate(response.invoiceDate)
+        .setInvoiceDueDate(response.invoiceDueDate)
+
+      hirePurchase.setId(response.id)
+      hirePurchase.setGeoLocation(response.geoLocation)
+      return hirePurchase
 
     default:
       throw new Error(`Type ${response.method} is currently not supported by the SDK`)

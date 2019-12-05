@@ -16,7 +16,7 @@ export default (paymentType: AbstractPaymentType, paymentService: PaymentService
       )
 
       // Handle errors response    
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
 
@@ -25,6 +25,10 @@ export default (paymentType: AbstractPaymentType, paymentService: PaymentService
 
       // Set Payment Id
       paymentType.setId(response.id)
+
+      if (response.geoLocation) {
+        paymentType.setGeoLocation(response.geoLocation)
+      }
 
       // Resolve final result
       resolve(paymentType)      

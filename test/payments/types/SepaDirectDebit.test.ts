@@ -35,4 +35,12 @@ describe('Payment Type SepaDirectDebit Test', () => {
 
     expect(fetchSepaDirectDebit.getId()).toEqual(sepaDirectDebit.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const sepaDirectDebit: SepaDirectDebit = await heidelpay.createPaymentType(getSepaDirectDebit()) as SepaDirectDebit
+    const fetchSepaDirectDebit: SepaDirectDebit = await heidelpay.fetchPaymentType(sepaDirectDebit.getId()) as SepaDirectDebit
+
+    expect(sepaDirectDebit.getGeoLocation()).toBeDefined()
+    expect(fetchSepaDirectDebit.getGeoLocation()).toBeDefined()
+  })
 })

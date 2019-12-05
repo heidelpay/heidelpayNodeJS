@@ -41,4 +41,12 @@ describe('Payment Type Eps Test', () => {
 
     expect(fetchEps.getId()).toEqual(eps.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const eps: EPS = await heidelpay.createPaymentType(getEps()) as EPS
+    const fetchEps: EPS = await heidelpay.fetchPaymentType(eps.getId()) as EPS
+
+    expect(eps.getGeoLocation()).toBeDefined()
+    expect(fetchEps.getGeoLocation()).toBeDefined()
+  })
 })

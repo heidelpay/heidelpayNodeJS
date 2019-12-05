@@ -46,4 +46,12 @@ describe('Payment Type Bancontact Test', () => {
     expect(bancontact.getPayload()).toHaveProperty('holder', 'Nikola Tesla')
     expect(bancontact.getHolder()).toBe('Nikola Tesla')
   })
+
+  it('Test geoLocation', async () => {
+    const bancontact: Bancontact = await heidelpay.createPaymentType(getBancontact()) as Bancontact
+    const fetchBancontact: Bancontact = await heidelpay.fetchPaymentType(bancontact.getId()) as Bancontact
+
+    expect(bancontact.getGeoLocation()).toBeDefined()
+    expect(fetchBancontact.getGeoLocation()).toBeDefined()
+  })
 })

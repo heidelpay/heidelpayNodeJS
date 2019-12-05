@@ -36,4 +36,12 @@ describe('Payment Type Alipay Test', () => {
 
     expect(fetchAlipay.getId()).toEqual(alipay.getId())
   })
+
+  it('Test geoLocation', async () => {
+    const alipay: Alipay = await heidelpay.createPaymentType(getAlipay()) as Alipay
+    const fetchAlipay: Alipay = await heidelpay.fetchPaymentType(alipay.getId()) as Alipay
+    
+    expect(alipay.getGeoLocation()).toBeDefined()
+    expect(fetchAlipay.getGeoLocation()).toBeDefined()
+  })
 })
