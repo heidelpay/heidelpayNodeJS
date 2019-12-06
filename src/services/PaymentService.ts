@@ -21,6 +21,7 @@ import FetchMetadata from './FetchMetadata'
 import CreateBasket from './CreateBasket'
 import FetchBasket from './FetchBasket'
 import UpdateBasket from './UpdateBasket'
+import CreateRecurring from './CreateRecurring'
 import AuthorizationService from './Authorization'
 import ChargeService from './Charge'
 import ChargeAuthorization from './ChargeAuthorization'
@@ -32,6 +33,7 @@ import ShipmentService from './Shipment'
 import InitPaypage from './InitPaypage'
 import PayoutService from './Payout'
 import Payout, { payoutObject } from '../payments/business/Payout'
+import Recurring, { recurringObject } from '../payments/business/Recurring'
 import FetchPayout from './FetchPayout'
 import HirePurchasePlan from '../payments/types/HirePurchasePlan'
 import HirePurchase, { updateHirePurchaseObject } from '../payments/types/HirePurchase'
@@ -309,5 +311,15 @@ export default class PaymentService {
   */
   public updateHirePurchase(hirePurchaseId: string, hirePurchase: updateHirePurchaseObject): Promise<HirePurchase> {
     return UpdateHirePurchase(hirePurchaseId, hirePurchase, this) 
+  }
+
+  /**
+   * Start Recurring 
+   * 
+   * @param {string} paymentId 
+   * @param {recurringObj} args
+   */
+  public startRecurring(paymentId: string, args: recurringObject): Promise<Recurring> {
+    return CreateRecurring(paymentId, args, this)
   }
 }

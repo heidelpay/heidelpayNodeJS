@@ -12,6 +12,7 @@ import Resources from '../../src/payments/business/Resources'
 import { payoutObject } from '../../src/payments/business/Payout'
 import { updateHirePurchaseObject } from '../../src/payments/types/HirePurchase'
 import Shipment from '../../src/payments/business/Shipment'
+import { recurringObject } from '../../src/payments/business/Recurring'
 
 export const getTimeout = () => 60000
 
@@ -488,4 +489,22 @@ export const getShipmentOrderAndInvoiceId = () => {
   shipment.setOrderId(orderId)
 
   return { invoiceId, orderId }
+}
+
+export const getRequiredRecurringData = () => {
+  const recurringPayload: recurringObject = {
+    returnUrl: 'https://dev.heidelpay.com'
+  }
+  
+  return recurringPayload
+}
+
+export const getCompleteRecurringData = () => {
+  const recurringPayload: recurringObject = {
+    returnUrl: 'https://dev.heidelpay.com',
+    customerId: 's-cst-cfb84f279366',
+    metadataId: 's-mtd-h6kvv7x9nalw',
+  }
+
+  return recurringPayload
 }
