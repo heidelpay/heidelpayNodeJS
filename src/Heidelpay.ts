@@ -13,6 +13,7 @@ import Paypage from './payments/paypage/Paypage'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
 import Shipment, { shipmentObject } from './payments/business/Shipment'
+import Recurring, { recurringObject } from './payments/business/Recurring'
 import HirePurchasePlan from './payments/types/HirePurchasePlan'
 import HirePurchase, { updateHirePurchaseObject } from './payments/types/HirePurchase'
 
@@ -317,6 +318,16 @@ export default class Heidelpay {
    */
   public shipment(paymentId: string, args: shipmentObject): Promise<Shipment> {
     return this.paymentService.shipment(paymentId, args)
+  }
+
+  /**
+   * Start recurring 
+   * 
+   * @param {string} paymentId 
+   * @param {recurringObj} args
+   */
+  public startRecurring(paymentId: string, args: recurringObject): Promise<Recurring> {
+    return this.paymentService.startRecurring(paymentId, args)
   }
 
   /**

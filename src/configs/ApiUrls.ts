@@ -10,6 +10,7 @@ export const URL_PAYMENT_PAYOUT = `${URL_PAYMENT}/payouts`
 export const URL_CUSTOMER = '/customers'
 export const URL_METADATA = '/metadata'
 export const URL_BASKET = '/baskets'
+export const URL_RECURRING = `/types/{typeId}/recurring`
 export const URL_TYPE_BANCONTACT = '/types/bancontact'
 export const URL_TYPE_CARD = '/types/card'
 export const URL_TYPE_EPS = '/types/eps'

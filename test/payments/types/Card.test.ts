@@ -2,6 +2,7 @@ import Card from '../../../src/payments/types/Card'
 import Heidelpay from '../../../src/Heidelpay'
 import Authorization  from '../../../src/payments/business/Authorization'
 import Charge from '../../../src/payments/business/Charge'
+import Recurring from '../../../src/payments/business/Recurring'
 import * as TestHelper from '../../helpers/TestHelper'
 
 describe('Payment Type Card Test', () => {
@@ -66,4 +67,32 @@ describe('Payment Type Card Test', () => {
     expect(card.getGeoLocation()).toBeDefined()
     expect(fetchedCard.getGeoLocation()).toBeDefined()
   })
+
+  it('Test recurring', async () => {
+    const card: Card = await createPaymentTypeCard()
+    const recurring: Recurring = await heidelpay.startRecurring(card.getId(), TestHelper.getRequiredRecurringData())
+    await card.authorize(getAuthorization(card.getId()))
+    const fetchedCard: Card = await heidelpay.fetchPaymentType(card.getId()) as Card
+
+    expect(recurring).toBeInstanceOf(Recurring)
+    expect(recurring.getReturnUrl()).toBe('https://dev.heidelpay.com')
+    expect(recurring.getRedirectUrl()).toBeDefined()
+    expect(recurring.getProcessing).toBeDefined()
+    expect(fetchedCard.getRecurring()).toBe(true)
+  })
+
+  it('Test recurring with complete data', async () => {
+    const card: Card = await createPaymentTypeCard()
+    const recurring: Recurring = await heidelpay.startRecurring(card.getId(), TestHelper.getCompleteRecurringData())
+    await card.authorize(getAuthorization(card.getId()))
+    const fetchedCard: Card = await heidelpay.fetchPaymentType(card.getId()) as Card
+
+    expect(recurring).toBeInstanceOf(Recurring)
+    expect(recurring.getReturnUrl()).toBe('https://dev.heidelpay.com')
+    expect(recurring.getRedirectUrl()).toBeDefined()
+    expect(recurring.getResources().getCustomerId()).toBeDefined()
+    expect(recurring.getResources().getMetadataId()).toBeDefined()
+    expect(recurring.getProcessing).toBeDefined()
+    expect(fetchedCard.getRecurring()).toBe(true)
+  }) 
 })

@@ -1,6 +1,3 @@
-import Heidelpay from '../..'
-import { Customer } from '../Customer'
-
 export default class Resources {
   private typeId: string
   private customerId: string
