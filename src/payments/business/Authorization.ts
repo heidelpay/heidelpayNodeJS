@@ -131,6 +131,7 @@ export default class Authorization extends AbstractPayment {
       .setMetadataId(resources.metadataId)
       .setPaymentId(resources.paymentId)
       .setTypeId(resources.typeId)
+      .setTraceId(resources.traceId)
   }
 
   /**

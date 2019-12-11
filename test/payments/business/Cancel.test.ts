@@ -64,4 +64,12 @@ describe('Cancel test', () => {
     expect(cancel.getId()).toEqual(cancelCharge.getId())
     expect(cancelList.length).toEqual(1)
   })
+
+  it('Test returned traceId', async () => {
+    const card: Card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const cancelCharge: Cancel = await charge.cancel()
+
+    expect(cancelCharge.getResources().getTraceId()).toBeDefined()
+  })
 })

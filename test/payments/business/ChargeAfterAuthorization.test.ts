@@ -61,4 +61,12 @@ describe('Charge after authorize test', () => {
     expect(charge.getId()).toBeDefined()
     expect(charge.getPayload()).toBeDefined()
   })
+
+  it('Test returned traceId', async () => {
+    const card = await createPaymentTypeCard()
+    const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId()))
+    const charge: Charge = await heidelpay.chargeAuthorization(getChargeAuthorization(authorize.getResources().getPaymentId(), 50))
+    
+    expect(charge.getResources().getTraceId()).toBeDefined()
+  })
 })

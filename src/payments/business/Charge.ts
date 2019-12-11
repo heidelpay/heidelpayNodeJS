@@ -166,6 +166,7 @@ export default class Charge extends AbstractPayment {
       .setPaymentId(resources.paymentId)
       .setTypeId(resources.typeId)
       .setBasketId(resources.basketId)
+      .setTraceId(resources.traceId)
   }
 
   /**

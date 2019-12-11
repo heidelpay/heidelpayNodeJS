@@ -90,4 +90,11 @@ describe('Charge test', () => {
     expect(charge.getPayment().getId()).toBeDefined()
     expect(charge.getPayload()).toBeDefined()
   })
+
+  it('Test returned traceId', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card))
+
+    expect(charge.getResources().getTraceId()).toBeDefined()
+  })
 })

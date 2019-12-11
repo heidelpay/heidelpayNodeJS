@@ -64,4 +64,12 @@ describe('Cancel after charge test', () => {
     expect(cancel.getId()).toBeDefined()
     expect(cancel.getPayload()).toBeDefined()
   })
+
+  it('Test returned traceId', async () => {
+    const card = await createPaymentTypeCard()
+    const charge: Charge = await heidelpay.charge(getCharge(card.getId()))
+    const cancel: Cancel = await heidelpay.cancelCharge(getCancelCharge(charge.getResources().getPaymentId(), charge.getId(), 10))
+
+    expect(cancel.getResources().getTraceId()).toBeDefined()
+  })
 })
