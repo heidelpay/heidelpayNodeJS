@@ -69,6 +69,7 @@ describe('Authorize test', () => {
     expect(authorize.getId()).toBeDefined()
     expect(authorize.getPayload()).toBeDefined()
   })
+
   it('Test authorize with customer Id', async () => {
     const customer = await createCustomer() as Customer
     const card = await createPaymentTypeCard() as Card
@@ -76,5 +77,13 @@ describe('Authorize test', () => {
     const authorize: Authorization = await heidelpay.authorize(getAuthorization(card.getId(), customer.getCustomerId()))
     expect(authorize.getId()).toBeDefined()
     expect(authorize.getPayload()).toBeDefined()
+  })
+
+  it('Test returned traceId', async () => {
+    const card = await createPaymentTypeCard(true)
+    const authorizeObject = getAuthorizationWithOrderId(card)
+    const authorize: Authorization = await heidelpay.authorize(authorizeObject)
+
+    expect(authorize.getResources().getTraceId()).toBeDefined()
   })
 })

@@ -50,4 +50,15 @@ describe('Authorize test', () => {
     expect(shipment.getOrderId()).toBeDefined()
     expect(shipment.getInvoiceId()).toBeDefined()
   })
+
+  it('Test returned traceId', async () => {
+    const invoiceGuaranteed: InvoiceGuaranteed = await heidelpay.createPaymentType(getInvoiceGuaranteed()) as InvoiceGuaranteed
+    const customer: Customer = await heidelpay.createCustomer(CustomerTestHelper.createFullCustomer())
+    const charge: Charge = await heidelpay.charge(getCharge(invoiceGuaranteed.getId(), customer.getCustomerId()))
+
+    const paymentId = charge.getResources().getPaymentId()
+    const shipment: Shipment = await heidelpay.shipment(paymentId, getShipmentOrderAndInvoiceId())
+
+    expect(shipment.getResources().getTraceId()).toBeDefined()
+  })
 })

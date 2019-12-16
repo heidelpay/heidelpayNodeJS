@@ -4,6 +4,7 @@ export default class Resources {
   private metadataId: string
   private paymentId: string
   private basketId: string
+  private traceId: string
 
   /**
    * Get type Id
@@ -92,6 +93,26 @@ export default class Resources {
    */
   public getBasketId(): string {
     return this.basketId
+  }
+
+  /**
+   * Set Trace Id
+   *
+   * @param {string} traceId
+   * @returns {Resources}
+   */
+  public setTraceId(traceId: string): Resources {
+    this.traceId = traceId
+    return this
+  }
+
+  /**
+   * Get Trace Id
+   *
+   * @returns {string}
+   */
+  public getTraceId(): string {
+    return this.traceId
   }
 
   /**

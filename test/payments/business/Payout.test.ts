@@ -110,4 +110,11 @@ describe('Payout test', () => {
     expect(fetchedPayout.getResources()).toBeDefined()
     expect(fetchedPayout.getPayload()).toBeDefined()
   })
+
+  it('Test returned traceId', async () => {
+    const card = await createPaymentTypeCard()
+    const payout: Payout = await heidelpay.payout(getPayout(card.getId()))
+
+    expect(payout.getResources().getTraceId()).toBeDefined()
+  })
 })
