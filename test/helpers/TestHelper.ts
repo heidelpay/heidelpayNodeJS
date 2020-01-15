@@ -338,6 +338,38 @@ export const createBasket = () => {
   return basket
 }
 
+export const createBasketWithAmountVat = () => {
+  const basket = new Basket()
+  const orderId = (Math.random() * 1000000).toString()
+
+  basket.setAmountTotalGross("100.00")
+  basket.setAmountTotalDiscount("0.00")
+  basket.setAmountTotalVat("10.00")
+  basket.setCurrencyCode("EUR")
+  basket.setOrderId(orderId)
+  basket.setNote("136d24be")
+
+  const basketItem: basketItemObject = {
+    title: "Macbook Pro",
+    subTitle: "This is brand new Mid 2019 version",
+    imageUrl: "https://www.heidelpay.com/typo3conf/ext/heidelpay_site/Resources/Public/Images/Heidelpay-Logo_weiss.svg",
+    basketItemReferenceId: "12345",
+    unit: "Pc.",
+    quantity: 1,
+    amountDiscount: "0",
+    vat: "0",
+    amountGross: "100.00",
+    amountVat: "10.00",
+    amountPerUnit: "100.00",
+    amountNet: "90.00",
+    type: "tech"
+  }
+
+  basket.addItem(basketItem)
+
+  return basket
+}
+
 export const createBasketWithOneItemsForUpdate = (orderId) => {
   const basket = new Basket()
 
