@@ -19,8 +19,8 @@ describe('HirePurchase test', () => {
   })
 
   const { 
-    getAuthorizationWithInterest, getChargeAuthorization, createBasket, 
-    getCancelChargeHirePurchase, getUpdateHirePurchase
+    getAuthorizationWithInterest, getChargeAuthorization, 
+    getCancelChargeHirePurchase, getUpdateHirePurchase, createBasketWithAmountVat
   } = TestHelper
   const { createFullCustomer } = TestCustomerHelper
 
@@ -85,7 +85,7 @@ describe('HirePurchase test', () => {
 
     const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
     const customerId: string = customer.getCustomerId()
-    const basket: Basket = await heidelpay.createBasket(createBasket())
+    const basket: Basket = await heidelpay.createBasket(createBasketWithAmountVat())
     const basketId: string = basket.getId()
 
     const hirePurchasePaymentType = await heidelpay.createPaymentType(hirePurchase) as HirePurchase
@@ -96,8 +96,8 @@ describe('HirePurchase test', () => {
     const chargePaymentId: string = charge.getResources().getPaymentId()
     const chargeId: string = charge.getId()
     const amountGross: string = '100.0000'
-    const amountNet: string = '90'
-    const amountVat: string = '10'
+    const amountNet: string = '90.00'
+    const amountVat: string = '10.00'
     const cancelCharge: Cancel = await heidelpay.cancelCharge(getCancelChargeHirePurchase(chargePaymentId, chargeId, amountGross, amountNet, amountVat))
     const cancelAmount: string = cancelCharge.getAmount()
 

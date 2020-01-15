@@ -2,6 +2,7 @@ class Basket {
   private _id: string
 	private _amountTotalGross: string
   private _amountTotalDiscount: string  
+  private _amountTotalVat: string  
   private _currencyCode: string
   private _orderId: string
   private _note: string
@@ -56,6 +57,7 @@ class Basket {
     return {
       amountTotalGross: this.getAmountTotalGross(),
       amountTotalDiscount: this.getAmountTotalDiscount(),
+      amountTotalVat: this.getAmountTotalVat(),
       currencyCode: this.getCurrencyCode(),
       orderId: this.getOrderId(),
       note: this.getNote(),
@@ -97,6 +99,24 @@ class Basket {
    */
   public getAmountTotalDiscount(): string{
     return this._amountTotalDiscount
+  }
+
+  /**
+   * Set amount total vat
+   * @param {string} value 
+   * @returns {Basket}
+   */
+  public setAmountTotalVat(value: string): Basket {
+    this._amountTotalVat = value
+    return this
+  }
+
+  /**
+   * Get amount total vat
+   * @param {string} value 
+   */
+  public getAmountTotalVat(): string {
+    return this._amountTotalVat
   }
 
   /**
