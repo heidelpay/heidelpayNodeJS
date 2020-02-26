@@ -1,5 +1,6 @@
 import { SDK_VERSION } from './configs/Version'
 import { Customer } from './payments/Customer'
+import PaymentService from './services/PaymentService'
 import Metadata from './payments/Metadata'
 import Basket from './payments/Basket'
 import PaymentType from './payments/types/PaymentType'
@@ -7,7 +8,6 @@ import * as ErrorMessage from './configs/ErrorMessage'
 import Authorization, { authorizeObject, chargeAuthorizeObject } from './payments/business/Authorization'
 import Payout, { payoutObject } from './payments/business/Payout'
 import Charge, { chargeObject } from './payments/business/Charge'
-import PaymentService from './services/PaymentService'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
 import Paypage from './payments/paypage/Paypage'
 import Payment from './payments/business/Payment'
@@ -16,6 +16,7 @@ import Shipment, { shipmentObject } from './payments/business/Shipment'
 import Recurring, { recurringObject } from './payments/business/Recurring'
 import HirePurchasePlan from './payments/types/HirePurchasePlan'
 import HirePurchase, { updateHirePurchaseObject } from './payments/types/HirePurchase'
+import Webhook, { webhookObject } from './payments/business/Webhook'
 
 export default class Heidelpay {
   private paymentService: PaymentService
@@ -386,5 +387,46 @@ export default class Heidelpay {
 
   public updateHirePurchase(hirePurchaseId: string, hirePurchase: updateHirePurchaseObject): Promise<HirePurchase> {
     return this.paymentService.updateHirePurchase(hirePurchaseId, hirePurchase)
+  }
+
+  /**
+  * Register Webhook
+  *
+  * @param {webhookObject} args
+  * @returns {Promise<Webhook>}
+  */
+ public registerWebhook(args: webhookObject): Promise<Webhook> {
+   return this.paymentService.registerWebhook(args)
+ }
+
+  /**
+  * Fetch Webhook
+  *
+  * @param {string} id
+  * @returns {Promise<Webhook>}
+  */
+  public fetchWebhook(id?: string): Promise<Webhook> {
+    return this.paymentService.fetchWebhook(id)
+  }
+
+  /**
+  * Update Webhook
+  *
+  * @param {any} args
+  * @param {string} id
+  * @returns {Promise<Webhook>}
+  */
+  public updateWebhook(id: string, args: any): Promise<Webhook> {
+    return this.paymentService.updateWebhook(id, args)
+  }
+
+  /**
+  * Delete Webhook
+  *
+  * @param {string} id
+  * @returns {Promise<Webhook>}
+  */
+  public deleteWebhook(id?: string): Promise<any> {
+    return this.paymentService.deleteWebhook(id)
   }
 }

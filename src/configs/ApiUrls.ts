@@ -33,3 +33,5 @@ export const URL_TYPE_HIRE_PURCHASE_PLANS = '/types/hire-purchase-direct-debit/p
 
 export const URL_PAYPAGE_CHARGE = '/paypage/charge'
 export const URL_PAYPAGE_AUTHORIZE = '/paypage/authorize'
+
+export const URL_WEBHOOK = '/webhooks'

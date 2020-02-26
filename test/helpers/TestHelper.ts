@@ -13,6 +13,7 @@ import { payoutObject } from '../../src/payments/business/Payout'
 import { updateHirePurchaseObject } from '../../src/payments/types/HirePurchase'
 import Shipment from '../../src/payments/business/Shipment'
 import { recurringObject } from '../../src/payments/business/Recurring'
+import { webhookObject } from '../../src/payments/business/Webhook'
 
 export const getTimeout = () => 60000
 
@@ -48,7 +49,23 @@ export const createPaymentTypeCard3ds = (heidelpay) => async (builder: boolean =
   return card
 }
 
+export const createEventWebhookPayload = () => {
+  const webhookPayload: webhookObject = {
+    url: `https://www.heidelpay.com/${Date.now()}`,
+    event: 'all'
+  }
 
+  return webhookPayload
+}
+
+export const createEventListWebhookPayload = (eventList: Array<string>) => {
+  const webhookPayload: webhookObject = {
+    url: `https://www.heidelpay.com/${Date.now()}`,
+    eventList,
+  }
+
+  return webhookPayload
+}
 
 export const getAuthorization = (typeId: string | PaymentType, customerId?: string | Customer) => {
   const authorizePayload: authorizeObject = {
