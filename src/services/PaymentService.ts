@@ -39,6 +39,11 @@ import HirePurchasePlan from '../payments/types/HirePurchasePlan'
 import HirePurchase, { updateHirePurchaseObject } from '../payments/types/HirePurchase'
 import FetchHirePurchasePlan from './FetchHirePurchasePlan'
 import UpdateHirePurchase from './UpdateHirePurchase'
+import Webhook, { webhookObject } from '../payments/business/Webhook'
+import RegisterWebhook from './RegisterWebhook'
+import FetchWebhook from './FetchWebhook'
+import UpdateWebhook from './UpdateWebhook'
+import DeleteWebhook from './DeleteWebhook'
 
 export default class PaymentService {
   private requestAdapter: FetchAdapter
@@ -321,5 +326,46 @@ export default class PaymentService {
    */
   public startRecurring(paymentId: string, args: recurringObject): Promise<Recurring> {
     return CreateRecurring(paymentId, args, this)
+  }
+
+  /**
+   * Register Webhook 
+   * 
+   * @param {webhookObject} args
+   * @returns {Promise<Webhook>}
+   */
+
+  public registerWebhook(args: webhookObject): Promise<Webhook> {
+    return RegisterWebhook(args, this)
+  }
+
+  /**
+  * Fetch Webhook
+  *
+  * @param {string} id
+  * @returns {Promise<Webhook>}
+  */
+  public fetchWebhook(id?: string): Promise<Webhook> {
+    return FetchWebhook(this, id)
+  }
+
+  /**
+  * Update Webhook
+  *
+  * @param {string} id
+  * @returns {Promise<Webhook>}
+  */
+  public updateWebhook(id: string, args: any): Promise<Webhook> {
+    return UpdateWebhook(id, args, this)
+  }
+
+  /**
+  * Delete Webhook
+  *
+  * @param {string} id
+  * @returns {Promise<Webhook>}
+  */
+  public deleteWebhook(id?: string): Promise<any> {
+    return DeleteWebhook(this, id)
   }
 }
