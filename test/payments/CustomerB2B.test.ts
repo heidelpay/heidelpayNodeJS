@@ -45,4 +45,39 @@ describe('Customer test', () => {
     expect(customer.getShippingAddress()).toEqual(fullCustomer.getShippingAddress())
     expect(customer.getCompanyInfo()).toEqual(fullCustomer.getCompanyInfo())
   })
+
+  it('Test fetch full customer with company register', async () => {
+    const fullCustomer = createFullCustomerWithComapanyInfoRegister()
+    const customer: Customer = await heidelpay.createCustomer(fullCustomer)
+    const fetchCustomer = await heidelpay.fetchCustomer(customer.getCustomerId())
+
+    expect(fetchCustomer).toBeInstanceOf(Customer)
+    expect(fetchCustomer.getCustomerId()).toBeDefined()
+    expect(fetchCustomer.getBillingAddress()).toEqual(fullCustomer.getBillingAddress())
+    expect(fetchCustomer.getShippingAddress()).toEqual(fullCustomer.getShippingAddress())
+    expect(fetchCustomer.getCompanyInfo().commercialRegisterNumber).toEqual(fullCustomer.getCompanyInfo().commercialRegisterNumber)
+    expect(fetchCustomer.getCompanyInfo().registrationType).toEqual(fullCustomer.getCompanyInfo().registrationType)
+  })
+
+  it('Test update customer', async () => {
+    const fullCustomer = createFullCustomerWithComapanyInfoRegister()
+    const customer: Customer = await heidelpay.createCustomer(fullCustomer)
+
+    const updateDataCustomer = new Customer(customer.getFirstName(), customer.getLastName())
+    updateDataCustomer.setFirstName("Max")
+    updateDataCustomer.setCompany("CompanyX")
+
+    const updatedCustomer = await heidelpay.updateCustomer(customer.getCustomerId(), updateDataCustomer)
+    const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
+    expect(updatedCustomer.getFirstName()).toEqual(fetchCustomer.getFirstName())
+    expect(updatedCustomer.getCompany()).toEqual(fetchCustomer.getCompany())
+  })
+
+  it('Test delete customer', async () => {
+    const fullCustomer = createFullCustomerWithComapanyInfoRegister()
+    const customer: Customer = await heidelpay.createCustomer(fullCustomer)
+    const deleteCustomer = await heidelpay.deleteCustomer(customer.getCustomerId())
+
+    expect(deleteCustomer).toBeTruthy()
+  })
 })
