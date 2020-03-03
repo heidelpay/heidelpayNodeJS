@@ -3,6 +3,7 @@ class Customer {
   private _lastName: string
   private _salutation: Salutation
   private _customerId: string
+  private _company: string
   private _birthDate: string
   private _email: string
   private _phone: string
@@ -25,11 +26,13 @@ class Customer {
       firstname: this.getFirstName(),
       salutation: this.getSalutation(),
       birthDate: this.getBirthDate(),
+      company: this.getCompany(),
       email: this.getEmail(),
       phone: this.getPhone(),
       mobile: this.getMobile(),
       billingAddress: this.getBillingAddress(),
-      shippingAddress: this.getShippingAddress()
+      shippingAddress: this.getShippingAddress(),
+      companyInfo: this.getCompanyInfo(),
     }
   }
 
@@ -111,6 +114,26 @@ class Customer {
    */
   public getCustomerId(): string {
     return this._customerId
+  }
+
+  /**
+   * Set Company
+   *
+   * @param {string} value
+   * @returns {Customer}
+   */
+  public setCompany(value: string): Customer {
+    this._company = value
+    return this
+  }
+
+  /**
+   * Get Company
+   *
+   * @type {string}
+   */
+  public getCompany(): string {
+    return this._company
   }
 
   /**
@@ -253,7 +276,7 @@ class Customer {
 
 export enum Salutation {
   mr = 'mr',
-  ms = 'ms',
+  mrs = 'mrs',
   unknown = 'unknown'
 }
 

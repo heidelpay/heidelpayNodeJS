@@ -59,6 +59,17 @@ describe('Customer test', () => {
     expect(updatedCustomer.getFirstName()).toEqual(fetchCustomer.getFirstName())
   })
 
+  it('Test update salutation', async () => {
+    const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
+
+    const updateDataCustomer = new Customer(customer.getFirstName(), customer.getLastName())
+    updateDataCustomer.setSalutation(Salutation.mrs)
+
+    await heidelpay.updateCustomer(customer.getCustomerId(), updateDataCustomer)
+    const fetchCustomer: Customer = await heidelpay.fetchCustomer(customer.getCustomerId())
+    expect(fetchCustomer.getSalutation()).toEqual('mrs')
+  })
+
   it('Test delete customer', async () => {
     const customer: Customer = await heidelpay.createCustomer(createFullCustomer())
     const deleteCustomer = await heidelpay.deleteCustomer(customer.getCustomerId())
