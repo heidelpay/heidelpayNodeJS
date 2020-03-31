@@ -8,6 +8,7 @@ import Authorization, { authorizeObject, chargeAuthorizeObject } from '../paymen
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from '../payments/business/Cancel'
 import Charge, { chargeObject } from '../payments/business/Charge'
 import Paypage from '../payments/paypage/Paypage'
+import Linkpay from '../payments/paypage/Linkpay'
 import Payment from '../payments/business/Payment'
 import CreatePaymentType from './CreatePaymentType'
 import FetchPayment from './FetchPayment'
@@ -31,6 +32,9 @@ import AbstractPaymentType from '../payments/types/AbstractPaymentType'
 import Shipment, { shipmentObject } from '../payments/business/Shipment'
 import ShipmentService from './Shipment'
 import InitPaypage from './InitPaypage'
+import InitLinkpay from './InitLinkpay'
+import UpdateLinkpay from './UpdateLinkpay'
+import DeleteLinkpay from './DeleteLinkpay'
 import PayoutService from './Payout'
 import Payout, { payoutObject } from '../payments/business/Payout'
 import Recurring, { recurringObject } from '../payments/business/Recurring'
@@ -271,6 +275,47 @@ export default class PaymentService {
    */
   public initChargePaypage(paypage: Paypage): Promise<Paypage> {
     return InitPaypage(paypage, 'charge', this)
+  }
+
+  /**
+   * Init authorize linkpay
+   *
+   * @param {Linkpay} linkpay
+   * @returns {Promise<Linkpay>}
+   */
+  public initAuthorizeLinkpay(linkpay: Linkpay): Promise<Linkpay> {
+    return InitLinkpay(linkpay, 'authorize', this)
+  }
+
+  /**
+   * Init charge linkpay
+   *
+   * @param {Linkpay} linkpay
+   * @returns {Promise<Linkpay>}
+   */
+  public initChargeLinkpay(linkpay: Linkpay): Promise<Linkpay> {
+    return InitLinkpay(linkpay, 'charge', this)
+  }
+
+  /**
+   * Update linkpay
+   * 
+   * @param {string} linkpayIdOrAlias
+   * @param {updateLinkpayObject} linkpayObj
+   * @returns {Promise<Linkpay>}
+   */
+  public updateLinkpay(linkpayIdOrAlias: string, linkpay: Linkpay): Promise<Linkpay> {
+    return UpdateLinkpay(linkpayIdOrAlias, linkpay, this)
+  }
+
+  /**
+   * Delete linkpay
+   * 
+   * @param {string} linkpayIdOrAlias
+   * @returns {Promise<boolean>}
+   */
+  public deleteLinkpay(linkpayIdOrAlias: string): Promise<boolean> {
+    return DeleteLinkpay(linkpayIdOrAlias, this)
   }
 
   /**

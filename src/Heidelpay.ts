@@ -10,6 +10,7 @@ import Payout, { payoutObject } from './payments/business/Payout'
 import Charge, { chargeObject } from './payments/business/Charge'
 import Cancel, { cancelAuthorizeObject, cancelChargeObject } from './payments/business/Cancel'
 import Paypage from './payments/paypage/Paypage'
+import Linkpay from './payments/paypage/Linkpay'
 import Payment from './payments/business/Payment'
 import AbstractPaymentType from './payments/types/AbstractPaymentType'
 import Shipment, { shipmentObject } from './payments/business/Shipment'
@@ -139,7 +140,7 @@ export default class Heidelpay {
   }
 
   /**
-   * Fetch a basket
+   * Update basket
    *
    * @param {Basket} basket
    * @returns {Basket}
@@ -349,6 +350,47 @@ export default class Heidelpay {
    */
   public initChargePaypage(paypage: Paypage): Promise<Paypage> {
     return this.paymentService.initChargePaypage(paypage)
+  }
+
+  /**
+   * Init Linkpay with authorize
+   *
+   * @param {Linkpay} linkpay
+   * @returns {Promise<Linkpay>}
+   */
+  public initAuthorizeLinkpay(linkpay: Linkpay): Promise<Linkpay> {
+    return this.paymentService.initAuthorizeLinkpay(linkpay)
+  }
+
+  /**
+   * Init Linkpay with charge
+   *
+   * @param {Linkpay} linkpay
+   * @returns {Promise<Linkpay>}
+   */
+  public initChargeLinkpay(linkpay: Linkpay): Promise<Linkpay> {
+    return this.paymentService.initChargeLinkpay(linkpay)
+  }
+
+  /**
+   * Update Linkpay
+   *
+   * @param {string} linkpayIdOrAlias
+   * @param {Linkpay} linkpay
+   * @returns {Promise<Linkpay>}
+   */
+  public updateLinkpay(linkpayIdOrAlias: string, linkpay: Linkpay): Promise<Linkpay> {
+    return this.paymentService.updateLinkpay(linkpayIdOrAlias, linkpay)
+  }
+
+  /**
+   * Delete Linkpay
+   *
+   * @param {string} linkpayIdOrAlias
+   * @returns {Promise<boolean>}
+   */
+  public deleteLinkpay(linkpayIdOrAlias: string): Promise<boolean> {
+    return this.paymentService.deleteLinkpay(linkpayIdOrAlias)
   }
 
   /**

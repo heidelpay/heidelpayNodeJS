@@ -97,7 +97,7 @@ export class FetchAdapter {
     )
   }
 
-  private _fetch(url: string, options = {}, privateKey: string, isRawUrl: Boolean = false): Promise<Response> {
+  private async _fetch(url: string, options: any = {}, privateKey: string, isRawUrl: Boolean = false): Promise<Response> {
     return new Promise((resolve, reject) => {
 
       const password = ''
@@ -115,11 +115,21 @@ export class FetchAdapter {
         ...options
       })
         .then(response => {
-          resolve(response.json())
+          if (options.method === 'DELETE') {
+            resolve(this._parseJSON(response))
+          } else {
+            resolve(response.json())
+          }
         })
         .catch(error => {
           reject(error)
         })
+    })
+  }
+
+  private _parseJSON(response: any): any {
+    return response.text().then(function (text: any) {
+      return text ? JSON.parse(text) : ''
     })
   }
 }

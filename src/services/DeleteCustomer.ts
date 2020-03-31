@@ -12,7 +12,6 @@ export default (customerId: string, paymentService: PaymentService): Promise<boo
         {}, // send empty body when call delete customer
         paymentService.getHeidelpay().getPrivateKey()
       )
-
       // Resolve final result
       resolve(response)
     } catch (error) {

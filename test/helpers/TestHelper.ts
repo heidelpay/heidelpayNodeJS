@@ -3,6 +3,7 @@ import Card from '../../src/payments/types/Card'
 import { authorizeObject, chargeAuthorizeObject } from '../../src/payments/business/Authorization'
 import PaymentType from '../../src/payments/types/PaymentType'
 import Paypage from '../../src/payments/paypage/Paypage'
+import Linkpay from '../../src/payments/paypage/Linkpay'
 import { Customer } from '../../src/payments/Customer'
 import Metadata from '../../src/payments/Metadata'
 import Basket, {basketItemObject} from '../../src/payments/Basket'
@@ -496,7 +497,6 @@ export const createFullPaypage = () => {
   .setCurrency('EUR')
   .setReturnUrl('https://www.heidelpay.com')
   .setLogoImage('http://www.the-alley.vn/images/page/info-img.png')
-  .setBasketImage('https://www.heidelpay.com/fileadmin/content/heidelpay_logos/Heidelpay-Logo_mitUnterzeile-orange.svg')
   .setFullPageImage('https://i.ytimg.com/vi/v1SabYdIlZI/maxresdefault.jpg')
   .setShopName('A cool shop in the neighborhood')
   .setTermsAndConditionUrl('https://www.heidelpay.com/en/')
@@ -515,7 +515,6 @@ export const createFullPaypageWithExcludedTypes = () => {
     .setCurrency('EUR')
     .setReturnUrl('https://www.heidelpay.com')
     .setLogoImage('http://www.the-alley.vn/images/page/info-img.png')
-    .setBasketImage('https://www.heidelpay.com/fileadmin/content/heidelpay_logos/Heidelpay-Logo_mitUnterzeile-orange.svg')
     .setFullPageImage('https://i.ytimg.com/vi/v1SabYdIlZI/maxresdefault.jpg')
     .setShopName('A cool shop in the neighborhood')
     .setTermsAndConditionUrl('https://www.heidelpay.com/en/')
@@ -556,4 +555,78 @@ export const getCompleteRecurringData = () => {
   }
 
   return recurringPayload
+}
+
+export const createMinimumLinkpay = () => {
+  const linkpay = new Linkpay()
+
+  return linkpay
+}
+
+export const createExtensiveLinkpay = () => {
+  const linkpay = new Linkpay()
+  const resources = new Resources()
+  const css = {
+    header: 'background-color: white'
+  }
+
+  resources.setCustomerId('s-cst-cfb84f279366')
+  resources.setMetadataId('s-mtd-h6kvv7x9nalw')
+
+    linkpay
+      .setAlias(`Alias-${Date.now()}`)
+      .setAmount(100)
+      .setAdditionalAttributes({
+        effectiveInterestRate: 1
+      })
+      .setExcludeTypes(['card'])
+      .setExpirationDate('2021-12-12')
+      .setCard3ds('true')
+      .setCurrency('EUR')
+      .setInvoiceIdRequired('false')
+      .setIntention('Checkout')
+      .setOrderIdRequired('false')
+      .setReturnUrl('https://www.heidelpay.com')
+      .setLogoImage('http://www.the-alley.vn/images/page/info-img.png')
+      .setFullPageImage('https://i.ytimg.com/vi/v1SabYdIlZI/maxresdefault.jpg')
+      .setShopName('A cool shop in the neighborhood')
+      .setTermsAndConditionUrl('https://www.heidelpay.com/en/')
+      .setPrivacyPolicyUrl('https://www.heidelpay.com/en/')
+      .setShopDescription('Come and buy')
+      .setImprintUrl('https://www.heidelpay.com/en/')
+      .setHelpUrl('https://www.heidelpay.com/en/')
+      .setContactUrl('https://www.heidelpay.com/en/')
+      .setShippingAddressRequired('true')
+      .setBillingAddressRequired('true')
+      .setTagline('Tagline123')
+      .setResources(resources)
+      .setCss(css)
+
+  return linkpay
+}
+
+export const createLinkpayWithOrderIdAndCss = () => {
+  const linkpay = new Linkpay()
+  const orderId = Math.floor(Date.now() / 1000).toString()
+  const css = {
+    header: 'background-color: white'
+  }
+
+  linkpay
+    .setAmount(100)
+    .setOrderId(orderId)
+    .setCss(css)
+    .setTagline('Tagline123')
+
+  return linkpay
+}
+
+export const updateLinkpayAmountAndTagline = () => {
+  const linkpay = new Linkpay()
+
+  linkpay
+    .setAmount(120)
+    .setTagline('TaglineNew')
+
+  return linkpay
 }

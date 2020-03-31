@@ -2,7 +2,6 @@ import * as apiURL from '../configs/ApiUrls'
 import PaymentService from './PaymentService'
 import Paypage from '../payments/paypage/Paypage'
 import ResponseErrorsMapper from './mappers/ResponseErrorsMapper'
-import Resources from '../payments/business/Resources';
 
 export default (paypage: Paypage, type: string, paymentService: PaymentService): Promise<Paypage> => {
   return new Promise(async (resolve, reject) => {
@@ -12,21 +11,21 @@ export default (paypage: Paypage, type: string, paymentService: PaymentService):
 
       // Get additional attributes
       const additionalAttributes: any = paypage.getAdditionalAttributes()
-      if(additionalAttributes && additionalAttributes.effectiveInterestRate) {
+      if (additionalAttributes && additionalAttributes.effectiveInterestRate) {
         payload['additionalAttributes.effectiveInterestRate'] = additionalAttributes.effectiveInterestRate
       }
 
       // Call api end point to get response
       const response: any = await paymentService
-      .getRequestAdapter()
-      .post(
-        type === 'authorize' ? apiURL.URL_PAYPAGE_AUTHORIZE : apiURL.URL_PAYPAGE_CHARGE,
-        payload,
-        paymentService.getHeidelpay().getPrivateKey()
-      )
+        .getRequestAdapter()
+        .post(
+          type === 'authorize' ? apiURL.URL_PAYPAGE_AUTHORIZE : apiURL.URL_PAYPAGE_CHARGE,
+          payload,
+          paymentService.getHeidelpay().getPrivateKey()
+        )
 
       // Handle errors response    
-      if(response.errors) {
+      if (response.errors) {
         return reject(ResponseErrorsMapper(response))
       }
 
