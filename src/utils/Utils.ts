@@ -11,6 +11,7 @@ import Prepayment from '../payments/types/Prepayment'
 import Przelewy24 from '../payments/types/Przelewy24'
 import SepaDirectDebit from '../payments/types/SepaDirectDebit'
 import SepaDirectDebitGuaranteed from '../payments/types/SepaDirectDebitGuaranteed'
+import SepaDirectDebitSecured from '../payments/types/SepaDirectDebitSecured'
 import Sofort from '../payments/types/Sofort'
 import PIS from '../payments/types/Pis'
 import Alipay from '../payments/types/Alipay'
@@ -91,6 +92,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new SepaDirectDebit("")
     case 'ddg':
       return new SepaDirectDebitGuaranteed("")
+    case 'dds':
+      return new SepaDirectDebitSecured("")
     case 'sft':
       return new Sofort()
     case 'pis':
@@ -216,6 +219,15 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       ddg.setId(response.id)
       ddg.setGeoLocation(response.geoLocation)
       return ddg
+
+    case 'sepa-direct-debit-secured':
+      const dds: SepaDirectDebitSecured = new SepaDirectDebitSecured(response.iban)
+        .setBic(response.bic)
+        .setHolder(response.holder)
+
+        dds.setId(response.id)
+        dds.setGeoLocation(response.geoLocation)
+        return dds
 
     case 'sofort':
       const sofort: Sofort = new Sofort()

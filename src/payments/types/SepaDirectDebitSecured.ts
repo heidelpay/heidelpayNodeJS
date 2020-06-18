@@ -2,7 +2,7 @@ import * as apiURL from '../../configs/ApiUrls'
 import AbstractPaymentType from './AbstractPaymentType'
 import PaymentType from './PaymentType'
 
-export default class SepaDirectDebitGuaranteed extends AbstractPaymentType implements PaymentType {
+export default class SepaDirectDebitSecured extends AbstractPaymentType implements PaymentType {
   private _iban: string
   private _bic: string
   private _holder: string
@@ -16,9 +16,9 @@ export default class SepaDirectDebitGuaranteed extends AbstractPaymentType imple
    * Set iban number
    *
    * @param {string} iban
-   * @returns {SepaDirectDebitGuaranteed}
+   * @returns {SepaDirectDebitSecured}
    */
-  public setIban(iban: string): SepaDirectDebitGuaranteed {
+  public setIban(iban: string): SepaDirectDebitSecured {
     this._iban = iban
     return this
   }
@@ -38,7 +38,7 @@ export default class SepaDirectDebitGuaranteed extends AbstractPaymentType imple
    * @param {string} bic
    * @returns {Card}
    */
-  public setBic(bic: string): SepaDirectDebitGuaranteed {
+  public setBic(bic: string): SepaDirectDebitSecured {
     this._bic = bic
     return this
   }
@@ -58,7 +58,7 @@ export default class SepaDirectDebitGuaranteed extends AbstractPaymentType imple
    * @param {string} holder
    * @returns {Card}
    */
-  public setHolder(holder: string): SepaDirectDebitGuaranteed {
+  public setHolder(holder: string): SepaDirectDebitSecured {
     this._holder = holder
     return this
   }
@@ -78,7 +78,7 @@ export default class SepaDirectDebitGuaranteed extends AbstractPaymentType imple
    * @returns {string}
    */
   public getTypeUrl(): string {
-    return apiURL.URL_TYPE_SEPA_DIRECT_DEBIT_GUARANTEED
+    return apiURL.URL_TYPE_SEPA_DIRECT_DEBIT_SECURED
   }
 
   /**
