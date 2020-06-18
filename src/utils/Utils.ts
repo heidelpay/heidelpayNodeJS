@@ -18,6 +18,7 @@ import Alipay from '../payments/types/Alipay'
 import WechatPay from '../payments/types/WechatPay'
 import Bancontact from '../payments/types/Bancontact'
 import HirePurchase from '../payments/types/HirePurchase'
+import InvoiceSecured from '../payments/types/InvoiceSecured'
 
 /**
  * Replace URL with parameters: {paymentId} => s-pay-1781
@@ -82,6 +83,8 @@ export const getPaymentTypeFromTypeId = (typeId: string): AbstractPaymentType =>
       return new Invoice()
     case 'ivg':
       return new InvoiceGuaranteed()
+    case 'ivs':
+      return new InvoiceSecured()
     case 'ivf':
       return new InvoiceFactoring()
     case 'ppy':
@@ -180,6 +183,13 @@ export const mapResponsePaymentType = (response: any): AbstractPaymentType => {
       invoiceGuaranteed.setId(response.id)
       invoiceGuaranteed.setGeoLocation(response.geoLocation)
       return invoiceGuaranteed
+
+    case 'invoice-secured':
+      const invoiceSecured: InvoiceSecured = new InvoiceSecured()
+
+      invoiceSecured.setId(response.id)
+      invoiceSecured.setGeoLocation(response.geoLocation)
+      return invoiceSecured
 
     case 'invoice-factoring':
       const invoiceFactoring: InvoiceFactoring = new InvoiceFactoring()
