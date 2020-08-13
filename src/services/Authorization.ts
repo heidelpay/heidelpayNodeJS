@@ -86,6 +86,11 @@ export default (args: authorizeObject, paymentService: PaymentService): Promise<
         authorization.setPaymentReference(response.paymentReference)
       }
 
+      // Set zg payment reference Id
+      if (response.zgReferenceId) {
+        authorization.setZgReferenceId(response.zgReferenceId)
+      }
+
       // Set resources
       authorization.setResources(response.resources)
 

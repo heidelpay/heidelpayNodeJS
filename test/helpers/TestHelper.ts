@@ -18,7 +18,7 @@ import { webhookObject } from '../../src/payments/business/Webhook'
 
 export const getTimeout = () => 60000
 
-export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a102ZMq3gV4I3zJ888J7RR6u75oqK3n', 'en')
+export const createHeidelpayInstance = () => new Heidelpay('s-priv-2a104MLt3Mm0ZVJAf0URjJphuPfYVUdF', 'en')
 
 export const createPaymentTypeCard = (heidelpay) => async (builder: boolean = false): Promise<Card> => {
   let card: Card = new Card()
