@@ -199,6 +199,7 @@ export type basketItemObject = {
   amountNet: string,
   subTitle?: string,
   unit?: string,
+  participantId?: string,
   amountDiscount?: string,
   vat?: string,
   imageUrl?: string,
