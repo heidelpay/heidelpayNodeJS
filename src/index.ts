@@ -23,6 +23,7 @@ import Paypal from './payments/types/Paypal'
 import Alipay from './payments/types/Alipay'
 import WechatPay from './payments/types/WechatPay'
 import HirePurchase from './payments/types/HirePurchase'
+import InstallmentSecured from './payments/types/InstallmentSecured'
 
 export default Heidelpay
 export {
@@ -51,5 +52,6 @@ export {
   Alipay,
   WechatPay,
   HirePurchase,
+  InstallmentSecured,
   Bancontact,
 }

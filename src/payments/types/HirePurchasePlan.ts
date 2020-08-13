@@ -81,10 +81,10 @@ export default class HirePurchasePlan extends AbstractPaymentType implements Pay
   }
 
   /**
-   * Set Total Amount
+   * Set Total Purchase Amount
    *
    * @param {number} totalPurchaseAmount
-   * @returns {HirePurchase}
+   * @returns {HirePurchasePlan}
    */
   public setTotalPurchaseAmount(totalPurchaseAmount: number): HirePurchasePlan {
     this._totalPurchaseAmount = totalPurchaseAmount
@@ -92,7 +92,7 @@ export default class HirePurchasePlan extends AbstractPaymentType implements Pay
   }
 
   /**
-   * Get Total Amount
+   * Get Total Purchase Amount
    *
    * @returns {number}
    */
@@ -104,7 +104,7 @@ export default class HirePurchasePlan extends AbstractPaymentType implements Pay
    * Set Interest Amount
    *
    * @param {number} totalInterestAmount
-   * @returns {HirePurchase}
+   * @returns {HirePurchasePlan}
    */
   public setTotalInterestAmount(totalInterestAmount: number): HirePurchasePlan {
     this._totalInterestAmount = totalInterestAmount
@@ -141,10 +141,10 @@ export default class HirePurchasePlan extends AbstractPaymentType implements Pay
   }
 
   /**
-   * Set Total Amount
+   * Set Effective Interest Rate
    *
-   * @param {number} totalAmount
-   * @returns {HirePurchase}
+   * @param {number} effectiveInterestRate
+   * @returns {HirePurchasePlan}
    */
   public setEffectiveInterestRate(effectiveInterestRate: number): HirePurchasePlan {
     this._effectiveInterestRate = effectiveInterestRate
@@ -272,9 +272,9 @@ export default class HirePurchasePlan extends AbstractPaymentType implements Pay
   /**
    * Get Payload
    *
-   * @returns
+   * @returns {*}
    */
-  public getPayload() {
+  public getPayload(): any {
     return {}
   }
 }
