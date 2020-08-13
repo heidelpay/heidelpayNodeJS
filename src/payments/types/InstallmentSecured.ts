@@ -2,7 +2,7 @@ import * as apiURL from '../../configs/ApiUrls'
 import AbstractPaymentType from './AbstractPaymentType'
 import PaymentType from './PaymentType'
 
-export default class HirePurchase extends AbstractPaymentType implements PaymentType {
+export default class InstallmentSecured extends AbstractPaymentType implements PaymentType {
   private _iban: string
   private _bic: string
   private _accountHolder: string
@@ -30,9 +30,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Iban
    *
    * @param {string} iban
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setIban(iban: string): HirePurchase {
+  public setIban(iban: string): InstallmentSecured {
     this._iban = iban
     return this
   }
@@ -50,9 +50,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set BIC
    *
    * @param {string} bic
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setBic(bic: string): HirePurchase {
+  public setBic(bic: string): InstallmentSecured {
     this._bic = bic
     return this
   }
@@ -70,9 +70,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Account Holader
    *
    * @param {string} accountHolder
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setAccountHolder(accountHolder: string): HirePurchase {
+  public setAccountHolder(accountHolder: string): InstallmentSecured {
     this._accountHolder = accountHolder
     return this
   }
@@ -90,9 +90,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Invoice Date
    *
    * @param {string} invoiceDate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setInvoiceDate(invoiceDate: string): HirePurchase {
+  public setInvoiceDate(invoiceDate: string): InstallmentSecured {
     this._invoiceDate = invoiceDate
     return this
   }
@@ -110,9 +110,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Invoice Due Date
    *
    * @param {string} invoiceDueDate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setInvoiceDueDate(invoiceDueDate: string): HirePurchase {
+  public setInvoiceDueDate(invoiceDueDate: string): InstallmentSecured {
     this._invoiceDueDate = invoiceDueDate
     return this
   }
@@ -130,9 +130,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Number of Rate
    *
    * @param {string} numberOfRates
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setNumberOfRates(numberOfRates: number): HirePurchase {
+  public setNumberOfRates(numberOfRates: number): InstallmentSecured {
     this._numberOfRates = numberOfRates
     return this
   }
@@ -150,9 +150,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Day of purchase
    *
    * @param {string} dayOfPurchase
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setDayOfPurchase(dayOfPurchase: string): HirePurchase {
+  public setDayOfPurchase(dayOfPurchase: string): InstallmentSecured {
     this._dayOfPurchase = dayOfPurchase
     return this
   }
@@ -170,9 +170,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Order Date
    *
    * @param {string} orderDate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setOrderDate(orderDate: string): HirePurchase {
+  public setOrderDate(orderDate: string): InstallmentSecured {
     this._orderDate = orderDate
     return this
   }
@@ -190,9 +190,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Total Purchase Amount
    *
    * @param {number} totalPurchaseAmount
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setTotalPurchaseAmount(totalPurchaseAmount: number): HirePurchase {
+  public setTotalPurchaseAmount(totalPurchaseAmount: number): InstallmentSecured {
     this._totalPurchaseAmount = totalPurchaseAmount
     return this
   }
@@ -210,9 +210,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Interest Amount
    *
    * @param {number} totalInterestAmount
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setTotalInterestAmount(totalInterestAmount: number): HirePurchase {
+  public setTotalInterestAmount(totalInterestAmount: number): InstallmentSecured {
     this._totalInterestAmount = totalInterestAmount
     return this
   }
@@ -230,9 +230,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Total Amount
    *
    * @param {number} totalAmount
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setTotalAmount(totalAmount: number): HirePurchase {
+  public setTotalAmount(totalAmount: number): InstallmentSecured {
     this._totalAmount = totalAmount
     return this
   }
@@ -250,9 +250,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Effective Interest Rate
    *
    * @param {number} effectiveInterestRate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setEffectiveInterestRate(effectiveInterestRate: number): HirePurchase {
+  public setEffectiveInterestRate(effectiveInterestRate: number): InstallmentSecured {
     this._effectiveInterestRate = effectiveInterestRate
     return this
   }
@@ -270,9 +270,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Nominal Interest Rate
    *
    * @param {number} nominalInterestRate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setNominalInterestRate(nominalInterestRate: number): HirePurchase {
+  public setNominalInterestRate(nominalInterestRate: number): InstallmentSecured {
     this._nominalInterestRate = nominalInterestRate
     return this
   }
@@ -290,9 +290,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Fee First Rate
    *
    * @param {number} feeFirstRate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setFeeFirstRate(feeFirstRate: number): HirePurchase {
+  public setFeeFirstRate(feeFirstRate: number): InstallmentSecured {
     this._feeFirstRate = feeFirstRate
     return this
   }
@@ -310,9 +310,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Fee Per Rate
    *
    * @param {number} feePerRate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setFeePerRate(feePerRate: number): HirePurchase {
+  public setFeePerRate(feePerRate: number): InstallmentSecured {
     this._feePerRate = feePerRate
     return this
   }
@@ -330,9 +330,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Monthly Rate
    *
    * @param {number} monthlyRate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setMonthlyRate(monthlyRate: number): HirePurchase {
+  public setMonthlyRate(monthlyRate: number): InstallmentSecured {
     this._monthlyRate = monthlyRate
     return this
   }
@@ -350,9 +350,9 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * Set Last Rate
    *
    * @param {number} lastRate
-   * @returns {HirePurchase}
+   * @returns {InstallmentSecured}
    */
-  public setLastRate(lastRate: number): HirePurchase {
+  public setLastRate(lastRate: number): InstallmentSecured {
     this._lastRate = lastRate
     return this
   }
@@ -372,7 +372,7 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
    * @returns {string}
    */
   public getTypeUrl(): string {
-    return apiURL.URL_TYPE_HIRE_PURCHASE
+    return apiURL.URL_TYPE_INSTALLMENT_SECURED
   }
 
   /**
@@ -402,7 +402,7 @@ export default class HirePurchase extends AbstractPaymentType implements Payment
   }
 }
 
-export type updateHirePurchaseObject = {
+export type updateInstallmentSecuredObject = {
   iban?: string,
   bic?: string,
   accountHolder?: string,
