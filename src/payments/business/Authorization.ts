@@ -14,6 +14,7 @@ export default class Authorization extends AbstractPayment {
   private currency: string
   private returnUrl: string
   private paymentReference: string
+  private zgReferenceId: string
   private resources: Resources
   private processing: Processing
 
@@ -91,6 +92,24 @@ export default class Authorization extends AbstractPayment {
    */
   public getReturnUrl() {
     return this.returnUrl
+  }
+
+  /**
+   * Set Zg Payment Reference Id
+   *
+   * @param {string} zgReferenceId
+   */
+  public setZgReferenceId(zgReferenceId: string) {
+    this.zgReferenceId = zgReferenceId
+  }
+
+  /**
+   * Get Zg Reference Id
+   *
+   * @returns
+   */
+  public getZgReferenceId() {
+    return this.zgReferenceId
   }
 
   /**

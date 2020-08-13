@@ -32,6 +32,9 @@ export default (args: string, paymentService: PaymentService): Promise<Authoriza
       // Set payment Reference
       authorization.setPaymentReference(response.paymentReference)
 
+      // Set zg payment reference Id
+      authorization.setZgReferenceId(response.zgReferenceId)
+
       // Set resources
       authorization.setResources(response.resources)
 
